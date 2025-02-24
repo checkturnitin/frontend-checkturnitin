@@ -4,7 +4,8 @@ import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Download, Eye } from "lucide-react";
 import { CustomModal } from "./custom-modal";
-import { PDFViewer } from "./pdf-viewer";
+import dynamic from "next/dynamic";
+const PDFViewer = dynamic(() => import("./pdf-viewer").then(mod => mod.default), { ssr: false });
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge"; // Add the Badge import
 

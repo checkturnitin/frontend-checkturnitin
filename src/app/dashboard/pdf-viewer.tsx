@@ -18,7 +18,7 @@ interface PDFViewerProps {
   file?: File;
 }
 
-export const PDFViewer: React.FC<PDFViewerProps> = ({ fileId, file }) => {
+const PDFViewer: React.FC<PDFViewerProps> = ({ fileId, file }) => {
   const [numPages, setNumPages] = useState<number | null>(null);
   const [pdfData, setPdfData] = useState<Uint8Array | null>(null);
 
@@ -80,3 +80,5 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({ fileId, file }) => {
     </div>
   );
 };
+
+export default PDFViewer;

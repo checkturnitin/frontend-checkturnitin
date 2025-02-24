@@ -13,16 +13,9 @@ import { FileText, Clock, CheckCircle, Eye } from "lucide-react";
 import Image from "next/image";
 import { ReportItem } from "./report-item";
 import { CustomModal } from "./custom-modal";
-import { PDFViewer } from "./pdf-viewer";
+import dynamic from "next/dynamic";
 import { Badge } from "@/components/ui/badge";
-
-// Redirect to login if no token is found
-if (typeof window !== "undefined") {
-  const token = localStorage.getItem("token");
-  if (!token) {
-    window.location.href = "/";
-  }
-}
+const PDFViewer = dynamic(() => import("./pdf-viewer").then(mod => mod.default), { ssr: false });
 
 export default function Home() {
   const [files, setFiles] = useState<File[]>([]);
@@ -70,12 +63,23 @@ export default function Home() {
   >(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
+  // Check for token in useEffect instead of at module level
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/";
+    }
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const token = localStorage.getItem("token");
+        if (!token) return;
+        
         const response = await axios.get(`${serverURL}/turnitin/check`, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${token}`,
           },
         });
         console.log("Fetched reports:", response.data);
@@ -140,12 +144,19 @@ export default function Home() {
     formData.append("file", file);
 
     try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Authentication error. Please log in again.");
+        window.location.href = "/";
+        return;
+      }
+      
       const response = await axios.post(
         `${serverURL}/turnitin/check`,
         formData,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "multipart/form-data",
           },
         }
@@ -181,13 +192,16 @@ export default function Home() {
 
   const downloadFile = async (fileId: string) => {
     try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      
       const response = await axios.post(
         `${serverURL}/file`,
         { fileId },
         {
           responseType: "blob",
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         }
@@ -220,6 +234,9 @@ export default function Home() {
 
   const handleViewTurnitinReports = async (reportId: string) => {
     try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      
       const [aiReportResponse, plagReportResponse] = await Promise.all([
         axios.post<{ data: any; percentage: number }>(
           `${serverURL}/report/ai-report`,
@@ -227,7 +244,7 @@ export default function Home() {
           {
             responseType: "blob",
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
           }
@@ -238,7 +255,7 @@ export default function Home() {
           {
             responseType: "blob",
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
           }
@@ -268,6 +285,9 @@ export default function Home() {
 
   const handleDownloadTurnitinReports = async (reportId: string) => {
     try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      
       const [aiReportResponse, plagReportResponse] = await Promise.all([
         axios.post(
           `${serverURL}/report/ai-report`,
@@ -275,7 +295,7 @@ export default function Home() {
           {
             responseType: "blob",
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
           }
@@ -286,7 +306,7 @@ export default function Home() {
           {
             responseType: "blob",
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${token}`,
               "Content-Type": "application/json",
             },
           }
