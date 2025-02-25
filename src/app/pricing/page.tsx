@@ -46,7 +46,7 @@
 
     const fetchItems = async () => {
       try {
-        const response = await axios.get(`https://api.noaigpt.com/shop`, {
+        const response = await axios.get(`${serverURL}/shop`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
             "ngrok-skip-browser-warning": "true",
@@ -55,12 +55,11 @@
         const { items, paymentMethods } = response.data;
         setItems(items.filter((item: Item) => item.currency === "USD" && item.enable));
         setPaymentMethods(paymentMethods);
-      } catch (error) {
+            } catch (error) {
         console.error("Error fetching items:", error);
-      } finally {
+            } finally {
         setIsLoading(false);
-      }
-    };
+            }  };
 
     const initPaddle = async () => {
       try {
