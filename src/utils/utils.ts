@@ -10,7 +10,7 @@ const serverURL = "https://api.checkturnitin.com"
 const frontendURL = "https://noaigpt.com";
 
 const currencySymbol = "₹";
-const appName = "NoaiGPT";
+const appName = "Checkturnitin";
 const stripeKey = "pk_test_SCTPV4fZ9kMlryTRZ6XXzgDac90D00AQLTb51NaV7yFrkiQqJuN9j1IlzllFXnYSyCU1BVYpyXxBzycVuM5jTVFKB5FauiR3c5";
 
 
