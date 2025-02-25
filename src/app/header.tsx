@@ -238,7 +238,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                     Earn
                   </Link>
                   <a
-                    href="https://discord.gg/pHCcvkn7tp"
+                    href="https://discord.gg/R2zK3A5ftj"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-base font-medium text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300"

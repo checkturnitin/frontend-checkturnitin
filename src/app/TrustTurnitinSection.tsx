@@ -75,7 +75,7 @@ export function WobbleCardDemo() {
                 <Button
                   className="bg-purple-600 hover:bg-purple-700 text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105"
                   onClick={() => {
-                    window.location.href = "https://discord.gg/your-discord-link"
+                    window.location.href = "https://discord.gg/R2zK3A5ftj"
                   }}
                 >
                   Join Discord

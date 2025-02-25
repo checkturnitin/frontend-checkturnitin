@@ -80,7 +80,7 @@ export function BentoDemo({ onShowSignupForm }: BentoDemoProps) {
             description: "Connect with users and get support on our Discord server.",
             icon: <FaDiscord size={48} className="mb-6" />,
             buttonText: "Join Discord",
-            link: "https://discord.gg/checkturnitin",
+            link: "https://discord.gg/R2zK3A5ftj",
           },
         ].map((card, index) => (
           <section

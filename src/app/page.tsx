@@ -119,9 +119,9 @@ export default function Home() {
 
   if (!isLoaded) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#F8F8F8]">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-[#F8F8F8] dark:bg-gray-900">
         {/* CheckTurnitin Logo with Animation */}
-        <div className="transition-transform transform hover:scale-110 hover:shadow-md animate-bounce">
+        <div className="transition-transform transform hover:scale-110  animate-bounce dark:bg-black">
           <Image
             src="/assets/logos/checkturnitin.svg"
             alt="CheckTurnitin Logo"

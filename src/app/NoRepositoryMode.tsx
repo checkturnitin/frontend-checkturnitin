@@ -20,7 +20,7 @@ const NoRepositoryMode: React.FC = () => {
           {/* Turnitin Logo */}
           <div className="mb-12">
             <Image
-              src="/assets/logos/turnitin_logo.svg"
+              src="/assets/logos/turnitin.webp"
               alt="Turnitin Logo"
               width={200}
               height={50}
