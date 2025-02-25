@@ -1,3 +1,5 @@
+"use client"
+
 import type React from "react"
 import { useEffect, useRef, useState } from "react"
 import axios from "axios"
@@ -10,6 +12,9 @@ import { Button } from "@/components/ui/button"
 import { X } from "lucide-react"
 import Image from "next/image"
 import gsap from "gsap"
+import { ArrowRightIcon } from "@radix-ui/react-icons"
+import { cn } from "@/lib/utils"
+import { AnimatedShinyText } from "@/components/magicui/animated-shiny-text"
 
 interface SignupFormProps {
   onClose: () => void
@@ -19,6 +24,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
   const [referralCode, setReferralCode] = useState<string | null>(null)
   const [isGoogleLoaded, setIsGoogleLoaded] = useState(false)
   const formRef = useRef<HTMLDivElement>(null)
+  const googleLoginRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const referral = new URLSearchParams(window.location.search).get("referral")
@@ -129,6 +135,15 @@ export default function SignupForm({ onClose }: SignupFormProps) {
     }
   }
 
+  const triggerGoogleLogin = () => {
+    if (googleLoginRef.current) {
+      const googleLoginButton = googleLoginRef.current.querySelector("button") as HTMLButtonElement | null
+      if (googleLoginButton) {
+        googleLoginButton.click()
+      }
+    }
+  }
+
   return (
     <div
       className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 p-4 z-50"
@@ -136,18 +151,18 @@ export default function SignupForm({ onClose }: SignupFormProps) {
     >
       <Card
         ref={formRef}
-        className="w-full max-w-5xl h-auto md:h-[32rem] bg-white text-black overflow-hidden relative rounded-lg shadow-xl"
+        className="w-full max-w-5xl h-auto md:h-[32rem] bg-white dark:bg-gray-800 text-black dark:text-white overflow-hidden relative rounded-lg shadow-xl"
       >
         <Button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 rounded-full p-2 bg-gray-200 hover:bg-gray-300 transition-colors"
+          className="absolute top-4 right-4 z-10 rounded-full p-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
         >
           <X className="w-5 h-5" />
           <span className="sr-only">Close</span>
         </Button>
         <div className="flex flex-col md:flex-row h-full relative z-10">
           {/* Left Side */}
-          <div className="flex-1 p-8 border-b md:border-b-0 md:border-r border-gray-200 flex flex-col justify-center items-center h-full bg-gradient-to-br from-blue-50 to-indigo-100">
+          <div className="flex-1 p-8 border-b md:border-b-0 md:border-r border-gray-200 dark:border-gray-700 flex flex-col justify-center items-center h-full bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-900">
             <CardHeader className="text-center mb-8 flex flex-col justify-center items-center">
               <Image
                 src="/assets/logos/checkturnitin.svg"
@@ -156,28 +171,30 @@ export default function SignupForm({ onClose }: SignupFormProps) {
                 height={120}
                 className="mb-4"
               />
-              <CardTitle className="text-4xl md:text-5xl font-extrabold text-indigo-900 mb-2">CheckTurnitin</CardTitle>
-              <p className="text-xl md:text-2xl text-indigo-700">
+              <CardTitle className="text-4xl md:text-5xl font-extrabold text-indigo-900 dark:text-indigo-100 mb-2">
+                CheckTurnitin
+              </CardTitle>
+              <p className="text-xl md:text-2xl text-indigo-700 dark:text-indigo-300">
                 Get authentic Turnitin AI and plagiarism reports in minutes
               </p>
             </CardHeader>
             <div className="mt-8 text-center">
-              <p className="text-sm text-indigo-600">
+              <p className="text-sm text-indigo-600 dark:text-indigo-400">
                 Join thousands of users ensuring academic integrity with CheckTurnitin
               </p>
             </div>
           </div>
 
           {/* Right Side */}
-          <div className="flex-1 p-8 flex flex-col justify-center items-center bg-white">
+          <div className="flex-1 p-8 flex flex-col justify-center items-center bg-white dark:bg-gray-800">
             <div className="w-full max-w-sm space-y-6">
               <div className="text-center space-y-2">
-                <h3 className="text-2xl font-bold text-indigo-900">Get Started</h3>
-                <p className="text-sm text-indigo-600">Join in seconds • No credit card needed</p>
+                <h3 className="text-2xl font-bold text-indigo-900 dark:text-indigo-100">Get Started</h3>
+                <p className="text-sm text-indigo-600 dark:text-indigo-400">Join in seconds • No credit card needed</p>
               </div>
               <div className="space-y-4">
                 <GoogleOAuthProvider clientId="602949390183-0l5vs84jrsbvg5s4q5mqs7krg1bt9afd.apps.googleusercontent.com">
-                  <div className="flex justify-center">
+                  <div className="flex justify-center" ref={googleLoginRef}>
                     {isGoogleLoaded ? (
                       <GoogleLogin
                         onSuccess={handleGoogleSuccess}
@@ -189,17 +206,17 @@ export default function SignupForm({ onClose }: SignupFormProps) {
                         text="continue_with"
                       />
                     ) : (
-                      <div className="h-10 w-64 bg-gray-200 rounded-full animate-pulse"></div>
+                      <div className="h-10 w-64 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
                     )}
                   </div>
                 </GoogleOAuthProvider>
-                <div className="text-xs text-gray-600 text-center px-6">
+                <div className="text-xs text-gray-600 dark:text-gray-400 text-center px-6">
                   By continuing, you agree to our{" "}
                   <a
                     href="/assets/Privacy%20Policy%20for%20CheckTurnitin%20-%20TermsFeed.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-indigo-600 hover:text-indigo-800"
+                    className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"
                   >
                     Privacy Policy
                   </a>{" "}
@@ -208,11 +225,24 @@ export default function SignupForm({ onClose }: SignupFormProps) {
                     href="/assets/terms-of-service.txt"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-indigo-600 hover:text-indigo-800"
+                    className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"
                   >
                     Terms
                   </a>
                 </div>
+              </div>
+            </div>
+            <div className="mt-8">
+              <div
+                className={cn(
+                  "group rounded-full border border-black/5 bg-neutral-100 text-base text-black transition-all ease-in hover:cursor-pointer hover:bg-neutral-200 dark:border-white/5 dark:bg-neutral-900 dark:text-white dark:hover:bg-neutral-800",
+                )}
+                onClick={triggerGoogleLogin}
+              >
+                <AnimatedShinyText className="inline-flex items-center justify-center px-4 py-1 transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400">
+                  <span>✨ Join and get free Turnitin checks</span>
+                  <ArrowRightIcon className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
+                </AnimatedShinyText>
               </div>
             </div>
           </div>
