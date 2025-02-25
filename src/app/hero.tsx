@@ -1,27 +1,31 @@
-"use client";
+"use client"
 
-import React, { useState, useEffect, useRef } from "react";
-import { ChevronRight, Users, FileText } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import PDFViewer from "./PDFViewer";
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import { cn } from "@/lib/utils";
-import AnimatedGradientText from "@/components/ui/animated-gradient-text";
-import Image from "next/image";
-import FakeDetector from "./FakeDetector";
+import type React from "react"
+import { useState, useEffect, useRef, useCallback } from "react"
+import { ChevronRight, Users, FileText } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import PDFViewer from "./PDFViewer"
+import { motion, useMotionValue, useTransform, animate } from "framer-motion"
+import { cn } from "@/lib/utils"
+import AnimatedGradientText from "@/components/ui/animated-gradient-text"
+import FakeDetector from "./FakeDetector"
+import SignupForm from "../app/signup/SignupForm"
 
 interface HeroProps {
-  isLoggedIn: boolean;
+  isLoggedIn: boolean
 }
 
-const AnimatedGradientTextDemo: React.FC = () => {
+const AnimatedGradientTextDemo: React.FC<{ onClick: () => void }> = ({ onClick }) => {
   return (
-    <div className="z-10 flex items-center justify-center rounded-2xl p-2 hover:border-indigo-800 transition-colors duration-300">
+    <div
+      className="z-10 flex items-center justify-center rounded-2xl p-2 hover:border-indigo-800 transition-colors duration-300 cursor-pointer"
+      onClick={onClick}
+    >
       <AnimatedGradientText>
         🎉 <hr className="mx-2 h-4 w-px shrink-0 bg-gray-300" />{" "}
         <span
           className={cn(
-            `inline animate-gradient bg-gradient-to-r from-[#ffaa40] via-[#9c40ff] to-[#ffaa40] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent`
+            `inline animate-gradient bg-gradient-to-r from-[#ffaa40] via-[#9c40ff] to-[#ffaa40] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent`,
           )}
         >
           Get a free AI and plagiarism check with CheckTurnitin today!
@@ -29,8 +33,8 @@ const AnimatedGradientTextDemo: React.FC = () => {
         <ChevronRight className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
       </AnimatedGradientText>
     </div>
-  );
-};
+  )
+}
 
 const Slogan: React.FC = () => {
   return (
@@ -42,45 +46,42 @@ const Slogan: React.FC = () => {
         transition={{ duration: 0.5 }}
       >
         <span className="font-semibold">
-          "Authenticity is our priority. We deliver genuine results, not
-          fabricated detections."
+          "Authenticity is our priority. We deliver genuine results, not fabricated detections."
         </span>
       </motion.p>
     </div>
-  );
-};
+  )
+}
 
-const ReportCarousel: React.FC<{ onReportClick: (index: number) => void }> = ({
-  onReportClick,
-}) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const reports = ["/assets/images/report1.png", "/assets/images/report2.png"];
+const ReportCarousel: React.FC<{ onReportClick: (index: number) => void }> = ({ onReportClick }) => {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const reports = ["/assets/images/report1.png", "/assets/images/report2.png"]
 
-  const startAutoScroll = () => {
+  const startAutoScroll = useCallback(() => {
     intervalRef.current = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % reports.length);
-    }, 3000);
-  };
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % reports.length)
+    }, 3000)
+  }, [reports])
 
-  const stopAutoScroll = () => {
+  const stopAutoScroll = useCallback(() => {
     if (intervalRef.current) {
-      clearInterval(intervalRef.current);
+      clearInterval(intervalRef.current)
     }
-  };
+  }, [])
 
   const handleMouseEnter = () => {
-    stopAutoScroll();
-  };
+    stopAutoScroll()
+  }
 
   const handleMouseLeave = () => {
-    startAutoScroll();
-  };
+    startAutoScroll()
+  }
 
   useEffect(() => {
-    startAutoScroll();
-    return () => stopAutoScroll();
-  }, []);
+    startAutoScroll()
+    return () => stopAutoScroll()
+  }, [startAutoScroll, stopAutoScroll])
 
   return (
     <div
@@ -111,8 +112,8 @@ const ReportCarousel: React.FC<{ onReportClick: (index: number) => void }> = ({
                 transition: { duration: 0.3 },
               }}
               onClick={() => {
-                stopAutoScroll();
-                onReportClick(index);
+                stopAutoScroll()
+                onReportClick(index)
               }}
             />
           </motion.div>
@@ -130,55 +131,67 @@ const ReportCarousel: React.FC<{ onReportClick: (index: number) => void }> = ({
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
 const AnimatedCounter: React.FC<{
-  value: number;
-  label: string;
-  icon: React.ReactNode;
+  value: number
+  label: string
+  icon: React.ReactNode
 }> = ({ value, label, icon }) => {
-  const count = useMotionValue(900000);
+  const count = useMotionValue(900000)
   const rounded = useTransform(count, (latest) => {
-    const number = Math.round(latest);
+    const number = Math.round(latest)
     return number >= 1000000
       ? `${(number / 1000000).toFixed(0)}M+`
       : number >= 1000
-      ? `${(number / 1000).toFixed(0)}k`
-      : number.toString();
-  });
+        ? `${(number / 1000).toFixed(0)}k`
+        : number.toString()
+  })
 
   useEffect(() => {
-    const animation = animate(count, value, { duration: 2 });
-    return animation.stop;
-  }, [count, value]);
+    const animation = animate(count, value, { duration: 2 })
+    return animation.stop
+  }, [count, value])
 
   return (
     <div className="flex items-center space-x-2">
       <div className="text-indigo-600">{icon}</div>
       <div>
-        <motion.span className="text-2xl font-bold text-gray-800 dark:text-white">
-          {rounded}
-        </motion.span>
-        <span className="ml-1 text-sm text-gray-500 dark:text-gray-400">
-          {label}
-        </span>
+        <motion.span className="text-2xl font-bold text-gray-800 dark:text-white">{rounded}</motion.span>
+        <span className="ml-1 text-sm text-gray-500 dark:text-gray-400">{label}</span>
       </div>
     </div>
-  );
-};
+  )
+}
 
-const Hero: React.FC<HeroProps> = ({ isLoggedIn }) => {
-  const [selectedReport, setSelectedReport] = useState<number | null>(null);
+const Hero: React.FC = () => {
+  const [selectedReport, setSelectedReport] = useState<number | null>(null)
+  const [showSignupForm, setShowSignupForm] = useState(false)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    const token = localStorage.getItem("token")
+    setIsLoggedIn(!!token)
+  }, [])
+
+  const handleButtonClick = () => {
+    const token = localStorage.getItem("token")
+    if (token) {
+      window.location.href = "/dashboard"
+    } else {
+      setShowSignupForm(true)
+    }
+  }
 
   return (
     <section className="text-center pb-8 px-4 sm:px-6 lg:px-8 min-h-[120vh] flex flex-col items-center justify-center mt-20">
       {isLoggedIn ? (
         <a href="/dashboard">
-          <AnimatedGradientTextDemo />
+          <AnimatedGradientTextDemo onClick={() => (window.location.href = "/dashboard")} />
         </a>
       ) : (
-        <AnimatedGradientTextDemo />
+        <AnimatedGradientTextDemo onClick={() => setShowSignupForm(true)} />
       )}
       <motion.h1
         className="text-3xl sm:text-4xl md:text-5xl font-bold pb-3 mb-4 mt-6 bg-gradient-to-b from-gray-700 to-black bg-clip-text text-transparent dark:from-white dark:to-gray-200"
@@ -202,16 +215,8 @@ const Hero: React.FC<HeroProps> = ({ isLoggedIn }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.6 }}
       >
-        <AnimatedCounter
-          value={100000}
-          label="Users"
-          icon={<Users size={24} />}
-        />
-        <AnimatedCounter
-          value={1000000}
-          label="Files Processed"
-          icon={<FileText size={24} />}
-        />
+        <AnimatedCounter value={100000} label="Users" icon={<Users size={24} />} />
+        <AnimatedCounter value={1000000} label="Files Processed" icon={<FileText size={24} />} />
       </motion.div>
       <motion.div
         className="flex flex-col sm:flex-row gap-4 justify-center mb-12"
@@ -219,16 +224,14 @@ const Hero: React.FC<HeroProps> = ({ isLoggedIn }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.8 }}
       >
-        <Button
-          size="lg"
-          className="bg-indigo-600 hover:bg-indigo-700 text-white"
-        >
+        <Button size="lg" className="bg-indigo-600 hover:bg-indigo-700 text-white" onClick={handleButtonClick}>
           Get Your Report Now
         </Button>
         <Button
           size="lg"
           variant="outline"
           className="border-indigo-600 text-indigo-600 hover:bg-indigo-50 dark:border-white dark:text-white dark:hover:bg-gray-800"
+          onClick={handleButtonClick}
         >
           Upload Your File for Instant Results
         </Button>
@@ -243,13 +246,12 @@ const Hero: React.FC<HeroProps> = ({ isLoggedIn }) => {
       </motion.div>
       <FakeDetector />
       {selectedReport !== null && (
-        <PDFViewer
-          pdfUrl={`/assets/reports/report${selectedReport + 1}.pdf`}
-          onClose={() => setSelectedReport(null)}
-        />
+        <PDFViewer pdfUrl={`/assets/reports/report${selectedReport + 1}.pdf`} onClose={() => setSelectedReport(null)} />
       )}
+      {showSignupForm && <SignupForm onClose={() => setShowSignupForm(false)} />}
     </section>
-  );
-};
+  )
+}
 
-export default Hero;
+export default Hero
+
