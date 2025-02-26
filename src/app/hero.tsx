@@ -165,15 +165,9 @@ const AnimatedCounter: React.FC<{
   )
 }
 
-const Hero: React.FC = () => {
+const Hero: React.FC<HeroProps> = ({ isLoggedIn }) => {
   const [selectedReport, setSelectedReport] = useState<number | null>(null)
   const [showSignupForm, setShowSignupForm] = useState(false)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-
-  useEffect(() => {
-    const token = localStorage.getItem("token")
-    setIsLoggedIn(!!token)
-  }, [])
 
   const handleButtonClick = () => {
     const token = localStorage.getItem("token")
