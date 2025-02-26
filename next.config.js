@@ -1,9 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  swcMinify: true, // Use SWC minifier instead of Terser
   async headers() {
     return [
       {
-        // Apply the header to all routes
         source: '/(.*)',
         headers: [
           {
