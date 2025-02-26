@@ -1,61 +1,69 @@
-"use client"
+"use client"; // This directive indicates that the code is client-side only
 
-import { useEffect, useState, useCallback } from "react"
-import axios from "axios"
-import { useSearchParams } from "next/navigation"
-import Link from "next/link"
-import { Card, CardContent } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Loader2, CheckCircle, XCircle, RefreshCw, Clock, Zap, FileText, ExternalLink } from "lucide-react"
-import { serverURL } from "@/utils/utils"
+import React, { useEffect, useState, useCallback } from "react";
+import axios from "axios";
+import Link from "next/link";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Loader2, CheckCircle, XCircle, RefreshCw, Clock, Zap, FileText, ExternalLink } from "lucide-react";
+import { serverURL } from "@/utils/utils";
 
 const StatusPage = () => {
-  const searchParams = useSearchParams()
-  const checkId = searchParams.get("checkId")
-  const [checkData, setCheckData] = useState<any>(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [checkId, setCheckId] = useState<string | null>(null);
+  const [checkData, setCheckData] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const id = urlSearchParams.get("checkId");
+
+    setCheckId(id);
+  }, []);
 
   const fetchStatus = useCallback(async () => {
-    setLoading(true)
+    if (!checkId) return; // Prevent fetching if checkId is not set
+    setLoading(true);
+
     try {
-      const token = localStorage.getItem("token")
+      const token = localStorage.getItem("token");
       const response = await axios.get(`${serverURL}/turnitin/status`, {
         params: { checkId },
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      })
-      setCheckData(response.data)
-      setError(null)
+      });
+      setCheckData(response.data);
+      setError(null);
     } catch (err) {
-      setError("Failed to fetch status")
-      setCheckData(null)
+      setError("Failed to fetch status");
+      setCheckData(null);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [checkId])
+  }, [checkId]);
 
   useEffect(() => {
-    if (!checkId) return
-    fetchStatus()
-    const interval = setInterval(fetchStatus, 5000) // Poll every 5 seconds
-    return () => clearInterval(interval)
-  }, [checkId, fetchStatus])
+    if (checkId) {
+      fetchStatus();
+      const interval = setInterval(fetchStatus, 5000); // Poll every 5 seconds
+      return () => clearInterval(interval);
+    }
+  }, [fetchStatus, checkId]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "pending":
-        return "text-yellow-400"
+        return "text-yellow-400";
       case "processing":
-        return "text-blue-400"
+        return "text-blue-400";
       case "completed":
-        return "text-green-400"
+        return "text-green-400";
       default:
-        return "text-gray-400"
+        return "text-gray-400";
     }
-  }
+  };
 
   const getPriorityBadge = (priority: string) => {
     switch (priority.toLowerCase()) {
@@ -64,43 +72,43 @@ const StatusPage = () => {
           <Badge variant="secondary" className="bg-gray-600 text-gray-200">
             Low
           </Badge>
-        )
+        );
       case "medium":
         return (
           <Badge variant="secondary" className="bg-yellow-600 text-yellow-100">
             Medium
           </Badge>
-        )
+        );
       case "high":
         return (
           <Badge variant="secondary" className="bg-red-600 text-red-100">
             High
           </Badge>
-        )
+        );
       default:
-        return <Badge variant="secondary">{priority}</Badge>
+        return <Badge variant="secondary">{priority}</Badge>;
     }
-  }
+  };
 
   const renderStatusIcon = (status: string) => {
     switch (status) {
       case "pending":
-        return <Clock className={`h-6 w-6 sm:h-8 sm:w-8 ${getStatusColor(status)}`} />
+        return <Clock className={`h-6 w-6 sm:h-8 sm:w-8 ${getStatusColor(status)}`} />;
       case "processing":
-        return <Loader2 className={`h-6 w-6 sm:h-8 sm:w-8 ${getStatusColor(status)} animate-spin`} />
+        return <Loader2 className={`h-6 w-6 sm:h-8 sm:w-8 ${getStatusColor(status)} animate-spin`} />;
       case "completed":
-        return <CheckCircle className={`h-6 w-6 sm:h-8 sm:w-8 ${getStatusColor(status)}`} />
+        return <CheckCircle className={`h-6 w-6 sm:h-8 sm:w-8 ${getStatusColor(status)}`} />;
       default:
-        return <XCircle className="h-6 w-6 sm:h-8 sm:w-8 text-red-400" />
+        return <XCircle className="h-6 w-6 sm:h-8 sm:w-8 text-red-400" />;
     }
-  }
+  };
 
   const renderStatusContent = () => {
-    if (!checkData) return null
+    if (!checkData) return null;
 
-    const { status, deliveryTime, priority, hoursLeft } = checkData
+    const { status, deliveryTime, priority, hoursLeft } = checkData;
 
-    const statusPercentage = status === "completed" ? 100 : status === "processing" ? 50 : 25
+    const statusPercentage = status === "completed" ? 100 : status === "processing" ? 50 : 25;
 
     return (
       <div className="space-y-4 sm:space-y-6">
@@ -136,8 +144,8 @@ const StatusPage = () => {
           </div>
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-indigo-900 p-4">
@@ -197,8 +205,7 @@ const StatusPage = () => {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
 
-export default StatusPage
-
+export default StatusPage;
