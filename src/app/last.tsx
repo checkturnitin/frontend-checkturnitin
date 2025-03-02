@@ -87,7 +87,18 @@ const CenteredFooter: React.FC = () => {
         <Separator className="mb-8" />
 
         <motion.div variants={itemVariants} className="text-center">
-          <p className="text-sm text-muted-foreground">
+          <div className="text-sm text-muted-foreground">
+            <a href="/assets/terms-condition.txt" className="mr-4 hover:text-primary">
+              Terms & Conditions
+            </a>
+            <a href="/assets/privacypolicy.txt" className="mr-4 hover:text-primary">
+              Privacy Policy
+            </a>
+            <a href="/assets/refundpolicy.txt" className="hover:text-primary">
+              Refund Policy
+            </a>
+          </div>
+          <p className="mt-4">
             © CheckTurnitin {new Date().getFullYear()}. Designed with ❤️ by CheckTurnitin Team
           </p>
         </motion.div>
@@ -97,4 +108,3 @@ const CenteredFooter: React.FC = () => {
 }
 
 export default CenteredFooter
-
