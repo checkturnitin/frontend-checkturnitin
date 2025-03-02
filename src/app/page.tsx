@@ -137,16 +137,79 @@ export default function Home() {
 
   return (
     <>
-      <head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>CheckTurnitin - Turnitin Checker</title>
-        <meta
-          name="description"
-          content="Transform AI-generated content into natural human text with CheckTurnitin."
-        />
-        <link rel="canonical" href="https://checkturnitin.com/" />
-      </head>
+    <head>
+      <meta charSet="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>CheckTurnitin - Reliable Turnitin Check & Plagiarism Detection</title>
+      <meta
+        name="description"
+        content="Ensure your content is plagiarism-free with CheckTurnitin. Trusted by educators and institutions for accurate Turnitin checks and comprehensive plagiarism detection."
+      />
+      <link rel="canonical" href="https://checkturnitin.com/" />
+
+      <meta property="og:type" content="website" />
+      <meta property="og:locale" content="en_US" />
+      <meta property="og:url" content="https://checkturnitin.com/" />
+      <meta property="og:site_name" content="CheckTurnitin" />
+      <meta property="og:title" content="CheckTurnitin - Reliable Turnitin Check | Trusted by Educators" />
+      <meta
+        property="og:description"
+        content="Ensure your content is plagiarism-free with our reliable Turnitin check platform. Trusted by educators and institutions for accurate plagiarism detection and comprehensive reports."
+      />
+      <meta property="og:image" content="https://checkturnitin.com/assets/images/og-image.png" />
+      <meta property="og:image:secure_url" content="https://checkturnitin.com/assets/images/og-image.png" />
+      <meta property="og:image:alt" content="CheckTurnitin - Reliable Turnitin Check Platform" />
+      <meta property="og:image" content="https://checkturnitin.com/assets/images/og-square.png" />
+      <meta property="og:image:alt" content="CheckTurnitin Logo" />
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@checkturnitin" />
+      <meta name="twitter:handle" content="@checkturnitin" />
+      <meta name="twitter:title" content="CheckTurnitin - Reliable Turnitin Check | Trusted by Educators" />
+      <meta
+        name="twitter:description"
+        content="Ensure your content is plagiarism-free with our reliable Turnitin check platform. Trusted by educators and institutions for accurate plagiarism detection and comprehensive reports."
+      />
+      <meta name="twitter:image" content="https://checkturnitin.com/assets/images/og-image.png" />
+
+      <meta name="apple-mobile-web-app-title" content="CheckTurnitin" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="theme-color" content="#000000" />
+
+      <link rel="icon" href="/favicon.ico" />
+      <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://checkturnitin.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Pricing",
+              "item": "https://checkturnitin.com/pricing"
+            },
+            {
+              "@type": "ListItem",
+              "position": 3,
+              "name": "Earn",
+              "item": "https://checkturnitin.com/earn"
+            },
+          ]
+        })}
+      </script>
+    </head>
+
 
       <Header onShowSignupForm={() => setShowSignupForm(true)} />
 

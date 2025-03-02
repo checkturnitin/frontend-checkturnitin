@@ -15,11 +15,11 @@ const inter = Inter({
 
 // Metadata configuration
 export const metadata: Metadata = {
-  metadataBase: new URL('https://noaigpt.com'),
+  metadataBase: new URL('https://checkturnitin.com'),
   keywords: defaultSEOConfig.additionalMetaTags?.find(tag => tag.name === 'keywords')?.content,
-  authors: [{ name: 'NoAIGPT' }],
-  creator: 'NoAIGPT',
-  publisher: 'NoAIGPT',
+  authors: [{ name: 'checkturnitin' }],
+  creator: 'checkturnitin',
+  publisher: 'checkturnitin',
   robots: {
     index: true,
     follow: true,
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://noaigpt.com',
+    canonical: 'https://checkturnitin.com',
   },
 
 
@@ -76,31 +76,19 @@ export default function RootLayout({ children }: RootLayoutProps) {
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://noaigpt.com/",
+          "item": "https://checkturnitin.com/",
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "Pricing",
-          "item": "https://noaigpt.com/pricing",
+          "item": "https://checkturnitin.com/pricing",
         },
         {
           "@type": "ListItem",
           "position": 3,
           "name": "Earn",
-          "item": "https://noaigpt.com/earn",
-        },
-        {
-          "@type": "ListItem",
-          "position": 4,
-          "name": "AI Detectors",
-          "item": "https://noaigpt.com/ai-detectors",
-        },
-        {
-          "@type": "ListItem",
-          "position": 5,
-          "name": "AI Bypassers",
-          "item": "https://noaigpt.com/ai-bypassers",
+          "item": "https://checkturnitin.com/earn",
         },
       ],
     }),

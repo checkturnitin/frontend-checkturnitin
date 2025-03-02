@@ -166,55 +166,68 @@
 
     return (
       <>
-        <Head>
-          <title>Pricing Plans - NoaiGPT</title>
-          <meta
-            name="description"
-            content="Explore NoAIGPT's flexible pricing plans designed to meet the needs of content creators and businesses. From the Starter plan to the Standard plan, our AI text humanization technology guarantees high-quality, undetectable content, passing all AI detectors. Choose the plan that suits your needs and experience the future of content authenticity today."
-          />
-          <meta property="og:url" content="https://noaigpt.com/pricing" />
-          <meta property="og:title" content="Pricing Plans - NoaiGPT" />
-          <meta
-            property="og:description"
-            content="Explore NoAIGPT's flexible pricing plans, offering high-quality AI text humanization that guarantees undetectable content. Perfect for content creators and businesses."
-          />
-          <meta property="og:image" content="https://noaigpt.com/assets/images/pricing.png" />
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:site" content="@noaigpt" />
-          <meta name="twitter:handle" content="@noaigpt" />
-          <meta name="twitter:title" content="Pricing Plans - NoaiGPT" />
-          <meta
-            name="twitter:description"
-            content="Choose from NoAIGPT’s flexible pricing plans to access powerful AI text humanization technology. Ensure high-quality, undetectable content with advanced linguistic algorithms and AI detector bypass across all plans."
-          />
-          <meta name="twitter:image" content="https://noaigpt.com/assets/images/pricing.png" />
-          <script type="application/ld+json">
-            {JSON.stringify([
-              {
-                "@context": "https://schema.org",
-                "@type": "BreadcrumbList",
-                itemListElement: [
-                  { "@type": "ListItem", position: 1, name: "Home", item: "https://noaigpt.com/" },
-                  { "@type": "ListItem", position: 2, name: "Pricing", item: "https://noaigpt.com/pricing" },
-                ],
-              },
-              {
-                "@context": "https://schema.org",
-                "@type": "Product",
-                name: "NoaiGPT",
-                image: "https://noaigpt.com/assets/images/pricing.png",
-                description: "Choose the perfect top-up plan that fits your needs.",
-                sku: "noaigpt-plan",
-                offers: {
-                  "@type": "Offer",
-                  url: "https://noaigpt.com/pricing",
-                  priceCurrency: "USD",
-                  price: "10.00",
-                },
-              },
-            ])}
-          </script>
-        </Head>
+      <head>
+      <title>Pricing Plans - CheckTurnitin</title>
+      <meta
+        name="description"
+        content="Explore CheckTurnitin's flexible pricing plans designed to meet the needs of students and professionals. From the Basic plan to the Premium plan, our plagiarism detection technology guarantees high-quality, authentic content. Choose the plan that suits your needs and ensure your content is original and undetectable."
+      />
+      <meta property="og:url" content="https://checkturnitin.com/pricing" />
+      <meta property="og:title" content="Pricing Plans - CheckTurnitin" />
+      <meta
+        property="og:description"
+        content="Explore CheckTurnitin's flexible pricing plans, offering high-quality plagiarism detection that guarantees authentic content. Perfect for students and professionals."
+      />
+      <meta
+        property="og:image"
+        content="https://checkturnitin.com/assets/images/pricing.png"
+      />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@checkturnitin" />
+      <meta name="twitter:handle" content="@checkturnitin" />
+      <meta name="twitter:title" content="Pricing Plans - CheckTurnitin" />
+      <meta
+        name="twitter:description"
+        content="Choose from CheckTurnitin’s flexible pricing plans to access powerful plagiarism detection technology. Ensure high-quality, authentic content with advanced algorithms across all plans."
+      />
+      <meta name="twitter:image" content="https://checkturnitin.com/assets/images/pricing.png" />
+      <script type="application/ld+json">
+        {JSON.stringify([
+          {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://checkturnitin.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Pricing",
+          "item": "https://checkturnitin.com/pricing"
+        },
+            ]
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "CheckTurnitin",
+            "image": "https://checkturnitin.com/assets/images/pricing.png",
+            "description": "Choose the perfect plan that fits your needs.",
+            "sku": "checkturnitin-plan",
+            "offers": {
+        "@type": "Offer",
+        "url": "https://checkturnitin.com/pricing",
+        "priceCurrency": "USD",
+        "price": "10.00"
+            }
+          }
+        ])}
+      </script>
+      </head>
 
         <main className="relative flex flex-col w-full min-h-screen bg-white text-gray-900 overflow-hidden dark:bg-black dark:text-white">
           <Header onShowSignupForm={() => setShowSignupForm(true)} />
