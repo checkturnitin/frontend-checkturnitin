@@ -119,7 +119,7 @@ export default function Home() {
 
   if (!isLoaded) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#F8F8F8] dark:bg-gray-900">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-[#F8F8F8] dark:bg-black">
         {/* CheckTurnitin Logo with Animation */}
         <div className="transition-transform transform hover:scale-110  animate-bounce dark:bg-black">
           <Image
