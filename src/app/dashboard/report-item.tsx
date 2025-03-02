@@ -150,17 +150,29 @@ export const ReportItem: React.FC<ReportItemProps> = ({
             {report.reportId?.reports ? (
               <>
                 {report.reportId.reports.ai && (
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    AI Score:{" "}
-                    <span className="font-medium">
-                      {report.reportId.reports.ai.metadata.score}%
-                    </span>
-                  </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      AI Score:{" "}
+                      <span
+                        className={`font-medium ${
+                          report.reportId.reports.ai.metadata.score === "0" || report.reportId.reports.ai.metadata.score === "-1"
+                            ? "text-green-600 dark:text-green-400"
+                            : "text-red-600 dark:text-red-400"
+                        }`}
+                      >
+                        {report.reportId.reports.ai.metadata.score === "-1" ? "0-20%" : `${report.reportId.reports.ai.metadata.score}%`}
+                      </span>
+                    </p>
                 )}
                 {report.reportId.reports.plagiarism && (
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     Plagiarism Score:{" "}
-                    <span className="font-medium">
+                    <span
+                      className={`font-medium ${
+                      parseInt(report.reportId.reports.plagiarism.metadata.score) <= 15
+                        ? "text-green-600 dark:text-green-400"
+                        : "text-red-600 dark:text-red-400"
+                      }`}
+                    >
                       {report.reportId.reports.plagiarism.metadata.score}%
                     </span>
                   </p>
