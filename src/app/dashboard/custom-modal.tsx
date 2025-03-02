@@ -30,7 +30,7 @@ export const CustomModal: React.FC<CustomModalProps> = ({
           transition={{ duration: 0.2 }}
         >
           <motion.div
-            className={`bg-white dark:bg-gray-800 rounded-lg p-6 flex flex-col shadow-lg ${width}`}
+            className="bg-white dark:bg-gray-800 rounded-lg p-6 flex flex-col shadow-lg"
             onClick={(e) => e.stopPropagation()}
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -60,7 +60,7 @@ export const CustomModal: React.FC<CustomModalProps> = ({
                 </svg>
               </button>
             </div>
-            <div className="flex-grow overflow-y-hidden">{children}</div>
+            <div className="flex-grow overflow-y-auto">{children}</div>
           </motion.div>
         </motion.div>
       )}

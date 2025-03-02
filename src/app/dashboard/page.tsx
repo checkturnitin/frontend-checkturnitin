@@ -13,13 +13,20 @@ import { FileText, Clock, CheckCircle, Eye } from "lucide-react";
 import Image from "next/image";
 import { ReportItem } from "./report-item";
 import { CustomModal } from "./custom-modal";
+import Link from "next/link";
 import dynamic from "next/dynamic";
-import { Badge } from "@/components/ui/badge";
-const PDFViewer = dynamic(() => import("./pdf-viewer").then(mod => mod.default), { ssr: false });
+
+const PDFViewer = dynamic(
+  () => import("./pdf-viewer").then((mod) => mod.default),
+  { ssr: false }
+);
 
 export default function Home() {
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<any>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [planType, setPlanType] = useState<string>("basic");
 
   interface Report {
     checkId: string;
@@ -63,12 +70,29 @@ export default function Home() {
   >(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  // Check for token in useEffect instead of at module level
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
       window.location.href = "/";
+      return;
     }
+    // Fetch user to get the plan type
+    const getUser = async () => {
+      try {
+        const response = await axios.get(`${serverURL}/users`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUser(response.data.user);
+        setIsLoggedIn(true);
+        setPlanType(response.data.user.planType);
+        localStorage.setItem("planType", response.data.user.planType);
+      } catch (error) {
+        setIsLoggedIn(false);
+        toast.error("Something went wrong!");
+      }
+    };
+
+    getUser();
   }, []);
 
   useEffect(() => {
@@ -76,7 +100,7 @@ export default function Home() {
       try {
         const token = localStorage.getItem("token");
         if (!token) return;
-        
+
         const response = await axios.get(`${serverURL}/turnitin/check`, {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -150,7 +174,7 @@ export default function Home() {
         window.location.href = "/";
         return;
       }
-      
+
       const response = await axios.post(
         `${serverURL}/turnitin/check`,
         formData,
@@ -194,7 +218,7 @@ export default function Home() {
     try {
       const token = localStorage.getItem("token");
       if (!token) return;
-      
+
       const response = await axios.post(
         `${serverURL}/file`,
         { fileId },
@@ -236,7 +260,7 @@ export default function Home() {
     try {
       const token = localStorage.getItem("token");
       if (!token) return;
-      
+
       const [aiReportResponse, plagReportResponse] = await Promise.all([
         axios.post<{ data: any; percentage: number }>(
           `${serverURL}/report/ai-report`,
@@ -287,7 +311,7 @@ export default function Home() {
     try {
       const token = localStorage.getItem("token");
       if (!token) return;
-      
+
       const [aiReportResponse, plagReportResponse] = await Promise.all([
         axios.post(
           `${serverURL}/report/ai-report`,
@@ -332,7 +356,21 @@ export default function Home() {
     }
   };
 
-  // Filter all reports based on search query
+  const getEstimatedTime = () => {
+    switch (planType) {
+      case "basic":
+        return "0 - 4 hrs (default)";
+      case "pro":
+        return "0 - 1 hr";
+      case "pro+":
+        return "0 - 30 mins";
+      case "enterprise":
+        return "Enterprise priority";
+      default:
+        return "0 - 4 hrs (default)";
+    }
+  };
+
   const filteredAllReports = [
     ...reports.pending,
     ...reports.processing,
@@ -344,12 +382,12 @@ export default function Home() {
   );
 
   return (
-    <div className="flex flex-col min-h-screen bg-white text-black dark:bg-black dark:text-white">
+    <div className="flex flex-col min-h-screen bg-gray-50 text-black dark:bg-black dark:text-white">
       <Header />
       <main className="flex-grow flex flex-col items-center justify-start px-4 py-8 mt-16">
-        <div className="w-full max-w-4xl mx-auto">
+        <div className="w-full max-w-3xl mx-auto">
           {/* File Upload Section */}
-          <Card>
+          <Card className="shadow-md">
             <CardContent className="p-6">
               <FileUpload
                 onChange={handleFileUpload}
@@ -365,7 +403,7 @@ export default function Home() {
                     {files.map((file, index) => (
                       <li
                         key={index}
-                        className="flex items-center justify-between bg-gray-100 dark:bg-gray-900 p-2 rounded"
+                        className="flex items-center justify-between bg-gray-100 dark:bg-gray-800 p-2 rounded"
                       >
                         <span>{file.name}</span>
                         <div className="flex space-x-2">
@@ -399,7 +437,7 @@ export default function Home() {
                 <Button
                   onClick={() => openConfirmation("turnitin")}
                   disabled={loading || files.length === 0}
-                  className="flex items-center space-x-2 bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 disabled:bg-indigo-400"
+                  className="flex items-center space-x-2 bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 disabled:bg-indigo-400 transition-all"
                 >
                   <Image
                     src="/assets/logos/Turnitin_logo.svg"
@@ -424,20 +462,87 @@ export default function Home() {
             heading="Confirm Submission"
           >
             <div className="space-y-4">
-              <p>
-                You are about to submit 1 file for AI and plagiarism check. This
-                will cost 1 credit.
-              </p>
-              <div className="flex justify-end space-x-2">
-                <Button
-                  variant="outline"
-                  onClick={() => setIsConfirmationOpen(false)}
-                >
-                  Cancel
-                </Button>
-                <Button onClick={handleSubmit} disabled={loading}>
-                  Confirm
-                </Button>
+              {files[0] && (
+                <div className="text-sm text-gray-600 dark:text-gray-400">
+                  <h4 className="text-lg font-semibold mb-2">
+                    File for Submission:
+                  </h4>
+                  <div className="flex items-center justify-around bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <p className="text-2xl font-semibold bg-black-200 p-2 rounded">
+                      {files[0].name}
+                    </p>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handlePreview(files[0])}
+                      className="flex items-center space-x-2"
+                    >
+                      <Eye className="h-4 w-4 mr-1" />
+                      <span>Preview PDF</span>
+                    </Button>
+                  </div>
+                </div>
+              )}
+
+                <div className="text-gray-600 dark:text-gray-400">
+                <div className="flex items-center">
+                  <h4 className="text-2xl font-bold text-white-600 mb-4">
+                  Estimated Delivery Time:{" "}
+                  <span className="italic text-base text-gray-800 dark:text-gray-200">
+                    {getEstimatedTime()}
+                  </span>
+                  </h4>
+                  <p className="text-lg flex items-center ml-4">
+                  <Link
+                    href="/pricing"
+                    className="text-green-600 font-semibold text-sm hover:underline hover:text-blue-800 transition-colors duration-200 pb-3"
+                  >
+                    Upgrade for faster delivery
+                  </Link>{" "}
+                  <span className="rotate-45 text-2xl ml-2 font-bold">⚡</span>
+                  </p>
+                </div>
+                <p className="text-sm mt-2 italic">
+                  The delivery times vary according to your subscription:{" "}
+                  <Link
+                  href="/pricing"
+                  className="text-blue-600 underline hover:text-blue-800 transition-colors duration-200"
+                  >
+                  View our plans
+                  </Link>
+                </p>
+                </div>
+
+              <Button
+                onClick={handleSubmit}
+                disabled={loading}
+                className="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 transition-all"
+              >
+                Confirm and Receive Turnitin Reports
+              </Button>
+
+              <h4 className="text-lg font-semibold">File Requirements:</h4>
+              <div className="text-sm text-gray-600 dark:text-gray-400">
+                <h5 className="font-semibold mb-2">Plagiarism Detection:</h5>
+                <ul className="list-disc ml-6">
+                  <li>File Size: Less than 100 MB</li>
+                  <li>Minimum Length: At least 20 words</li>
+                  <li>Page Limit: Less than 800 pages</li>
+                  <li>Accepted File Types: .pdf</li>
+                </ul>
+                <h5 className="font-semibold mt-4 mb-2">
+                  AI-Generated Content Detection:
+                </h5>
+                <ul className="list-disc ml-6">
+                  <li>File Size: Less than 100 MB</li>
+                  <li>
+                    Word Count: Between 300 and 30,000 words of prose text in a
+                    long-form writing format
+                  </li>
+                  <li>
+                    Language: English and Spanish submissions are supported
+                  </li>
+                </ul>
               </div>
             </div>
           </CustomModal>
@@ -449,7 +554,7 @@ export default function Home() {
             heading="File Preview"
           >
             {previewFile && (
-              <div className="h-full">
+              <div className="h-full overflow-y-auto">
                 <h2 className="text-xl font-semibold mb-4">
                   File Preview: {previewFile.name}
                 </h2>
@@ -486,7 +591,7 @@ export default function Home() {
                     document.body.removeChild(link);
                     window.URL.revokeObjectURL(url);
                   }}
-                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700"
+                  className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-all"
                 >
                   Download {pdfFile.name}
                 </Button>
@@ -526,7 +631,7 @@ export default function Home() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="completed">
-              <Card>
+              <Card className="shadow-md">
                 <CardContent className="p-6">
                   <h3 className="text-lg font-semibold mb-4">
                     Completed Reports
@@ -561,7 +666,7 @@ export default function Home() {
               </Card>
             </TabsContent>
             <TabsContent value="pending">
-              <Card>
+              <Card className="shadow-md">
                 <CardContent className="p-6">
                   <h3 className="text-lg font-semibold mb-4">
                     Pending Reports
@@ -590,7 +695,7 @@ export default function Home() {
               </Card>
             </TabsContent>
             <TabsContent value="processing">
-              <Card>
+              <Card className="shadow-md">
                 <CardContent className="p-6">
                   <h3 className="text-lg font-semibold mb-4">
                     Processing Reports
@@ -619,18 +724,18 @@ export default function Home() {
               </Card>
             </TabsContent>
             <TabsContent value="all">
-              <Card>
+              <Card className="shadow-md">
                 <CardContent className="p-6">
-                    <div className="flex justify-between mb-4">
+                  <div className="flex justify-between mb-4">
                     <h3 className="text-lg font-semibold">All Reports</h3>
                     <input
                       type="text"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       placeholder="Search by file name"
-                      className="border border-gray-400 p-2 rounded w-64 max-w-xs dark:border-gray-600 dark:bg-black dark:text-white"
+                      className="border border-gray-400 p-2 rounded w-64 max-w-xs dark:border-gray-600 dark:bg-gray-800 dark:text-white"
                     />
-                    </div>
+                  </div>
                   {filteredAllReports.length === 0 ? (
                     <div className="flex flex-col items-center justify-center p-6 space-y-4">
                       <FileText className="h-12 w-12 text-gray-400" />
