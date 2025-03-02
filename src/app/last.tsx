@@ -99,7 +99,7 @@ const CenteredFooter: React.FC = () => {
             </a>
           </div>
           <p className="mt-4">
-            © CheckTurnitin {new Date().getFullYear()}. Designed with ❤️ by CheckTurnitin Team
+            © CheckTurnitin {new Date().getFullYear()}. Designed with ❤️ by CheckTurnitin Team. Based in Kathmandu, Nepal.
           </p>
         </motion.div>
       </motion.div>
