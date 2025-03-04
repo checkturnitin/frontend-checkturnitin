@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useRouter } from "next/router"
 import axios from "axios"
 import { Button } from "@/components/ui/button"
 import { Toaster, toast } from "sonner"
@@ -20,7 +19,6 @@ interface User {
 }
 
 export default function TelegramVerification() {
-  const router = useRouter()
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
   const [verifying, setVerifying] = useState(false)
@@ -31,7 +29,9 @@ export default function TelegramVerification() {
   const [verificationSuccess, setVerificationSuccess] = useState(false)
 
   useEffect(() => {
-    fetchUser()
+    if (typeof window !== "undefined") {
+      fetchUser()
+    }
   }, [])
 
   const fetchUser = async () => {
@@ -39,7 +39,7 @@ export default function TelegramVerification() {
       const token = localStorage.getItem("token")
       if (!token) {
         toast.error("Authentication token not found. Please sign up first to verify Telegram")
-        router.push("/signup")
+        window.location.href = "/signup"
         return
       }
 

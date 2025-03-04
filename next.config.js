@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  swcMinify: true, // Use SWC minifier instead of Terser
+  swcMinify: false,
   async headers() {
     return [
       {
