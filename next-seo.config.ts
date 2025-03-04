@@ -124,18 +124,12 @@ const productJsonLd: ProductJsonLdProps = {
     "@type": "Offer",
     price: "999",
     priceCurrency: "USD",
-    priceValidUntil: new Date(new Date().setMonth(new Date().getMonth() + 1)).toISOString(),
-    availability: "https://schema.org/InStock",
     seller: {
       "@type": "Organization",
       name: "CheckTurnitin",
     },
   },
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.9",
-    reviewCount: "1847",
-  },
+
 };
 
 const faqJsonLd: FAQPageJsonLdProps = {
