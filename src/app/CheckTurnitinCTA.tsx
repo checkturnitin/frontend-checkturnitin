@@ -61,7 +61,7 @@ export default function CheckTurnitinCTA() {
           </a>
 
           {/* Join Discord Button */}
-          <a href="/discord">
+          <a href="https://discord.gg/R2zK3A5ftj/">
             <button className="px-8 py-3 border-2 border-indigo-600 rounded-lg bg-white dark:bg-gray-800 text-indigo-600 font-semibold hover:bg-indigo-50 dark:hover:bg-gray-700 transition-transform duration-300 transform hover:scale-105 active:scale-100 flex items-center gap-2">
               <svg
                 className="text-indigo-600 dark:text-indigo-400"

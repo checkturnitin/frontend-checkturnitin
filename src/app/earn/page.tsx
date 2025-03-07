@@ -133,7 +133,7 @@ export default function EarnPage() {
                 <div className="mt-6">
                   <Button
                     className="w-full bg-indigo-600 hover:bg-indigo-700 text-white"
-                    onClick={() => window.open("https://discord.gg/MJGQQHdz", "_blank")}
+                    onClick={() => window.open("https://discord.gg/R2zK3A5ftj", "_blank")}
                   >
                     <MessageSquare className="mr-2 h-4 w-4" /> Join Discord
                   </Button>
