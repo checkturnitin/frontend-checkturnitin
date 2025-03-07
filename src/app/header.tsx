@@ -247,7 +247,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                     Discord
                   </a>
                   <a
-                    href="https://t.me/yourtelegramlink"
+                    href="https://checkturnitin.com/telegram"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-base font-medium text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300"

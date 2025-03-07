@@ -39,7 +39,7 @@ export default function TelegramVerification() {
       const token = localStorage.getItem("token")
       if (!token) {
         toast.error("Authentication token not found. Please sign up first to verify Telegram")
-        window.location.href = "/signup"
+        window.location.href = "/"
         return
       }
 

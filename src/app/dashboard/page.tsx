@@ -22,11 +22,13 @@ const PDFViewer = dynamic(
 );
 
 export default function Home() {
-  const [files, setFiles] = useState<File[]>([]);
+  const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
+  const [wordCountLoading, setWordCountLoading] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [planType, setPlanType] = useState<string>("basic");
+  const [wordCount, setWordCount] = useState<number | null>(null);
 
   interface Report {
     checkId: string;
@@ -59,15 +61,11 @@ export default function Home() {
 
   const [activeTab, setActiveTab] = useState("all");
   const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-  const [reportType, setReportType] = useState<
-    "plagiarism" | "turnitin" | null
-  >(null);
+  const [reportType, setReportType] = useState<"plagiarism" | "turnitin" | null>(null);
   const [previewFile, setPreviewFile] = useState<File | null>(null);
   const [pdfFiles, setPDFFiles] = useState<any[]>([]);
   const [aiPercentage, setAiPercentage] = useState<number | null>(null);
-  const [plagiarismPercentage, setPlagiarismPercentage] = useState<
-    number | null
-  >(null);
+  const [plagiarismPercentage, setPlagiarismPercentage] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
@@ -76,7 +74,6 @@ export default function Home() {
       window.location.href = "/";
       return;
     }
-    // Fetch user to get the plan type
     const getUser = async () => {
       try {
         const response = await axios.get(`${serverURL}/users`, {
@@ -91,7 +88,6 @@ export default function Home() {
         toast.error("Something went wrong!");
       }
     };
-
     getUser();
   }, []);
 
@@ -100,68 +96,84 @@ export default function Home() {
       try {
         const token = localStorage.getItem("token");
         if (!token) return;
-
         const response = await axios.get(`${serverURL}/turnitin/check`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
         console.log("Fetched reports:", response.data);
-
         const fetchedReports = response.data;
-        const pending = fetchedReports.filter(
-          (report: any) => report.status === "pending"
-        );
-        const processing = fetchedReports.filter(
-          (report: any) =>
-            report.status !== "completed" && report.status !== "pending"
-        );
-        const completed = fetchedReports.filter(
-          (report: any) => report.status === "completed"
-        );
+        const pending = fetchedReports.filter((report: any) => report.status === "pending");
+        const processing = fetchedReports.filter((report: any) => report.status !== "completed" && report.status !== "pending");
+        const completed = fetchedReports.filter((report: any) => report.status === "completed");
         setReports({ pending, processing, completed });
       } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
-          toast.error(
-            `Server Error: ${
-              error.response.data.message || "Something went wrong"
-            }`
-          );
+          toast.error(`Server Error: ${error.response.data.message || "Something went wrong"}`);
         } else {
           toast.error("Failed to fetch reports");
         }
       }
     };
-
     fetchData();
     const interval = setInterval(fetchData, 10000);
-
     return () => clearInterval(interval);
   }, []);
 
-  const handleFileUpload = (newFiles: File[]) => {
-    const validFiles = newFiles.filter((file) => {
-      if (file.size > 100 * 1024 * 1024) {
-        toast.error(`File ${file.name} exceeds the 100 MB size limit.`);
-        return false;
+  const handleFileUpload = async (newFiles: File[]) => {
+    if (newFiles.length > 1) {
+      toast.error("Only one file can be uploaded at a time.");
+      return;
+    }
+
+    const selectedFile = newFiles[0];
+    if (selectedFile && selectedFile.size > 100 * 1024 * 1024) {
+      toast.error(`File ${selectedFile.name} exceeds the 100 MB size limit.`);
+      return;
+    }
+
+    if (selectedFile) {
+      setFile(selectedFile);
+      setWordCountLoading(true);
+      const wordCount = await getWordCount(selectedFile);
+      setWordCountLoading(false);
+
+      if (wordCount !== null) {
+        setWordCount(wordCount);
+        if (wordCount < 300 || wordCount > 30000) {
+          toast.error("The document must contain between 300 and 30,000 words. Please upload a document within this range.");
+          setFile(null);
+        }
       }
-      return true;
-    });
-    setFiles((prevFiles) => [...prevFiles, ...validFiles]);
+    }
   };
 
-  const removeFile = (index: number) => {
-    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  const getWordCount = async (file: File): Promise<number | null> => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await axios.post(`${serverURL}/file/wordcount`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      return response.data.total_words;
+    } catch (error) {
+      toast.error("Failed to count words in document.");
+      console.error("Word count error:", error);
+      return null;
+    }
+  };
+
+  const removeFile = () => {
+    setFile(null);
+    setWordCount(null);
   };
 
   const handleSubmit = async () => {
-    if (files.length === 0 || loading || !reportType) return;
-
-    const file = files[0];
-    if (file.size > 100 * 1024 * 1024) {
-      toast.error("File size must be less than 100 MB.");
-      return;
-    }
+    if (!file || loading || !reportType) return;
 
     setLoading(true);
     const formData = new FormData();
@@ -175,27 +187,19 @@ export default function Home() {
         return;
       }
 
-      const response = await axios.post(
-        `${serverURL}/turnitin/check`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const response = await axios.post(`${serverURL}/turnitin/check`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-      toast.success(
-        `Turnitin check initiated successfully! Check ID: ${response.data.checkId}`
-      );
+      toast.success(`Turnitin check initiated successfully! Check ID: ${response.data.checkId}`);
       setReports({ pending: [], processing: [], completed: [] });
-      setFiles([]);
+      removeFile();
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        toast.error(
-          `Server Error: ${error.response.data || "Something went wrong"}`
-        );
+        toast.error(`Server Error: ${error.response.data || "Something went wrong"}`);
       } else {
         toast.error("Something went wrong!");
       }
@@ -206,7 +210,7 @@ export default function Home() {
   };
 
   const openConfirmation = (type: "plagiarism" | "turnitin") => {
-    if (files.length === 0) {
+    if (!file) {
       toast.error("Please upload a file first.");
       return;
     }
@@ -219,25 +223,18 @@ export default function Home() {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const response = await axios.post(
-        `${serverURL}/file`,
-        { fileId },
-        {
-          responseType: "blob",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post(`${serverURL}/file`, { fileId }, {
+        responseType: "blob",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
 
       const fileName = response.headers["x-file-name"] || "downloaded_file";
-      const contentType =
-        response.headers["content-type"] || "application/octet-stream";
+      const contentType = response.headers["content-type"] || "application/octet-stream";
 
-      const url = window.URL.createObjectURL(
-        new Blob([response.data], { type: contentType })
-      );
+      const url = window.URL.createObjectURL(new Blob([response.data], { type: contentType }));
       const link = document.createElement("a");
       link.href = url;
       link.setAttribute("download", fileName);
@@ -263,27 +260,21 @@ export default function Home() {
 
       const [aiReportResponse, plagReportResponse] = await Promise.all([
         axios.post<{ data: any; percentage: number }>(
-          `${serverURL}/report/ai-report`,
-          { reportId },
-          {
-            responseType: "blob",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        ),
+          `${serverURL}/report/ai-report`, { reportId }, {
+          responseType: "blob",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }),
         axios.post<{ data: any; percentage: number }>(
-          `${serverURL}/report/plag-report`,
-          { reportId },
-          {
-            responseType: "blob",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        ),
+          `${serverURL}/report/plag-report`, { reportId }, {
+          responseType: "blob",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }),
       ]);
 
       setPDFFiles([
@@ -314,27 +305,21 @@ export default function Home() {
 
       const [aiReportResponse, plagReportResponse] = await Promise.all([
         axios.post(
-          `${serverURL}/report/ai-report`,
-          { reportId },
-          {
-            responseType: "blob",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        ),
+          `${serverURL}/report/ai-report`, { reportId }, {
+          responseType: "blob",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }),
         axios.post(
-          `${serverURL}/report/plag-report`,
-          { reportId },
-          {
-            responseType: "blob",
-            headers: {
-              Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        ),
+          `${serverURL}/report/plag-report`, { reportId }, {
+          responseType: "blob",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }),
       ]);
 
       const downloadBlob = (data: Blob, fileName: string) => {
@@ -386,57 +371,55 @@ export default function Home() {
       <Header />
       <main className="flex-grow flex flex-col items-center justify-start px-4 py-8 mt-16">
         <div className="w-full max-w-3xl mx-auto">
-          {/* File Upload Section */}
           <Card className="shadow-md">
             <CardContent className="p-6">
               <FileUpload
                 onChange={handleFileUpload}
                 accept=".pdf,.doc,.docx"
-                files={files}
+                files={file ? [file] : []}
               />
-              {files.length > 0 && (
+              {file && (
                 <div className="mt-4">
                   <h3 className="text-lg font-semibold mb-2">
-                    Uploaded Files:
+                    Uploaded File:
                   </h3>
-                  <ul className="space-y-2">
-                    {files.map((file, index) => (
-                      <li
-                        key={index}
-                        className="flex items-center justify-between bg-gray-100 dark:bg-gray-800 p-2 rounded"
+                  <div className="flex items-center justify-between bg-gray-100 dark:bg-gray-800 p-2 rounded">
+                    <span>{file.name}</span>
+                    <div className="flex items-center space-x-4">
+                      {wordCountLoading ? (
+                        <span>Loading word count...</span>
+                      ) : (
+                        <span>Words: {wordCount}</span>
+                      )}
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handlePreview(file)}
                       >
-                        <span>{file.name}</span>
-                        <div className="flex space-x-2">
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => handlePreview(file)}
-                          >
-                            <Eye className="h-4 w-4 mr-2" />
-                            Preview
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
-                            onClick={() => removeFile(index)}
-                          >
-                            Remove
-                          </Button>
-                        </div>
-                      </li>
-                    ))}
-                  </ul>
+                        <Eye className="h-4 w-4 mr-2" />
+                        Preview
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={removeFile}
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  </div>
                 </div>
               )}
               <div className="mt-4 text-sm text-gray-600 dark:text-gray-400">
                 <p>File Size: Files must be less than 100 MB.</p>
                 <p>Page Count: Submissions should not exceed 800 pages.</p>
-                <p>Word Count: Documents must contain at least 20 words.</p>
+                <p>Word Count: Documents must contain at least 300 words.</p>
+                <p><strong>Accepted File Types: .pdf, .docx</strong></p>
               </div>
               <div className="mt-4 flex justify-end">
                 <Button
                   onClick={() => openConfirmation("turnitin")}
-                  disabled={loading || files.length === 0}
+                  disabled={loading || !file || wordCountLoading || (wordCount !== null && wordCount < 300)}
                   className="flex items-center space-x-2 bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 disabled:bg-indigo-400 transition-all"
                 >
                   <Image
@@ -462,19 +445,19 @@ export default function Home() {
             heading="Confirm Submission"
           >
             <div className="space-y-4">
-              {files[0] && (
+              {file && (
                 <div className="text-sm text-gray-600 dark:text-gray-400">
                   <h4 className="text-lg font-semibold mb-2">
                     File for Submission:
                   </h4>
                   <div className="flex items-center justify-around bg-gray-100 dark:bg-gray-800 p-2 rounded">
                     <p className="text-2xl font-semibold bg-black-200 p-2 rounded">
-                      {files[0].name}
+                      {file.name}
                     </p>
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => handlePreview(files[0])}
+                      onClick={() => handlePreview(file)}
                       className="flex items-center space-x-2"
                     >
                       <Eye className="h-4 w-4 mr-1" />
@@ -484,34 +467,34 @@ export default function Home() {
                 </div>
               )}
 
-                <div className="text-gray-600 dark:text-gray-400">
+              <div className="text-gray-600 dark:text-gray-400">
                 <div className="flex items-center">
                   <h4 className="text-2xl font-bold text-white-600 mb-4">
-                  Estimated Delivery Time:{" "}
-                  <span className="italic text-base text-gray-800 dark:text-gray-200">
-                    {getEstimatedTime()}
-                  </span>
+                    Estimated Delivery Time:{" "}
+                    <span className="italic text-base text-gray-800 dark:text-gray-200">
+                      {getEstimatedTime()}
+                    </span>
                   </h4>
                   <p className="text-lg flex items-center ml-4">
-                  <Link
-                    href="/pricing"
-                    className="text-green-600 font-semibold text-sm hover:underline hover:text-blue-800 transition-colors duration-200 pb-3"
-                  >
-                    Upgrade for faster delivery
-                  </Link>{" "}
-                  <span className="rotate-45 text-2xl ml-2 font-bold">⚡</span>
+                    <Link
+                      href="/pricing"
+                      className="text-green-600 font-semibold text-sm hover:underline hover:text-blue-800 transition-colors duration-200 pb-3"
+                    >
+                      Upgrade for faster delivery
+                    </Link>{" "}
+                    <span className="rotate-45 text-2xl ml-2 font-bold">⚡</span>
                   </p>
                 </div>
                 <p className="text-sm mt-2 italic">
                   The delivery times vary according to your subscription:{" "}
                   <Link
-                  href="/pricing"
-                  className="text-blue-600 underline hover:text-blue-800 transition-colors duration-200"
+                    href="/pricing"
+                    className="text-blue-600 underline hover:text-blue-800 transition-colors duration-200"
                   >
-                  View our plans
+                    View our plans
                   </Link>
                 </p>
-                </div>
+              </div>
 
               <Button
                 onClick={handleSubmit}
@@ -526,9 +509,9 @@ export default function Home() {
                 <h5 className="font-semibold mb-2">Plagiarism Detection:</h5>
                 <ul className="list-disc ml-6">
                   <li>File Size: Less than 100 MB</li>
-                  <li>Minimum Length: At least 20 words</li>
+                  <li>Minimum Length: At least 300 words</li>
                   <li>Page Limit: Less than 800 pages</li>
-                  <li>Accepted File Types: .pdf</li>
+                  <li>Accepted File Types: .pdf, .docx</li>
                 </ul>
                 <h5 className="font-semibold mt-4 mb-2">
                   AI-Generated Content Detection:
