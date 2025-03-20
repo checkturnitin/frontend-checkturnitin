@@ -5,17 +5,11 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Toaster, toast } from "sonner"
 import { Copy, Gift, Users, Zap, Send, Star, ExternalLink, DiscIcon as DiscordLogo, MessageSquare } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 
 export default function EarnPage() {
-  const [referralLink, setReferralLink] = useState("https://yourapp.com/ref/user123")
-
-  // This would typically come from your user profile or auth system
-  useEffect(() => {
-    // Example: fetch user's referral link from API
-    // For demo purposes, we're using a static link
-  }, [])
-
+  const [referralLink, setReferralLink] = useState("https://yourapp.com/login")
+  
   const copyReferralLink = () => {
     navigator.clipboard.writeText(referralLink)
     toast.success("Referral link copied to clipboard!")
@@ -32,8 +26,7 @@ export default function EarnPage() {
             Earn Free Report Credits!
           </h1>
           <p className="text-xl mb-8 text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
-            Invite friends, earn rewards, and unlock premium features without spending a dime. Our referral program
-            makes it easy to get more out of our platform.
+            Invite friends, earn rewards, and unlock premium features without spending a dime. Our referral program makes it easy to get more out of our platform.
           </p>
         </div>
 
@@ -47,33 +40,33 @@ export default function EarnPage() {
                 <div className="rounded-full bg-purple-600 text-white w-14 h-14 flex items-center justify-center text-xl font-semibold mb-4">
                   1
                 </div>
-                <h3 className="text-xl font-medium text-purple-700 dark:text-purple-400 mb-2">Copy Your Link</h3>
+                <h3 className="text-xl font-medium text-purple-700 dark:text-purple-400 mb-2">Log In</h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Get your unique referral link from below and copy it with one click.
+                  First, log into your account.
                 </p>
-                <Copy className="mt-4 text-purple-500 h-8 w-8" />
+                <ExternalLink className="mt-4 text-purple-500 h-8 w-8" />
               </div>
 
               <div className="flex flex-col items-center text-center p-6 rounded-xl bg-purple-50 dark:bg-gray-800 transition-all hover:shadow-md">
                 <div className="rounded-full bg-purple-600 text-white w-14 h-14 flex items-center justify-center text-xl font-semibold mb-4">
                   2
                 </div>
-                <h3 className="text-xl font-medium text-purple-700 dark:text-purple-400 mb-2">Share With Friends</h3>
+                <h3 className="text-xl font-medium text-purple-700 dark:text-purple-400 mb-2">Get Your Link</h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Send your link to friends via email, social media, or messaging apps.
+                  Go to your profile and copy the referral link available there.
                 </p>
-                <Users className="mt-4 text-purple-500 h-8 w-8" />
+                <Copy className="mt-4 text-purple-500 h-8 w-8" />
               </div>
 
               <div className="flex flex-col items-center text-center p-6 rounded-xl bg-purple-50 dark:bg-gray-800 transition-all hover:shadow-md">
                 <div className="rounded-full bg-purple-600 text-white w-14 h-14 flex items-center justify-center text-xl font-semibold mb-4">
                   3
                 </div>
-                <h3 className="text-xl font-medium text-purple-700 dark:text-purple-400 mb-2">Earn Rewards</h3>
+                <h3 className="text-xl font-medium text-purple-700 dark:text-purple-400 mb-2">Share With Friends</h3>
                 <p className="text-gray-600 dark:text-gray-400">
-                  Get 1 free Report Credit for each friend who signs up using your link.
+                  Send your link to friends via email, social media, or messaging apps.
                 </p>
-                <Gift className="mt-4 text-purple-500 h-8 w-8" />
+                <Users className="mt-4 text-purple-500 h-8 w-8" />
               </div>
             </div>
 
@@ -96,8 +89,7 @@ export default function EarnPage() {
                 <h3 className="text-xl font-bold">Bonus: Double Your Rewards!</h3>
               </div>
               <p className="mb-4">
-                When your referred friends make their first report check, you'll receive an additional credit as a
-                bonus!
+                When your referred friends make their first report check, you'll receive an additional credit as a bonus!
               </p>
               <div className="flex items-center justify-center bg-white/20 p-3 rounded-lg">
                 <span className="font-semibold">That's up to 2 credits per referral!</span>
@@ -127,8 +119,7 @@ export default function EarnPage() {
                   </div>
                 </div>
                 <p className="text-gray-700 dark:text-gray-300 mb-auto">
-                  Join our Discord server to participate in community challenges, giveaways, and earn additional free
-                  credits through special promotions.
+                  Join our Discord server to participate in community challenges, giveaways, and earn additional free credits through special promotions.
                 </p>
                 <div className="mt-6">
                   <Button
@@ -155,8 +146,7 @@ export default function EarnPage() {
                   </div>
                 </div>
                 <p className="text-gray-700 dark:text-gray-300 mb-auto">
-                  Our Telegram group members get early access to new features, flash promotions, and opportunities to
-                  earn additional credits through community activities.
+                  Our Telegram group members get early access to new features, flash promotions, and opportunities to earn additional credits through community activities.
                 </p>
                 <div className="mt-6">
                   <Button
@@ -198,8 +188,7 @@ export default function EarnPage() {
                     </div>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
-                    "I've earned {i * 5} free credits through referrals! The process was super easy and my friends love
-                    the service too."
+                    "I've earned {i * 5} free credits through referrals! The process was super easy and my friends love the service too."
                   </p>
                 </CardContent>
               </Card>
@@ -268,4 +257,3 @@ export default function EarnPage() {
     </div>
   )
 }
-

@@ -46,7 +46,7 @@ const Slogan: React.FC = () => {
         transition={{ duration: 0.5 }}
       >
         <span className="font-semibold">
-          "Authenticity is our priority. We deliver genuine results, not fabricated detections."
+          "Don’t Trust Fake Detectors Like ZeroGPT or GPTZero—Use Only Turnitin for Authentic Results!"
         </span>
       </motion.p>
     </div>
@@ -193,7 +193,7 @@ const Hero: React.FC<HeroProps> = ({ isLoggedIn }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        Accurate AI & Plagiarism Reports with Turnitin
+        Get Authentic AI & Plagiarism Reports with Turnitin in 2 Minutes!
       </motion.h1>
       <motion.div
         className="mb-8"
