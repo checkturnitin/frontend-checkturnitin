@@ -39,6 +39,18 @@ export default function Home() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [user, setUser] = useState<User | null>(null);
+  const [theme, setTheme] = useState("dark");
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    if (!storedTheme) {
+      localStorage.setItem("theme", "dark");
+      setTheme("dark");
+    } else {
+      setTheme(storedTheme);
+    }
+  }, []);
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -192,18 +204,23 @@ export default function Home() {
           })}
         </script>
       </head>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-[#F8F8F8] dark:bg-black">
-        {/* CheckTurnitin Logo with Animation */}
-        <div className="transition-transform transform hover:scale-110  animate-bounce dark:bg-black">
-          <Image
-            src="/assets/logos/checkturnitin.svg"
-            alt="CheckTurnitin Logo"
-            width={100} // Set smaller width
-            height={100} // Set smaller height
-            className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20" // Smallest possible responsive size
-          />
-        </div>
+      <div
+      className={`flex flex-col items-center justify-center min-h-screen ${
+        theme === "dark" ? "bg-black" : "bg-[#f8f8f8]"
+      }`}
+    >
+      {/* CheckTurnitin Logo with Animation */}
+      <div className="transition-transform transform hover:scale-110 animate-bounce">
+        <Image
+          src="/assets/logos/checkturnitin.svg"
+          alt="CheckTurnitin Logo"
+          width={100}
+          height={100}
+          className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20"
+        />
       </div>
+    </div>
+
       </>
     );
   }

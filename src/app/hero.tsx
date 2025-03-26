@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils"
 import AnimatedGradientText from "@/components/ui/animated-gradient-text"
 import FakeDetector from "./FakeDetector"
 import SignupForm from "../app/signup/SignupForm"
+import DiscordPromo from "./DiscordPromo"
 
 interface HeroProps {
   isLoggedIn: boolean
@@ -236,6 +237,9 @@ const Hero: React.FC<HeroProps> = ({ isLoggedIn }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 1 }}
       >
+              <DiscordPromo />
+
+
         <ReportCarousel onReportClick={setSelectedReport} />
       </motion.div>
       <FakeDetector />

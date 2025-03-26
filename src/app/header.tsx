@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const [rewriteCount, setRewriteCount] = useState<number>(-1);
+  const [rewriteCount, setRewriteCount] = useState<number>(-1);``
   const [dailyFreeCredits, setDailyFreeWords] = useState<number>(0);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
@@ -148,13 +148,13 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
               <FaDiscord className="h-5 w-5 inline-block mr-1" />
               Discord
             </a>
-            <Link
+            {/* <Link
               href="/telegram"
               className="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition duration-150 ease-in-out"
             >
               <FaTelegramPlane className="h-5 w-5 inline-block mr-1" />
               Telegram
-            </Link>
+            </Link> */}
           </nav>
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
             {/* Theme toggle button */}
