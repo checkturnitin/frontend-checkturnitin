@@ -8,7 +8,7 @@ import { Copy, Gift, Users, Zap, Send, Star, ExternalLink, DiscIcon as DiscordLo
 import { useState } from "react"
 
 export default function EarnPage() {
-  const [referralLink, setReferralLink] = useState("https://yourapp.com/login")
+  const [referralLink, setReferralLink] = useState("Login and Get Your Referral Link")
   
   const copyReferralLink = () => {
     navigator.clipboard.writeText(referralLink)
