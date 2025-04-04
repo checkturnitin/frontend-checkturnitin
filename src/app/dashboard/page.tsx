@@ -459,8 +459,23 @@ export default function Home() {
                 <p>
                   <strong>Accepted File Types: .pdf, .docx</strong>
                 </p>
+                <p className="mt-2 text-green-500">
+                  Authentic Turnitin check provided. Both AI and Plagiarism 
+                  reports will be available in the completed section.
+                </p>
+                <p>
+                  Get 10 Free Credits by
+                  <a
+                    href="https://discord.gg/QqqRdN9He3"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline font-medium hover:text-green-600 transition-colors"
+                  >
+                    joining our Discord server
+                  </a>
+                </p>
                 {/* make another p telling if your submisison if late than 10min your files have a problem join discord and open a ticket for support */}
-                <p className="mt-2 text-red-500">
+                <p className="mt-2 text-orange-500">
                   If your submission is delayed by more than 10 minutes, please
                   join our Discord and open a ticket for support.
                 </p>
