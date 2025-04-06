@@ -464,7 +464,8 @@ export default function Home() {
                   reports will be available in the completed section.
                 </p>
                 <p>
-                  Get 10 Free Credits by
+                  Get 10 Free Credits by 
+                  {" "}
                   <a
                     href="https://discord.gg/QqqRdN9He3"
                     target="_blank"

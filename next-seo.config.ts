@@ -1,17 +1,17 @@
 import { DefaultSeoProps, BreadCrumbJsonLdProps, SocialProfileJsonLdProps, ProductJsonLdProps, FAQPageJsonLdProps } from "next-seo";
 
 const defaultSEOConfig: DefaultSeoProps = {
-  title: "CheckTurnitin - Reliable Turnitin Check & Plagiarism Detection",
-  titleTemplate: "%s | CheckTurnitin",
+  title: "Aiplagreport - Reliable Turnitin Check & Plagiarism Detection",
+  titleTemplate: "%s | Aiplagreport",
   description: 
-     "Ensure your content is plagiarism-free with CheckTurnitin. Trusted by educators and institutions for accurate Turnitin checks and comprehensive plagiarism detection.",
+     "Ensure your content is plagiarism-free with Aiplagreport. Trusted by educators and institutions for accurate Turnitin checks and comprehensive plagiarism detection.",
   canonical: "https://checkturnitin.com/",
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "https://checkturnitin.com/",
-    siteName: "CheckTurnitin",
-    title: "CheckTurnitin - Reliable Turnitin Check | Trusted by Educators",
+    siteName: "Aiplagreport",
+    title: "Aiplagreport - Reliable Turnitin Check | Trusted by Educators",
     description: 
       "Ensure your content is plagiarism-free with our reliable Turnitin check platform. Trusted by educators and institutions for accurate plagiarism detection and comprehensive reports.",
       images: [
@@ -19,7 +19,7 @@ const defaultSEOConfig: DefaultSeoProps = {
           url: "https://checkturnitin.com/assets/images/og-image.png", // Must be absolute URL
           width: 1200,
           height: 630,
-          alt: "CheckTurnitin - Reliable Turnitin Check Platform",
+          alt: "Aiplagreport - Reliable Turnitin Check Platform",
           type: "image/png",
         },
         {
@@ -27,7 +27,7 @@ const defaultSEOConfig: DefaultSeoProps = {
           url: "https://checkturnitin.com/assets/images/og-square.png",
           width: 600,
           height: 600,
-          alt: "CheckTurnitin Logo",
+          alt: "Aiplagreport Logo",
           type: "image/png",
         }
       ],
@@ -40,7 +40,7 @@ const defaultSEOConfig: DefaultSeoProps = {
     additionalMetaTags: [
       {
         name: "keywords",
-        content: "Check Turnitin, Turnitin Check, Plagiarism Detection, Plagiarism Checker, Turnitin Alternative, Plagiarism Reports, Academic Integrity, Content Authenticity, Plagiarism Prevention, CheckTurnitin Platform, Reliable Plagiarism Detection, Turnitin for Educators, Turnitin for Institutions, Accurate Plagiarism Reports, Plagiarism Detection Tool, Turnitin Compatible, Plagiarism Detection Software, Turnitin Check Service, Plagiarism Checker for Students, Plagiarism Checker for Teachers, Plagiarism Checker for Institutions, Turnitin Check Online, Turnitin Check Platform, Turnitin Check Tool, Turnitin Check Service Online, Turnitin Check Solution, Turnitin Check Website",
+        content: "Check Turnitin, Turnitin Check, Plagiarism Detection, Plagiarism Checker, Turnitin Alternative, Plagiarism Reports, Academic Integrity, Content Authenticity, Plagiarism Prevention, Aiplagreport Platform, Reliable Plagiarism Detection, Turnitin for Educators, Turnitin for Institutions, Accurate Plagiarism Reports, Plagiarism Detection Tool, Turnitin Compatible, Plagiarism Detection Software, Turnitin Check Service, Plagiarism Checker for Students, Plagiarism Checker for Teachers, Plagiarism Checker for Institutions, Turnitin Check Online, Turnitin Check Platform, Turnitin Check Tool, Turnitin Check Service Online, Turnitin Check Solution, Turnitin Check Website",
       },
       {
         property: "og:image:secure_url",
@@ -52,11 +52,11 @@ const defaultSEOConfig: DefaultSeoProps = {
       },
       {
         property: "og:image:alt",
-        content: "CheckTurnitin - Reliable Turnitin Check Platform",
+        content: "Aiplagreport - Reliable Turnitin Check Platform",
       },
       {
         name: "apple-mobile-web-app-title",
-        content: "CheckTurnitin",
+        content: "Aiplagreport",
       },
       {
         name: "apple-mobile-web-app-capable",
@@ -64,7 +64,7 @@ const defaultSEOConfig: DefaultSeoProps = {
       },
       {
         name: "author",
-        content: "CheckTurnitin",
+        content: "Aiplagreport",
       },
       {
         name: "thumbnail",
@@ -115,18 +115,18 @@ const defaultSEOConfig: DefaultSeoProps = {
 
 const productJsonLd: ProductJsonLdProps = {
   type: "Product",
-  name: "CheckTurnitin Plagiarism Detection Suite",
-  productName: "CheckTurnitin Plagiarism Detection Suite",
+  name: "Aiplagreport Plagiarism Detection Suite",
+  productName: "Aiplagreport Plagiarism Detection Suite",
   description: "Comprehensive plagiarism detection platform with accurate Turnitin checks and detailed reports. Trusted by educators and institutions for ensuring academic integrity.",
   image: "/assets/images/pricing.png",
-  brand: "CheckTurnitin",
+  brand: "Aiplagreport",
   offers: {
     "@type": "Offer",
     price: "999",
     priceCurrency: "USD",
     seller: {
       "@type": "Organization",
-      name: "CheckTurnitin",
+      name: "Aiplagreport",
     },
   },
 
@@ -135,19 +135,19 @@ const productJsonLd: ProductJsonLdProps = {
 const faqJsonLd: FAQPageJsonLdProps = {
   mainEntity: [
     {
-      questionName: "How does CheckTurnitin ensure accurate plagiarism detection?",
-      acceptedAnswerText: "CheckTurnitin uses advanced algorithms and comprehensive databases to provide accurate plagiarism detection. Our platform ensures that all content is thoroughly checked and reports are detailed and reliable.",
+      questionName: "How does Aiplagreport ensure accurate plagiarism detection?",
+      acceptedAnswerText: "Aiplagreport uses advanced algorithms and comprehensive databases to provide accurate plagiarism detection. Our platform ensures that all content is thoroughly checked and reports are detailed and reliable.",
     },
     {
-      questionName: "What makes CheckTurnitin the leading solution in the market?",
-      acceptedAnswerText: "CheckTurnitin combines advanced technology, comprehensive databases, and years of research to deliver unmatched results. We offer the highest accuracy in the industry, trusted by educators and institutions worldwide.",
+      questionName: "What makes Aiplagreport the leading solution in the market?",
+      acceptedAnswerText: "Aiplagreport combines advanced technology, comprehensive databases, and years of research to deliver unmatched results. We offer the highest accuracy in the industry, trusted by educators and institutions worldwide.",
     },
     {
-      questionName: "Is CheckTurnitin suitable for educational institutions?",
-      acceptedAnswerText: "Absolutely. CheckTurnitin is the preferred choice for educators and institutions. Our platform includes detailed reports, advanced analytics, and dedicated support to meet specific academic needs.",
+      questionName: "Is Aiplagreport suitable for educational institutions?",
+      acceptedAnswerText: "Absolutely. Aiplagreport is the preferred choice for educators and institutions. Our platform includes detailed reports, advanced analytics, and dedicated support to meet specific academic needs.",
     },
     {
-      questionName: "How quickly can CheckTurnitin process content?",
+      questionName: "How quickly can Aiplagreport process content?",
       acceptedAnswerText: "Our advanced processing engine handles content in real-time, with most texts being checked within seconds. Educators and institutions benefit from priority processing and can check unlimited content through our platform.",
     },
   ],
@@ -156,7 +156,7 @@ const faqJsonLd: FAQPageJsonLdProps = {
 const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "CheckTurnitin",
+  name: "Aiplagreport",
   url: "https://checkturnitin.com",
   logo: "/assets/images/logo.png",
   sameAs: [
@@ -176,7 +176,7 @@ const organizationJsonLd = {
 
 const socialProfileJsonLd: SocialProfileJsonLdProps = {
   type: "Organization",
-  name: "CheckTurnitin",
+  name: "Aiplagreport",
   url: "https://checkturnitin.com",
   sameAs: [
     "https://twitter.com/checkturnitin",
