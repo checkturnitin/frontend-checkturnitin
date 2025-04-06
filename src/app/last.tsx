@@ -99,7 +99,7 @@ const CenteredFooter: React.FC = () => {
             </a>
           </div>
           <p className="mt-4">
-            © aiplagreport {new Date().getFullYear()}. Designed with ❤️ by aiplagreport Team. Based in Kathmandu, Nepal.
+            © aiplagreport {new Date().getFullYear()}. Designed with ❤️ by aiplagreport Team. 
           </p>
         </motion.div>
       </motion.div>

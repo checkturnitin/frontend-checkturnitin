@@ -313,11 +313,11 @@ export default function Home() {
             {showLanding && (
               <div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden overflow-x-hidden bg-[#F8F8F8] dark:bg-black dark:text-white">
                 {showLanding && <Hero isLoggedIn={!!user} />}
-                <WhyTrustMatters />
+                {/* <WhyTrustMatters />
                 <NoRepositoryMode />
                 <PricingSection />
                 <AccordionDemo />
-                <CheckTurnitinCTA />
+                <CheckTurnitinCTA /> */}
                 {/* <WobbleCardDemo /> */}
 
                 <ElegantFooter />

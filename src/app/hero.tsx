@@ -29,7 +29,7 @@ const AnimatedGradientTextDemo: React.FC<{ onClick: () => void }> = ({ onClick }
             `inline animate-gradient bg-gradient-to-r from-[#ffaa40] via-[#9c40ff] to-[#ffaa40] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent`,
           )}
         >
-          Get a free AI and plagiarism check with CheckTurnitin today!
+          Get a free AI and plagiarism check with aiplagreport today!
         </span>
         <ChevronRight className="ml-1 size-3 transition-transform duration-300 ease-in-out group-hover:translate-x-0.5" />
       </AnimatedGradientText>
@@ -47,7 +47,7 @@ const Slogan: React.FC = () => {
         transition={{ duration: 0.5 }}
       >
         <span className="font-semibold">
-          "Don’t Trust Fake Detectors Like ZeroGPT or GPTZero—Use Only Turnitin for Authentic Results!"
+          One stop solution for all your AI and plagiarism detection needs.
         </span>
       </motion.p>
     </div>
@@ -180,7 +180,7 @@ const Hero: React.FC<HeroProps> = ({ isLoggedIn }) => {
   }
 
   return (
-    <section className="text-center pb-8 px-4 sm:px-6 lg:px-8 min-h-[120vh] flex flex-col items-center justify-center mt-20">
+    <section className="text-center pb-8 px-4 sm:px-6 lg:px-8 min-h-[120vh] flex flex-col items-center justify-center ">
       {isLoggedIn ? (
         <a href="/dashboard">
           <AnimatedGradientTextDemo onClick={() => (window.location.href = "/dashboard")} />
@@ -194,7 +194,7 @@ const Hero: React.FC<HeroProps> = ({ isLoggedIn }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        Get Authentic AI & Plagiarism Reports with Turnitin in 2 Minutes!
+        Get Authentic AI & Plagiarism Reports in 2 Minutes!
       </motion.h1>
       <motion.div
         className="mb-8"
@@ -240,9 +240,9 @@ const Hero: React.FC<HeroProps> = ({ isLoggedIn }) => {
               <DiscordPromo />
 
 
-        <ReportCarousel onReportClick={setSelectedReport} />
+        {/* <ReportCarousel onReportClick={setSelectedReport} /> */}
       </motion.div>
-      <FakeDetector />
+      {/* <FakeDetector /> */}
       {selectedReport !== null && (
         <PDFViewer pdfUrl={`/assets/reports/report${selectedReport + 1}.pdf`} onClose={() => setSelectedReport(null)} />
       )}
