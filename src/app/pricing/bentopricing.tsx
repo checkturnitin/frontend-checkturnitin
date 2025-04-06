@@ -11,14 +11,14 @@ export function BentoDemo({ onShowSignupForm }: BentoDemoProps) {
   return (
     <div className="container mx-auto p-4 flex justify-center">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
-        {/* CheckTurnitin Main Card */}
+        {/* Aiplagreport Main Card */}
         <section className="md:col-span-2 relative group rounded-3xl bg-gradient-to-br from-blue-600 to-purple-600 overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-[1.01]">
           <div className="relative p-10 h-full flex flex-col justify-between min-h-[40vh]">
             <div className="flex flex-col md:flex-row items-center gap-10">
               <div className="flex-1 space-y-6">
                 <div className="space-y-4">
                   <h2 className="text-5xl font-bold text-white leading-tight text-center md:text-left">
-                    CheckTurnitin
+                    Aiplagreport
                   </h2>
                   <p className="text-xl text-gray-100 max-w-md leading-relaxed text-center md:text-left">
                     The most advanced and accurate Turnitin checker. Get 100% accurate plagiarism and AI detection
@@ -30,14 +30,14 @@ export function BentoDemo({ onShowSignupForm }: BentoDemoProps) {
                     onClick={onShowSignupForm}
                     className="px-8 py-6 text-lg font-semibold bg-white text-blue-600 hover:bg-blue-50 transition-colors duration-300 rounded-full shadow-lg hover:shadow-xl"
                   >
-                    Try CheckTurnitin For Free
+                    Try Aiplagreport For Free
                   </Button>
                 </div>
               </div>
               <div className="relative w-[40vh] h-[40vh] rounded-2xl overflow-hidden shadow-xl group-hover:shadow-2xl transition-all duration-500">
                 <Image
                   src="/assets/images/report1.png"
-                  alt="CheckTurnitin Demo"
+                  alt="Aiplagreport Demo"
                   fill
                   className="object-cover transition-transform duration-500 ease-out group-hover:scale-110"
                   style={{ objectPosition: "center" }}

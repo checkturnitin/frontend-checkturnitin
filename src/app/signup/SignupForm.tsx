@@ -74,7 +74,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
 
       if (res.status === 200) {
         const { token, user } = res.data
-        toast.success("Welcome to CheckTurnitin! 🎉", {
+        toast.success("Welcome to Aiplagreport! 🎉", {
           position: "top-center",
           autoClose: 2000,
           hideProgressBar: true,
@@ -166,13 +166,13 @@ export default function SignupForm({ onClose }: SignupFormProps) {
             <CardHeader className="text-center mb-8 flex flex-col justify-center items-center">
               <Image
                 src="/assets/logos/checkturnitin.svg"
-                alt="CheckTurnitin Logo"
+                alt="Aiplagreport Logo"
                 width={120}
                 height={120}
                 className="mb-4"
               />
               <CardTitle className="text-4xl md:text-5xl font-extrabold text-indigo-900 dark:text-indigo-100 mb-2">
-                CheckTurnitin
+                Aiplagreport
               </CardTitle>
               <p className="text-xl md:text-2xl text-indigo-700 dark:text-indigo-300">
                 Get authentic Turnitin AI and plagiarism reports in minutes
@@ -180,7 +180,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
             </CardHeader>
             <div className="mt-8 text-center">
               <p className="text-sm text-indigo-600 dark:text-indigo-400">
-                Join thousands of users ensuring academic integrity with CheckTurnitin
+                Join thousands of users ensuring academic integrity with Aiplagreport
               </p>
             </div>
           </div>
@@ -193,7 +193,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
                 <p className="text-sm text-indigo-600 dark:text-indigo-400">Join in seconds • No credit card needed</p>
               </div>
               <div className="space-y-4">
-                <GoogleOAuthProvider clientId="602949390183-0l5vs84jrsbvg5s4q5mqs7krg1bt9afd.apps.googleusercontent.com">
+                <GoogleOAuthProvider clientId="602949390183-ojddmp4tgg8tslj9oqd7orv8otekopdr.apps.googleusercontent.com">
                   <div className="flex justify-center" ref={googleLoginRef}>
                     {isGoogleLoaded ? (
                       <GoogleLogin

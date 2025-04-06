@@ -38,25 +38,25 @@ export function FAQSection() {
   return (
     <>
       <NextSeo
-        title="Frequently Asked Questions | CheckTurnitin"
-        description="Find answers to common questions about CheckTurnitin, an online tool for checking Turnitin reports with accuracy."
+        title="Frequently Asked Questions | aiplagreport"
+        description="Find answers to common questions about aiplagreport, an online tool for checking Turnitin reports with accuracy."
         openGraph={{
           type: "website",
-          title: "Frequently Asked Questions | CheckTurnitin",
+          title: "Frequently Asked Questions | aiplagreport",
           description:
-            "Find answers to common questions about CheckTurnitin, an online tool for checking Turnitin reports with accuracy.",
+            "Find answers to common questions about aiplagreport, an online tool for checking Turnitin reports with accuracy.",
           images: [
             {
               url: "/assets/images/faq.png",
               width: 1200,
               height: 630,
-              alt: "CheckTurnitin - FAQ Section",
+              alt: "aiplagreport - FAQ Section",
             },
           ],
         }}
         twitter={{
-          handle: "@checkturnitin",
-          site: "@checkturnitin",
+          handle: "@aiplagreport",
+          site: "@aiplagreport",
           cardType: "summary_large_image",
         }}
       />
@@ -93,9 +93,9 @@ export function FAQSection() {
 const faqData = [
   {
     id: 1,
-    question: "What is CheckTurnitin?",
+    question: "What is aiplagreport?",
     answer:
-      "CheckTurnitin is an online tool that allows users to check Turnitin similarity reports with accuracy and ease.",
+      "aiplagreport is an online tool that allows users to check Turnitin similarity reports with accuracy and ease.",
   },
   {
     id: 2,
@@ -107,23 +107,23 @@ const faqData = [
     id: 3,
     question: "Will my document be saved to Turnitin?",
     answer:
-      "No, CheckTurnitin does not save your document to Turnitin. Your file remains private and secure.",
+      "No, aiplagreport does not save your document to Turnitin. Your file remains private and secure.",
   },
   {
     id: 4,
-    question: "Is CheckTurnitin free to use?",
+    question: "Is aiplagreport free to use?",
     answer:
-      "CheckTurnitin offers both free and premium plans, allowing users to choose the best option for their needs.",
+      "aiplagreport offers both free and premium plans, allowing users to choose the best option for their needs.",
   },
   {
     id: 5,
-    question: "How accurate is CheckTurnitin?",
+    question: "How accurate is aiplagreport?",
     answer:
-      "CheckTurnitin provides highly accurate plagiarism reports by integrating with Turnitin's official system.",
+      "aiplagreport provides highly accurate plagiarism reports by integrating with Turnitin's official system.",
   },
   {
     id: 6,
-    question: "Is my data safe with CheckTurnitin?",
+    question: "Is my data safe with aiplagreport?",
     answer:
       "Yes, we prioritize security and do not store your uploaded files. Your privacy is our top concern.",
   },
@@ -131,7 +131,7 @@ const faqData = [
     id: 7,
     question: "Can I check multiple files at once?",
     answer:
-      "Yes, CheckTurnitin allows bulk uploads for users who need to check multiple documents efficiently.",
+      "Yes, aiplagreport allows bulk uploads for users who need to check multiple documents efficiently.",
   },
 ];
 

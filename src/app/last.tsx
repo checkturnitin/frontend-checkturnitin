@@ -51,7 +51,7 @@ const CenteredFooter: React.FC = () => {
         animate="visible"
       >
         <motion.div variants={itemVariants} className="text-center mb-8">
-          <img src="/assets/images/checkturnitin.svg" alt="CheckTurnitin Logo" className="mx-auto mb-4 h-12" />
+          <img src="/assets/images/checkturnitin.svg" alt="aiplagreport Logo" className="mx-auto mb-4 h-12" />
           <h2 className="text-2xl font-bold text-primary">Check For Plagiarism and AI</h2>
         </motion.div>
 
@@ -77,10 +77,10 @@ const CenteredFooter: React.FC = () => {
 
         <motion.div variants={itemVariants} className="text-center mb-8">
           <a
-            href="mailto:contact@checkturnitin.com"
+            href="mailto:contact@aiplagreport.com"
             className="text-primary hover:text-primary/80 transition-colors duration-300"
           >
-            contact@checkturnitin.com
+            contact@aiplagreport.com
           </a>
         </motion.div>
 
@@ -99,7 +99,7 @@ const CenteredFooter: React.FC = () => {
             </a>
           </div>
           <p className="mt-4">
-            © CheckTurnitin {new Date().getFullYear()}. Designed with ❤️ by CheckTurnitin Team. Based in Kathmandu, Nepal.
+            © aiplagreport {new Date().getFullYear()}. Designed with ❤️ by aiplagreport Team. Based in Kathmandu, Nepal.
           </p>
         </motion.div>
       </motion.div>

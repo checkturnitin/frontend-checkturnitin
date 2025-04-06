@@ -15,11 +15,11 @@ const inter = Inter({
 
 // Metadata configuration
 export const metadata: Metadata = {
-  metadataBase: new URL('https://checkturnitin.com'),
+  metadataBase: new URL('https://Aiplagreport.com'),
   keywords: defaultSEOConfig.additionalMetaTags?.find(tag => tag.name === 'keywords')?.content,
-  authors: [{ name: 'checkturnitin' }],
-  creator: 'checkturnitin',
-  publisher: 'checkturnitin',
+  authors: [{ name: 'Aiplagreport' }],
+  creator: 'Aiplagreport',
+  publisher: 'Aiplagreport',
   robots: {
     index: true,
     follow: true,
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://checkturnitin.com',
+    canonical: 'https://Aiplagreport.com',
   },
 
 
@@ -76,19 +76,19 @@ export default function RootLayout({ children }: RootLayoutProps) {
           "@type": "ListItem",
           "position": 1,
           "name": "Home",
-          "item": "https://checkturnitin.com/",
+          "item": "https://Aiplagreport.com/",
         },
         {
           "@type": "ListItem",
           "position": 2,
           "name": "Pricing",
-          "item": "https://checkturnitin.com/pricing",
+          "item": "https://Aiplagreport.com/pricing",
         },
         {
           "@type": "ListItem",
           "position": 3,
           "name": "Earn",
-          "item": "https://checkturnitin.com/earn",
+          "item": "https://Aiplagreport.com/earn",
         },
       ],
     }),

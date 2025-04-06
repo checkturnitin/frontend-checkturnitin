@@ -135,39 +135,39 @@ export default function Home() {
         <head>
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>CheckTurnitin - Reliable Turnitin Check & Plagiarism Detection</title>
+        <title>Aiplagreport - Reliable Turnitin Check & Plagiarism Detection</title>
         <meta
           name="description"
-          content="Ensure your content is plagiarism-free with CheckTurnitin. Trusted by educators and institutions for accurate Turnitin checks and comprehensive plagiarism detection."
+          content="Ensure your content is plagiarism-free with Aiplagreport. Trusted by educators and institutions for accurate Turnitin checks and comprehensive plagiarism detection."
         />
-        <link rel="canonical" href="https://checkturnitin.com/" />
+        <link rel="canonical" href="https://Aiplagreport.com/" />
   
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="en_US" />
-        <meta property="og:url" content="https://checkturnitin.com/" />
-        <meta property="og:site_name" content="CheckTurnitin" />
-        <meta property="og:title" content="CheckTurnitin - Reliable Turnitin Check | Trusted by Educators" />
+        <meta property="og:url" content="https://Aiplagreport.com/" />
+        <meta property="og:site_name" content="Aiplagreport" />
+        <meta property="og:title" content="Aiplagreport - Reliable Turnitin Check | Trusted by Educators" />
         <meta
           property="og:description"
           content="Ensure your content is plagiarism-free with our reliable Turnitin check platform. Trusted by educators and institutions for accurate plagiarism detection and comprehensive reports."
         />
-        <meta property="og:image" content="https://checkturnitin.com/assets/images/og-image.png" />
-        <meta property="og:image:secure_url" content="https://checkturnitin.com/assets/images/og-image.png" />
-        <meta property="og:image:alt" content="CheckTurnitin - Reliable Turnitin Check Platform" />
-        <meta property="og:image" content="https://checkturnitin.com/assets/images/og-square.png" />
-        <meta property="og:image:alt" content="CheckTurnitin Logo" />
+        <meta property="og:image" content="https://Aiplagreport.com/assets/images/og-image.png" />
+        <meta property="og:image:secure_url" content="https://aiplagreport.com/assets/images/og-image.png" />
+        <meta property="og:image:alt" content="aiplagreport - Reliable Turnitin Check Platform" />
+        <meta property="og:image" content="https://aiplagreport.com/assets/images/og-square.png" />
+        <meta property="og:image:alt" content="aiplagreport Logo" />
   
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@checkturnitin" />
-        <meta name="twitter:handle" content="@checkturnitin" />
-        <meta name="twitter:title" content="CheckTurnitin - Reliable Turnitin Check | Trusted by Educators" />
+        <meta name="twitter:site" content="@aiplagreport" />
+        <meta name="twitter:handle" content="@aiplagreport" />
+        <meta name="twitter:title" content="aiplagreport - Reliable Turnitin Check | Trusted by Educators" />
         <meta
           name="twitter:description"
           content="Ensure your content is plagiarism-free with our reliable Turnitin check platform. Trusted by educators and institutions for accurate plagiarism detection and comprehensive reports."
         />
-        <meta name="twitter:image" content="https://checkturnitin.com/assets/images/og-image.png" />
+        <meta name="twitter:image" content="https://aiplagreport.com/assets/images/og-image.png" />
   
-        <meta name="apple-mobile-web-app-title" content="CheckTurnitin" />
+        <meta name="apple-mobile-web-app-title" content="aiplagreport" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="theme-color" content="#000000" />
   
@@ -186,19 +186,19 @@ export default function Home() {
                 "@type": "ListItem",
                 "position": 1,
                 "name": "Home",
-                "item": "https://checkturnitin.com/"
+                "item": "https://aiplagreport.com/"
               },
               {
                 "@type": "ListItem",
                 "position": 2,
                 "name": "Pricing",
-                "item": "https://checkturnitin.com/pricing"
+                "item": "https://aiplagreport.com/pricing"
               },
               {
                 "@type": "ListItem",
                 "position": 3,
                 "name": "Earn",
-                "item": "https://checkturnitin.com/earn"
+                "item": "https://aiplagreport.com/earn"
               },
             ]
           })}
@@ -209,11 +209,11 @@ export default function Home() {
         theme === "dark" ? "bg-black" : "bg-[#f8f8f8]"
       }`}
     >
-      {/* CheckTurnitin Logo with Animation */}
+      {/* aiplagreport Logo with Animation */}
       <div className="transition-transform transform hover:scale-110 animate-bounce">
         <Image
           src="/assets/logos/checkturnitin.svg"
-          alt="CheckTurnitin Logo"
+          alt="aiplagreport Logo"
           width={100}
           height={100}
           className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20"
@@ -231,39 +231,39 @@ export default function Home() {
     <head>
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>CheckTurnitin - Reliable Turnitin Check & Plagiarism Detection</title>
+      <title>aiplagreport - Reliable Turnitin Check & Plagiarism Detection</title>
       <meta
         name="description"
-        content="Ensure your content is plagiarism-free with CheckTurnitin. Trusted by educators and institutions for accurate Turnitin checks and comprehensive plagiarism detection."
+        content="Ensure your content is plagiarism-free with aiplagreport. Trusted by educators and institutions for accurate Turnitin checks and comprehensive plagiarism detection."
       />
-      <link rel="canonical" href="https://checkturnitin.com/" />
+      <link rel="canonical" href="https://aiplagreport.com/" />
 
       <meta property="og:type" content="website" />
       <meta property="og:locale" content="en_US" />
-      <meta property="og:url" content="https://checkturnitin.com/" />
-      <meta property="og:site_name" content="CheckTurnitin" />
-      <meta property="og:title" content="CheckTurnitin - Reliable Turnitin Check | Trusted by Educators" />
+      <meta property="og:url" content="https://aiplagreport.com/" />
+      <meta property="og:site_name" content="aiplagreport" />
+      <meta property="og:title" content="aiplagreport - Reliable Turnitin Check | Trusted by Educators" />
       <meta
         property="og:description"
         content="Ensure your content is plagiarism-free with our reliable Turnitin check platform. Trusted by educators and institutions for accurate plagiarism detection and comprehensive reports."
       />
-      <meta property="og:image" content="https://checkturnitin.com/assets/images/og-image.png" />
-      <meta property="og:image:secure_url" content="https://checkturnitin.com/assets/images/og-image.png" />
-      <meta property="og:image:alt" content="CheckTurnitin - Reliable Turnitin Check Platform" />
-      <meta property="og:image" content="https://checkturnitin.com/assets/images/og-square.png" />
-      <meta property="og:image:alt" content="CheckTurnitin Logo" />
+      <meta property="og:image" content="https://aiplagreport.com/assets/images/og-image.png" />
+      <meta property="og:image:secure_url" content="https://aiplagreport.com/assets/images/og-image.png" />
+      <meta property="og:image:alt" content="aiplagreport - Reliable Turnitin Check Platform" />
+      <meta property="og:image" content="https://aiplagreport.com/assets/images/og-square.png" />
+      <meta property="og:image:alt" content="aiplagreport Logo" />
 
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@checkturnitin" />
-      <meta name="twitter:handle" content="@checkturnitin" />
-      <meta name="twitter:title" content="CheckTurnitin - Reliable Turnitin Check | Trusted by Educators" />
+      <meta name="twitter:site" content="@aiplagreport" />
+      <meta name="twitter:handle" content="@aiplagreport" />
+      <meta name="twitter:title" content="aiplagreport - Reliable Turnitin Check | Trusted by Educators" />
       <meta
         name="twitter:description"
         content="Ensure your content is plagiarism-free with our reliable Turnitin check platform. Trusted by educators and institutions for accurate plagiarism detection and comprehensive reports."
       />
-      <meta name="twitter:image" content="https://checkturnitin.com/assets/images/og-image.png" />
+      <meta name="twitter:image" content="https://aiplagreport.com/assets/images/og-image.png" />
 
-      <meta name="apple-mobile-web-app-title" content="CheckTurnitin" />
+      <meta name="apple-mobile-web-app-title" content="aiplagreport" />
       <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="theme-color" content="#000000" />
 
@@ -282,19 +282,19 @@ export default function Home() {
               "@type": "ListItem",
               "position": 1,
               "name": "Home",
-              "item": "https://checkturnitin.com/"
+              "item": "https://aiplagreport.com/"
             },
             {
               "@type": "ListItem",
               "position": 2,
               "name": "Pricing",
-              "item": "https://checkturnitin.com/pricing"
+              "item": "https://aiplagreport.com/pricing"
             },
             {
               "@type": "ListItem",
               "position": 3,
               "name": "Earn",
-              "item": "https://checkturnitin.com/earn"
+              "item": "https://aiplagreport.com/earn"
             },
           ]
         })}

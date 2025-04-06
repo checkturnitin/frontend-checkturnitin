@@ -5,18 +5,18 @@ const defaultSEOConfig: DefaultSeoProps = {
   titleTemplate: "%s | Aiplagreport",
   description: 
      "Ensure your content is plagiarism-free with Aiplagreport. Trusted by educators and institutions for accurate Turnitin checks and comprehensive plagiarism detection.",
-  canonical: "https://checkturnitin.com/",
+  canonical: "https://aiplagreport.com/",
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://checkturnitin.com/",
+    url: "https://aiplagreport.com/",
     siteName: "Aiplagreport",
     title: "Aiplagreport - Reliable Turnitin Check | Trusted by Educators",
     description: 
       "Ensure your content is plagiarism-free with our reliable Turnitin check platform. Trusted by educators and institutions for accurate plagiarism detection and comprehensive reports.",
       images: [
         {
-          url: "https://checkturnitin.com/assets/images/og-image.png", // Must be absolute URL
+          url: "https://aiplagreport.com/assets/images/og-image.png", // Must be absolute URL
           width: 1200,
           height: 630,
           alt: "Aiplagreport - Reliable Turnitin Check Platform",
@@ -24,7 +24,7 @@ const defaultSEOConfig: DefaultSeoProps = {
         },
         {
           // Square image for platforms that prefer it (e.g., WhatsApp)
-          url: "https://checkturnitin.com/assets/images/og-square.png",
+          url: "https://aiplagreport.com/assets/images/og-square.png",
           width: 600,
           height: 600,
           alt: "Aiplagreport Logo",
@@ -33,8 +33,8 @@ const defaultSEOConfig: DefaultSeoProps = {
       ],
     },
     twitter: {
-      handle: "@checkturnitin",
-      site: "@checkturnitin",
+      handle: "@aiplagreport",
+      site: "@aiplagreport",
       cardType: "summary_large_image",
     },
     additionalMetaTags: [
@@ -44,11 +44,11 @@ const defaultSEOConfig: DefaultSeoProps = {
       },
       {
         property: "og:image:secure_url",
-        content: "https://checkturnitin.com/assets/images/og-image.png",
+        content: "https://aiplagreport.com/assets/images/og-image.png",
       },
       {
         property: "og:video:secure_url",
-        content: "https://checkturnitin.com/assets/videos/demo.mp4",
+        content: "https://aiplagreport.com/assets/videos/demo.mp4",
       },
       {
         property: "og:image:alt",
@@ -68,7 +68,7 @@ const defaultSEOConfig: DefaultSeoProps = {
       },
       {
         name: "thumbnail",
-        content: "https://checkturnitin.com/assets/images/og-image.png",
+        content: "https://aiplagreport.com/assets/images/og-image.png",
       },
       {
         property: "fb:app_id",
@@ -157,19 +157,19 @@ const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "Aiplagreport",
-  url: "https://checkturnitin.com",
+  url: "https://aiplagreport.com",
   logo: "/assets/images/logo.png",
   sameAs: [
-    "https://twitter.com/checkturnitin",
-    "https://www.linkedin.com/company/checkturnitin",
-    "https://www.youtube.com/checkturnitin",
-    "https://www.facebook.com/checkturnitin",
+    "https://twitter.com/aiplagreport",
+    "https://www.linkedin.com/company/aiplagreport",
+    "https://www.youtube.com/aiplagreport",
+    "https://www.facebook.com/aiplagreport",
   ],
   contactPoint: {
     "@type": "ContactPoint",
     contactType: "customer service",
     availableLanguage: ["English", "Nepali"],
-    email: "support@checkturnitin.com",
+    email: "support@aiplagreport.com",
     telephone: "+977-9767473470",
   },
 };
@@ -177,12 +177,12 @@ const organizationJsonLd = {
 const socialProfileJsonLd: SocialProfileJsonLdProps = {
   type: "Organization",
   name: "Aiplagreport",
-  url: "https://checkturnitin.com",
+  url: "https://aiplagreport.com",
   sameAs: [
-    "https://twitter.com/checkturnitin",
-    "https://www.linkedin.com/company/checkturnitin",
-    "https://www.youtube.com/checkturnitin",
-    "https://www.facebook.com/checkturnitin",
+    "https://twitter.com/aiplagreport",
+    "https://www.linkedin.com/company/aiplagreport",
+    "https://www.youtube.com/aiplagreport",
+    "https://www.facebook.com/aiplagreport",
   ],
 };
 
@@ -191,17 +191,17 @@ const breadcrumbJsonLd: BreadCrumbJsonLdProps = {
     {
       position: 1,
       name: "Home",
-      item: "https://checkturnitin.com/",
+      item: "https://aiplagreport.com/",
     },
     {
       position: 2,
       name: "Pricing",
-      item: "https://checkturnitin.com/pricing",
+      item: "https://aiplagreport.com/pricing",
     },
     { 
       position: 3, 
       name: "Earn", 
-      item: "https://checkturnitin.com/earn",
+      item: "https://aiplagreport.com/earn",
     },
   ],
 };

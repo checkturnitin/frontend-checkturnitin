@@ -112,13 +112,13 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
             <Link href="/" className="flex items-center">
               <Image
                 src="/assets/images/checkturnitin.svg"
-                alt="CheckTurnitin Logo"
+                alt="aiplagreport Logo"
                 width={40}
                 height={40}
                 className="mr-2"
               />
               <h1 className="text-xl font-bold tracking-tight text-gray-800 dark:text-white">
-                CheckTurnitin
+                aiplagreport
               </h1>
             </Link>
           </div>
@@ -213,7 +213,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                 <div>
                   <Image
                     src="/assets/images/checkturnitin.svg"
-                    alt="CheckTurnitin Logo"
+                    alt="aiplagreport Logo"
                     width={32}
                     height={32}
                   />
@@ -247,7 +247,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                     Discord
                   </a>
                   <a
-                    href="https://checkturnitin.com/telegram"
+                    href="https://aiplagreport.com/telegram"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-base font-medium text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300"

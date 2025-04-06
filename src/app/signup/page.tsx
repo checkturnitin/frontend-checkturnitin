@@ -195,7 +195,7 @@ export default function Home() {
             
             <div className="flex justify-center"> {/* Container to center the Google auth button */}
 
-            <GoogleOAuthProvider clientId="602949390183-0l5vs84jrsbvg5s4q5mqs7krg1bt9afd.apps.googleusercontent.com">
+            <GoogleOAuthProvider clientId="602949390183-ojddmp4tgg8tslj9oqd7orv8otekopdr.apps.googleusercontent.com">
               <GoogleLogin
                 onSuccess={handleGoogleSuccess}
                 onError={handleGoogleError}
