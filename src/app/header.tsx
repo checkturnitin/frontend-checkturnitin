@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { serverURL } from "@/utils/utils";
 import Image from "next/image";
 import { Toggle } from "@/components/ui/toggle";
+import { FiDollarSign } from "react-icons/fi";
 
 interface HeaderProps {
   onShowSignupForm?: () => void;
@@ -27,21 +28,23 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
-  const [rewriteCount, setRewriteCount] = useState<number>(-1);``
+  const [rewriteCount, setRewriteCount] = useState<number>(-1);
   const [dailyFreeCredits, setDailyFreeWords] = useState<number>(0);
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Load theme from localStorage on component mount
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
-    if (savedTheme === "dark") {
-      setIsDarkMode(true);
-      document.body.classList.add("dark");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDark = savedTheme === "dark" || (!savedTheme && prefersDark);
+    setIsDarkMode(isDark);
+    if (isDark) {
+      document.documentElement.classList.add("dark");
     } else {
-      setIsDarkMode(false);
-      document.body.classList.remove("dark");
+      document.documentElement.classList.remove("dark");
     }
   }, []);
 
@@ -50,8 +53,30 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
     const newTheme = !isDarkMode;
     setIsDarkMode(newTheme);
     localStorage.setItem("theme", newTheme ? "dark" : "light");
-    document.body.classList.toggle("dark", newTheme);
+    if (newTheme) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
   };
+
+  // Listen for system theme changes
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    const handleChange = (e: MediaQueryListEvent) => {
+      if (!localStorage.getItem("theme")) {
+        setIsDarkMode(e.matches);
+        if (e.matches) {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      }
+    };
+
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -65,8 +90,6 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-
 
   const getUser = async () => {
     const token = localStorage.getItem("token");
@@ -93,12 +116,33 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
     getUser();
   }, []);
 
-  const toggleDropdown = () => {
+  const handleMouseEnter = () => {
     if (isLoggedIn) {
+      // Clear any existing timeout to prevent closing
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
       getUser();
-      setIsDropdownOpen(!isDropdownOpen);
+      setIsDropdownOpen(true);
     }
   };
+
+  const handleMouseLeave = () => {
+    // Set a longer timeout to give more time to move to the dropdown
+    timeoutRef.current = setTimeout(() => {
+      setIsDropdownOpen(false);
+    }, 300);
+  };
+
+  // Clean up timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -158,17 +202,17 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
           </nav>
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
             {/* Theme toggle button */}
-            <Toggle
-              aria-label="Toggle theme"
+            <button
               onClick={toggleTheme}
               className="ml-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-150 ease-in-out"
+              aria-label="Toggle theme"
             >
               {isDarkMode ? (
-                <Sun className="h-5 w-5" />
+                <Sun className="h-5 w-5 text-gray-800 dark:text-gray-200" />
               ) : (
-                <Moon className="h-5 w-5" />
+                <Moon className="h-5 w-5 text-gray-800 dark:text-gray-200" />
               )}
-            </Toggle>
+            </button>
             {!isLoggedIn ? (
               <button
                 onClick={onShowSignupForm}
@@ -177,17 +221,46 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                 Try for Free
               </button>
             ) : (
-              <div className="relative" ref={dropdownRef}>
+              <div 
+                className="relative" 
+                ref={dropdownRef}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
                 <button
-                  onClick={toggleDropdown}
                   className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
                 >
                   {user?.name || "Dashboard"}
                 </button>
                 {isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5">
+                  <div 
+                    className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5"
+                    onMouseEnter={() => {
+                      // Clear any existing timeout when hovering over dropdown
+                      if (timeoutRef.current) {
+                        clearTimeout(timeoutRef.current);
+                        timeoutRef.current = null;
+                      }
+                      setIsDropdownOpen(true);
+                    }}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                      <p className="text-sm font-medium text-gray-900 dark:text-white">
+                        Plan: {user?.planType?.toUpperCase() || 'BASIC'}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">
+                        Credits: {user?.credits || 0}
+                      </p>
+                    </div>
                     <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Dashboard</Link>
                     <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Profile</Link>
+                    <Link href="/pricing" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <span className="flex items-center">
+                        <FiDollarSign className="mr-2" />
+                        Add Credits
+                      </span>
+                    </Link>
                     <button
                       onClick={() => {
                         localStorage.clear();
@@ -259,6 +332,17 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
               </div>
             </div>
             <div className="py-6 px-5 space-y-6">
+              {/* Add plan and credits info for mobile */}
+              {isLoggedIn && (
+                <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                  <p className="text-sm font-medium text-gray-900 dark:text-white">
+                    Plan: {user?.planType?.toUpperCase() || 'BASIC'}
+                  </p>
+                  <p className="text-sm text-gray-600 dark:text-gray-300">
+                    Credits: {user?.credits || 0}
+                  </p>
+                </div>
+              )}
               {/* Theme toggle for mobile */}
               <Toggle
                 aria-label="Toggle theme"
@@ -287,7 +371,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                   <button
                     onClick={() => {
                       setIsMobileMenuOpen(false);
-                      toggleDropdown();
+                      handleMouseEnter();
                     }}
                     className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                   >

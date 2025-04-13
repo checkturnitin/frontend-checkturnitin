@@ -1,4 +1,3 @@
-
 import './globals.css';
 import { appName } from '@/utils/utils';
 import { Inter } from 'next/font/google';
@@ -110,20 +109,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
 
       </head>
       <body className={`${inter.className} antialiased`}>
-
-      {/* <noscript>
-          <iframe
-            src="https://www.googletagmanager.com/ns.html?id=GTM-57GR72GV"
-            height="0"
-            width="0"
-            style={{ display: 'none', visibility: 'hidden' }}
-          />
-        </noscript> */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               try {
-                document.documentElement.dataset.theme = 'dark';
+                if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark');
+                }
               } catch (_) {}
             `,
           }}

@@ -1,69 +1,74 @@
-import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useEffect } from "react";
+import { X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface CustomModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  heading?: string; // Optional heading for the modal
-  width?: string; // Optional custom width
-  height?: string; // Optional custom height
+  width?: string;
+  heading?: string;
 }
 
 export const CustomModal: React.FC<CustomModalProps> = ({
   isOpen,
   onClose,
   children,
+  width = "max-w-2xl",
   heading,
-  width = "90%",
-  height = "90vh",
 }) => {
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen, onClose]);
+
+  if (!isOpen) return null;
+
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <motion.div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-          onClick={onClose}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div
+          className={cn(
+            "relative w-full rounded-lg bg-white shadow-lg dark:bg-gray-900",
+            "transform transition-all duration-200 ease-in-out",
+            "animate-in fade-in-0 zoom-in-95",
+            width
+          )}
         >
-          <motion.div
-            className="bg-white dark:bg-gray-800 rounded-lg p-6 flex flex-col shadow-lg"
-            onClick={(e) => e.stopPropagation()}
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -50, opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            style={{ width: width, height: height }}
-          >
-            <div className="flex justify-between items-center mb-4">
-              {heading && <h2 className="text-2xl font-bold">{heading}</h2>}
+          {/* Header */}
+          {heading && (
+            <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4 dark:border-gray-700">
+              <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+                {heading}
+              </h2>
               <button
                 onClick={onClose}
-                className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                className="rounded-full p-1 text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
+                <X className="h-5 w-5" />
               </button>
             </div>
-            <div className="flex-grow overflow-y-auto">{children}</div>
-          </motion.div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+          )}
+
+          {/* Content */}
+          <div className="max-h-[80vh] overflow-y-auto p-6">
+            {children}
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };

@@ -83,6 +83,46 @@ export default function ProfilePage() {
     useState<ExpirationCheck | null>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [theme, setTheme] = useState<string>("light");
+
+  // Initialize theme
+  useEffect(() => {
+    // Check if we're in the browser
+    if (typeof window !== "undefined") {
+      const storedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      
+      // Set dark theme if explicitly set to 'dark' or if system prefers dark and no theme is stored
+      const isDark = storedTheme === "dark" || (!storedTheme && prefersDark);
+      setTheme(isDark ? "dark" : "light");
+
+      // Apply theme to document
+      if (isDark) {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+
+      // Listen for theme changes
+      const handleStorageChange = () => {
+        const updatedTheme = localStorage.getItem("theme");
+        const newIsDark = updatedTheme === "dark";
+        setTheme(newIsDark ? "dark" : "light");
+
+        if (newIsDark) {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+      };
+
+      window.addEventListener("storage", handleStorageChange);
+      
+      return () => {
+        window.removeEventListener("storage", handleStorageChange);
+      };
+    }
+  }, []);
 
   const deleteAllChecks = async () => {
     setIsDeleting(true);
@@ -332,7 +372,7 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen w-full bg-gray-50 text-gray-900">
+      <div className="flex items-center justify-center h-screen w-full bg-white dark:bg-black text-gray-900 dark:text-gray-100">
         Loading...
       </div>
     );
@@ -340,7 +380,7 @@ export default function ProfilePage() {
 
   if (!user) {
     return (
-      <div className="text-center text-gray-400">No user data available.</div>
+      <div className="text-center text-gray-400 dark:text-gray-600">No user data available.</div>
     );
   }
 
@@ -349,7 +389,7 @@ export default function ProfilePage() {
   return (
     <>
       <Header />
-      <div className="bg-gray-50 dark:bg-black min-h-screen font-sans text-gray-900 dark:text-gray-100">
+      <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-gray-100 transition-colors duration-200">
         <main className="pt-9 pb-8 overflow-y-auto">
           <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-20">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">

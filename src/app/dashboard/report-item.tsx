@@ -7,7 +7,17 @@ import { CustomModal } from "./custom-modal";
 import dynamic from "next/dynamic";
 const PDFViewer = dynamic(() => import("./pdf-viewer").then(mod => mod.default), { ssr: false });
 import { Skeleton } from "@/components/ui/skeleton";
-import { Badge } from "@/components/ui/badge"; // Add the Badge import
+import { Badge } from "@/components/ui/badge";
+import { FiDownload, FiEye, FiTrash2 } from "react-icons/fi";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface ReportItemProps {
   report: {
@@ -31,6 +41,7 @@ interface ReportItemProps {
   onDownload: (fileId: string) => Promise<void>;
   onViewTurnitinReports: (reportId: string) => void;
   onDownloadTurnitinReports: (reportId: string) => void;
+  onDelete: (checkId: string) => void;
 }
 
 const calculateProgressAndTimeLeft = (deliveryTime: string) => {
@@ -47,7 +58,10 @@ const calculateProgressAndTimeLeft = (deliveryTime: string) => {
     (timeRemainingMs % (1000 * 60 * 60)) / (1000 * 60)
   );
 
-  return { progress, hoursLeft, minutesLeft, timeRemainingMs };
+  // Check if delivery time has been exceeded by 20 minutes
+  const isExceededBy20Minutes = timeRemainingMs < -20 * 60 * 1000;
+
+  return { progress, hoursLeft, minutesLeft, timeRemainingMs, isExceededBy20Minutes };
 };
 
 const isRecent = (deliveryTime: string) => {
@@ -61,22 +75,25 @@ export const ReportItem: React.FC<ReportItemProps> = ({
   onDownload,
   onViewTurnitinReports,
   onDownloadTurnitinReports,
+  onDelete,
 }) => {
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [timeLeft, setTimeLeft] = useState({
     hoursLeft: 0,
     minutesLeft: 0,
     timeRemainingMs: 0,
+    isExceededBy20Minutes: false,
   });
 
   useEffect(() => {
     const updateProgress = () => {
-      const { progress, hoursLeft, minutesLeft, timeRemainingMs } =
+      const { progress, hoursLeft, minutesLeft, timeRemainingMs, isExceededBy20Minutes } =
         calculateProgressAndTimeLeft(report.deliveryTime);
       setProgress(progress);
-      setTimeLeft({ hoursLeft, minutesLeft, timeRemainingMs });
+      setTimeLeft({ hoursLeft, minutesLeft, timeRemainingMs, isExceededBy20Minutes });
     };
 
     updateProgress(); // Initialize immediately
@@ -94,64 +111,85 @@ export const ReportItem: React.FC<ReportItemProps> = ({
   const isTurnitinReportAvailable = !!report.reportId;
 
   return (
-    <div className="mb-2 p-4 bg-gray-100 dark:bg-gray-900 rounded-lg shadow-sm">
-      <div className="flex justify-between">
-        <div>
-          <p className="font-bold text-lg flex items-center">
-            {report.fileId.originalFileName}{" "}
-            {isRecent(report.deliveryTime) && <Badge className="ml-2">Recent</Badge>}
-          </p>
-          <p className="text-sm text-gray-500">Stored Filename: {report.fileId.storedFileName}</p>
-          <p className="text-xs text-gray-600 dark:text-gray-400">
-            Check ID: {report.checkId.slice(0, 8)}...
-          </p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            Status:{" "}
-            <span
-              className={`font-medium ${
-                report.status === "completed"
-                  ? "text-green-600 dark:text-green-400"
-                  : timeLeft.timeRemainingMs < 0
-                  ? "text-red-600 dark:text-red-400"
-                  : "text-yellow-600 dark:text-yellow-400"
-              }`}
-            >
-              {report.status === "completed" ? "Completed" : report.status}
-            </span>
-          </p>
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            Delivery: {new Date(report.deliveryTime).toLocaleString()}
-          </p>
-          <div className="mt-2 flex space-x-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setIsViewModalOpen(true)}
-              className="text-xs"
-            >
-              <Eye className="h-3 w-3 mr-1" />
-              View Initial
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleDownload}
-              disabled={isLoading}
-              className="text-xs"
-            >
-              <Download className="h-3 w-3 mr-1" />
-              {isLoading ? "Downloading..." : "Download Initial"}
-            </Button>
-          </div>
-        </div>
+    <Card className="mb-4 transition-all duration-200 hover:shadow-lg dark:bg-gray-800/50">
+      <CardContent className="p-6">
+        <div className="flex flex-col md:flex-row justify-between gap-4">
+          <div className="space-y-3 flex-1">
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold text-lg flex items-center gap-2">
+                {report.fileId.originalFileName}
+                {isRecent(report.deliveryTime) && (
+                  <Badge variant="secondary" className="ml-2">Recent</Badge>
+                )}
+              </h3>
+              <Badge
+                variant={report.status === "completed" ? "default" : "outline"}
+                className={`${
+                  report.status === "completed"
+                    ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300"
+                    : timeLeft.timeRemainingMs < 0
+                    ? "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300"
+                    : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300"
+                }`}
+              >
+                {report.status === "completed" ? "Completed" : report.status}
+              </Badge>
+            </div>
 
-        <div className="flex flex-col items-end justify-between">
-          <div className="flex space-x-4">
-            {report.reportId?.reports ? (
-              <>
-                {report.reportId.reports.ai && (
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      AI Score:{" "}
+            <div className="space-y-1 text-sm text-gray-600 dark:text-gray-400">
+              <p>Stored Filename: {report.fileId.storedFileName}</p>
+              <p>Check ID: {report.checkId.slice(0, 8)}...</p>
+              <p>Delivery: {new Date(report.deliveryTime).toLocaleString()}</p>
+            </div>
+
+            {timeLeft.isExceededBy20Minutes && (
+              <div className="mt-2 p-3 bg-red-50 dark:bg-red-900/20 rounded-md border border-red-200 dark:border-red-800">
+                <p className="text-sm text-red-600 dark:text-red-400 flex items-center gap-2">
+                  <span className="text-lg">⚠️</span>
+                  Delivery time exceeded by more than 20 minutes. Please contact support for assistance.
+                </p>
+              </div>
+            )}
+
+            <div className="flex flex-wrap gap-2 pt-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsViewModalOpen(true)}
+                className="text-xs"
+              >
+                <Eye className="h-3 w-3 mr-1" />
+                View Initial
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleDownload}
+                disabled={isLoading}
+                className="text-xs"
+              >
+                <Download className="h-3 w-3 mr-1" />
+                {isLoading ? "Downloading..." : "Download Initial"}
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setIsDeleteDialogOpen(true)}
+                className="text-xs text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+              >
+                <FiTrash2 className="h-3 w-3 mr-1" />
+                Delete
+              </Button>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-end justify-between gap-4">
+            <div className="flex flex-col gap-2">
+              {report.reportId?.reports ? (
+                <>
+                  {report.reportId.reports.ai && (
+                    <div className="text-sm">
+                      <span className="text-gray-600 dark:text-gray-400">AI Score: </span>
                       <span
                         className={`font-medium ${
                           report.reportId.reports.ai.metadata.score === "0" || report.reportId.reports.ai.metadata.score === "-1"
@@ -161,72 +199,67 @@ export const ReportItem: React.FC<ReportItemProps> = ({
                       >
                         {report.reportId.reports.ai.metadata.score === "-1" ? "0-20%" : `${report.reportId.reports.ai.metadata.score}%`}
                       </span>
-                    </p>
-                )}
-                {report.reportId.reports.plagiarism && (
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Plagiarism Score:{" "}
-                    <span
-                      className={`font-medium ${
-                      parseInt(report.reportId.reports.plagiarism.metadata.score) <= 15
-                        ? "text-green-600 dark:text-green-400"
-                        : "text-red-600 dark:text-red-400"
-                      }`}
-                    >
-                      {report.reportId.reports.plagiarism.metadata.score}%
-                    </span>
-                  </p>
-                )}
-              </>
-            ) : (
-              <div className="flex space-x-4">
-                <Skeleton className="h-4 w-20" />
-                <Skeleton className="h-4 w-20" />
-              </div>
-            )}
-          </div>
-          <div className="flex space-x-2 mt-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() =>
-                isTurnitinReportAvailable &&
-                onViewTurnitinReports(report.reportId!._id)
-              }
-              className="text-xs"
-              disabled={!isTurnitinReportAvailable}
-            >
-              <Eye className="h-3 w-3 mr-1" />
-              View Turnitin Reports
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() =>
-                isTurnitinReportAvailable &&
-                onDownloadTurnitinReports(report.reportId!._id)
-              }
-              className="text-xs"
-              disabled={!isTurnitinReportAvailable}
-            >
-              <Download className="h-3 w-3 mr-1" />
-              Download Turnitin Reports
-            </Button>
-          </div>
-        </div>
-      </div>
+                    </div>
+                  )}
+                  {report.reportId.reports.plagiarism && (
+                    <div className="text-sm">
+                      <span className="text-gray-600 dark:text-gray-400">Plagiarism Score: </span>
+                      <span
+                        className={`font-medium ${
+                          parseInt(report.reportId.reports.plagiarism.metadata.score) <= 15
+                            ? "text-green-600 dark:text-green-400"
+                            : "text-red-600 dark:text-red-400"
+                        }`}
+                      >
+                        {report.reportId.reports.plagiarism.metadata.score}%
+                      </span>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <div className="flex space-x-4">
+                  <Skeleton className="h-4 w-20" />
+                  <Skeleton className="h-4 w-20" />
+                </div>
+              )}
+            </div>
 
-      {report.status !== "completed" && (
-        <div className="mt-2">
-          <div className="w-full bg-gray-200 rounded-full h-1.5 dark:bg-gray-700">
-            <div
-              className="bg-blue-600 h-1.5 rounded-full"
-              style={{ width: `${progress}%` }}
-            ></div>
+            <div className="flex flex-col gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => isTurnitinReportAvailable && onViewTurnitinReports(report.reportId!._id)}
+                className="text-xs"
+                disabled={!isTurnitinReportAvailable}
+              >
+                <Eye className="h-3 w-3 mr-1" />
+                View Turnitin Reports
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => isTurnitinReportAvailable && onDownloadTurnitinReports(report.reportId!._id)}
+                className="text-xs"
+                disabled={!isTurnitinReportAvailable}
+              >
+                <Download className="h-3 w-3 mr-1" />
+                Download Turnitin Reports
+              </Button>
+            </div>
           </div>
-  
         </div>
-      )}
+
+        {report.status !== "completed" && (
+          <div className="mt-4">
+            <div className="w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700">
+              <div
+                className="bg-blue-600 h-2 rounded-full transition-all duration-500"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+          </div>
+        )}
+      </CardContent>
 
       <CustomModal
         isOpen={isViewModalOpen}
@@ -234,6 +267,34 @@ export const ReportItem: React.FC<ReportItemProps> = ({
       >
         <PDFViewer fileId={report.fileId._id} />
       </CustomModal>
-    </div>
+
+      <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <DialogContent className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50">
+          <DialogHeader>
+            <DialogTitle>Delete Check</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete this check? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setIsDeleteDialogOpen(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                onDelete(report.checkId);
+                setIsDeleteDialogOpen(false);
+              }}
+            >
+              Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </Card>
   );
 };

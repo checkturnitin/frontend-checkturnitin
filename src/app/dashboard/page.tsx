@@ -9,12 +9,13 @@ import { toast, Toaster } from "sonner";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Clock, CheckCircle, Eye } from "lucide-react";
+import { FileText, Clock, CheckCircle, Eye, Search, X } from "lucide-react";
 import Image from "next/image";
 import { ReportItem } from "./report-item";
 import { CustomModal } from "./custom-modal";
 import Link from "next/link";
 import dynamic from "next/dynamic";
+import { Input } from "@/components/ui/input";
 
 const PDFViewer = dynamic(
   () => import("./pdf-viewer").then((mod) => mod.default),
@@ -71,6 +72,13 @@ export default function Home() {
     number | null
   >(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [confirmationType, setConfirmationType] = useState<
+    "plagiarism" | "turnitin"
+  >("plagiarism");
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [checkToDelete, setCheckToDelete] = useState<string | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -390,98 +398,181 @@ export default function Home() {
   };
 
   const getEstimatedTime = () => {
-    switch (planType) {
-      case "basic":
-        return "0 - 15 min (default)";
-      case "pro":
-        return "0 - 5 hr";
-      case "pro+":
-        return "0 - 2 mins";
-      case "enterprise":
-        return "Enterprise priority";
-      default:
-        return "0 - 15 min (default)";
+    // If word count is more than 5000, set delivery time to 15 minutes
+    if (wordCount && wordCount > 5000) {
+      return "15 minutes";
     }
+
+    // For files with less than 5000 words, set delivery time to 2 minutes
+    return "2 minutes";
   };
 
   const filteredAllReports = [
     ...reports.pending,
     ...reports.processing,
     ...reports.completed,
-  ].filter((report) =>
-    report.fileId.originalFileName
-      .toLowerCase()
-      .includes(searchQuery.toLowerCase())
-  );
+  ].filter((report) => {
+    if (!searchQuery) return true;
+
+    const query = searchQuery.toLowerCase();
+    return (
+      report.fileId.originalFileName.toLowerCase().includes(query) ||
+      report.fileId.storedFileName.toLowerCase().includes(query)
+    );
+  });
+
+  const handleDeleteCheck = (checkId: string) => {
+    setCheckToDelete(checkId);
+    setIsDeleteModalOpen(true);
+  };
+
+  const confirmDeleteCheck = async () => {
+    if (!checkToDelete) return;
+
+    setIsDeleting(true);
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Authentication error. Please log in again.");
+        return;
+      }
+
+      await axios.delete(`${serverURL}/turnitin/check/${checkToDelete}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // Update the reports state by removing the deleted check
+      setReports((prevReports) => {
+        const newReports = { ...prevReports };
+        Object.keys(newReports).forEach((status) => {
+          newReports[status as keyof typeof newReports] = newReports[
+            status as keyof typeof newReports
+          ].filter((report) => report.checkId !== checkToDelete);
+        });
+        return newReports;
+      });
+
+      toast.success("Check deleted successfully");
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        toast.error(
+          `Failed to delete check: ${
+            error.response.data.message || "Something went wrong"
+          }`
+        );
+      } else {
+        toast.error("Failed to delete check");
+      }
+    } finally {
+      setIsDeleting(false);
+      setIsDeleteModalOpen(false);
+      setCheckToDelete(null);
+    }
+  };
+
+  const toggleSearch = () => {
+    setIsSearchActive(!isSearchActive);
+    if (isSearchActive) {
+      setSearchQuery("");
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 text-black dark:bg-black dark:text-white">
       <Header />
       <main className="flex-grow flex flex-col items-center justify-start px-4 py-8 mt-16">
         <div className="w-full max-w-3xl mx-auto">
-          <Card className="shadow-md">
-            <CardContent className="p-6">
-              <FileUpload
-                onChange={handleFileUpload}
-                accept=".pdf,.doc,.docx"
-                files={file ? [file] : []}
-              />
-              {file && (
-                <div className="mt-4">
-                  <h3 className="text-lg font-semibold mb-2">Uploaded File:</h3>
-                  <div className="flex items-center justify-between bg-gray-100 dark:bg-gray-800 p-2 rounded">
-                    <span>{file.name}</span>
-                    <div className="flex items-center space-x-4">
-                      {wordCountLoading ? (
-                        <span>Loading word count...</span>
-                      ) : (
-                        <span>Words: {wordCount}</span>
-                      )}
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handlePreview(file)}
-                      >
-                        <Eye className="h-4 w-4 mr-2" />
-                        Preview
-                      </Button>
-                      <Button variant="ghost" size="sm" onClick={removeFile}>
-                        Remove
-                      </Button>
+          <Card className="shadow-md hover:shadow-lg transition-all duration-300 bg-black dark:bg-black border border-gray-800">
+            <CardContent className="p-8">
+              <div className="space-y-6">
+                <FileUpload
+                  onChange={handleFileUpload}
+                  accept=".pdf,.doc,.docx"
+                  files={file ? [file] : []}
+                />
+
+                {file && (
+                  <div className="mt-6 bg-gray-900 rounded-lg p-4 border border-gray-800">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <FileText className="h-8 w-8 text-indigo-400" />
+                        <div>
+                          <h3 className="font-medium text-white">
+                            {file.name}
+                          </h3>
+                          {wordCountLoading ? (
+                            <p className="text-sm text-gray-400">
+                              Calculating word count...
+                            </p>
+                          ) : (
+                            <p className="text-sm text-gray-400">
+                              {wordCount} words
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-2">
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => handlePreview(file)}
+                          className="text-indigo-400 hover:text-indigo-300 hover:bg-gray-800"
+                        >
+                          <Eye className="h-4 w-4 mr-1" />
+                          Preview
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={removeFile}
+                          className="text-red-400 hover:text-red-300 hover:bg-gray-800"
+                        >
+                          Remove
+                        </Button>
+                      </div>
                     </div>
                   </div>
+                )}
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-400">
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-white">
+                      File Requirements
+                    </h4>
+                    <ul className="space-y-1">
+                      <li className="flex items-center">
+                        <CheckCircle className="h-4 w-4 mr-2 text-green-400" />
+                        File Size: Less than 100 MB
+                      </li>
+                      <li className="flex items-center">
+                        <CheckCircle className="h-4 w-4 mr-2 text-green-400" />
+                        Word Count: 300 - 30,000 words
+                      </li>
+                      <li className="flex items-center">
+                        <CheckCircle className="h-4 w-4 mr-2 text-green-400" />
+                        Page Limit: Less than 800 pages
+                      </li>
+                    </ul>
+                  </div>
+                  <div className="space-y-2">
+                    <h4 className="font-semibold text-white">
+                      Supported Formats
+                    </h4>
+                    <ul className="space-y-1">
+                      <li className="flex items-center">
+                        <CheckCircle className="h-4 w-4 mr-2 text-green-400" />
+                        PDF (.pdf)
+                      </li>
+                      <li className="flex items-center">
+                        <CheckCircle className="h-4 w-4 mr-2 text-green-400" />
+                        Microsoft Word (.doc, .docx)
+                      </li>
+                    </ul>
+                  </div>
                 </div>
-              )}
-              <div className="mt-4 text-sm text-gray-600 dark:text-gray-400">
-                <p>File Size: Files must be less than 100 MB.</p>
-                <p>Page Count: Submissions should not exceed 800 pages.</p>
-                <p>Word Count: Documents must contain at least 300 words.</p>
-                <p>
-                  <strong>Accepted File Types: .pdf, .docx</strong>
-                </p>
-                <p className="mt-2 text-green-500">
-                  Authentic Turnitin check provided. Both AI and Plagiarism 
-                  reports will be available in the completed section.
-                </p>
-                <p>
-                  Get 5 Free Credits by 
-                  {" "}
-                  <a
-                    href="https://discord.gg/QqqRdN9He3"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline font-medium hover:text-green-600 transition-colors"
-                  >
-                    joining our Discord server
-                  </a>
-                </p>
-                {/* make another p telling if your submisison if late than 10min your files have a problem join discord and open a ticket for support */}
-                <p className="mt-2 text-orange-500">
-                  If your submission is delayed by more than 10 minutes, please
-                  join our Discord and open a ticket for support.
-                </p>
-              </div>
-              <div className="mt-4 flex justify-end">
+
                 <Button
                   onClick={() => openConfirmation("turnitin")}
                   disabled={
@@ -490,13 +581,14 @@ export default function Home() {
                     wordCountLoading ||
                     (wordCount !== null && wordCount < 300)
                   }
-                  className="flex items-center space-x-2 bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 disabled:bg-indigo-400 transition-all"
+                  className="w-full bg-white hover:bg-gray-100 text-indigo-600 py-3 rounded-lg shadow-lg transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed text-lg font-medium border border-indigo-200"
                 >
                   <Image
                     src="/assets/logos/Turnitin_logo.svg"
                     alt="Turnitin Logo"
-                    width={20}
-                    height={20}
+                    width={24}
+                    height={24}
+                    className="mr-2"
                   />
                   <span>
                     {loading
@@ -504,6 +596,41 @@ export default function Home() {
                       : "Submit for AI & Plagiarism Report"}
                   </span>
                 </Button>
+
+                <div className="mt-4 p-4 bg-gradient-to-r from-indigo-900/50 to-purple-900/50 rounded-lg border border-indigo-800/50">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <span className="text-2xl">🎉</span>
+                      <div>
+                        <p className="text-white font-medium">
+                          Join our Discord channel and get{" "}
+                          <span className="text-green-400 font-bold">
+                            5 credits
+                          </span>{" "}
+                          as a bonus!
+                        </p>
+                        <p className="text-sm text-gray-400 mt-1">
+                          Connect with our community and get instant rewards
+                        </p>
+                      </div>
+                    </div>
+                    <a
+                      href="https://discord.gg/R2zK3A5ftj"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 rounded-full px-4 py-2 text-sm font-medium text-white"
+                    >
+                      <svg
+                        className="w-5 h-5"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z" />
+                      </svg>
+                      <span>Join Discord</span>
+                    </a>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -516,19 +643,19 @@ export default function Home() {
           >
             <div className="space-y-4">
               {file && (
-                <div className="text-sm text-gray-600 dark:text-gray-400">
-                  <h4 className="text-lg font-semibold mb-2">
+                <div className="text-sm text-gray-400">
+                  <h4 className="text-lg font-semibold mb-2 text-white">
                     File for Submission:
                   </h4>
-                  <div className="flex items-center justify-around bg-gray-100 dark:bg-gray-800 p-2 rounded">
-                    <p className="text-2xl font-semibold bg-black-200 p-2 rounded">
+                  <div className="flex items-center justify-around bg-gray-900 p-2 rounded border border-gray-800">
+                    <p className="text-2xl font-semibold text-white p-2 rounded">
                       {file.name}
                     </p>
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => handlePreview(file)}
-                      className="flex items-center space-x-2"
+                      className="flex items-center space-x-2 text-indigo-400 hover:text-indigo-300 hover:bg-gray-800"
                     >
                       <Eye className="h-4 w-4 mr-1" />
                       <span>Preview PDF</span>
@@ -537,18 +664,18 @@ export default function Home() {
                 </div>
               )}
 
-              <div className="text-gray-600 dark:text-gray-400">
+              <div className="text-gray-400">
                 <div className="flex items-center">
-                  <h4 className="text-2xl font-bold text-white-600 mb-4">
+                  <h4 className="text-2xl font-bold text-white mb-4">
                     Estimated Delivery Time:{" "}
-                    <span className="italic text-base text-gray-800 dark:text-gray-200">
+                    <span className="italic text-base text-gray-300">
                       {getEstimatedTime()}
                     </span>
                   </h4>
                   <p className="text-lg flex items-center ml-4">
                     <Link
                       href="/pricing"
-                      className="text-green-600 font-semibold text-sm hover:underline hover:text-blue-800 transition-colors duration-200 pb-3"
+                      className="text-green-400 font-semibold text-sm hover:underline hover:text-green-300 transition-colors duration-200 pb-3"
                     >
                       Upgrade for faster delivery
                     </Link>{" "}
@@ -562,7 +689,7 @@ export default function Home() {
                   Report will be provided:{" "}
                   <Link
                     href="/pricing"
-                    className="text-blue-600 underline hover:text-blue-800 transition-colors duration-200"
+                    className="text-indigo-400 underline hover:text-indigo-300 transition-colors duration-200"
                   >
                     View our plans
                   </Link>
@@ -577,16 +704,20 @@ export default function Home() {
                 Confirm and Receive Turnitin Reports
               </Button>
 
-              <h4 className="text-lg font-semibold">File Requirements:</h4>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
-                <h5 className="font-semibold mb-2">Plagiarism Detection:</h5>
+              <h4 className="text-lg font-semibold text-white">
+                File Requirements:
+              </h4>
+              <div className="text-sm text-gray-400">
+                <h5 className="font-semibold mb-2 text-white">
+                  Plagiarism Detection:
+                </h5>
                 <ul className="list-disc ml-6">
                   <li>File Size: Less than 100 MB</li>
                   <li>Minimum Length: At least 300 words</li>
                   <li>Page Limit: Less than 800 pages</li>
                   <li>Accepted File Types: .pdf, .docx, .doc</li>
                 </ul>
-                <h5 className="font-semibold mt-4 mb-2">
+                <h5 className="font-semibold mt-4 mb-2 text-white">
                   AI-Generated Content Detection:
                 </h5>
                 <ul className="list-disc ml-6">
@@ -664,6 +795,41 @@ export default function Home() {
             </div>
           </CustomModal>
 
+          {/* Delete Confirmation Modal */}
+          <CustomModal
+            isOpen={isDeleteModalOpen}
+            onClose={() => {
+              setIsDeleteModalOpen(false);
+              setCheckToDelete(null);
+            }}
+            heading="Delete Check"
+          >
+            <div className="p-4">
+              <p className="text-gray-700 dark:text-gray-300 mb-4">
+                Are you sure you want to delete this check? This action cannot
+                be undone.
+              </p>
+              <div className="flex justify-end gap-2">
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setIsDeleteModalOpen(false);
+                    setCheckToDelete(null);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="destructive"
+                  onClick={confirmDeleteCheck}
+                  disabled={isDeleting}
+                >
+                  {isDeleting ? "Deleting..." : "Delete"}
+                </Button>
+              </div>
+            </div>
+          </CustomModal>
+
           {/* Reports Tabs */}
           <Tabs
             defaultValue={activeTab}
@@ -672,15 +838,12 @@ export default function Home() {
             }}
             className="w-full mt-8"
           >
-            <TabsList className="grid w-full grid-cols-4">
+            <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="all">
                 All ({filteredAllReports.length})
               </TabsTrigger>
               <TabsTrigger value="pending">
                 Pending ({reports.pending.length})
-              </TabsTrigger>
-              <TabsTrigger value="processing">
-                Processing ({reports.processing.length})
               </TabsTrigger>
               <TabsTrigger value="completed">
                 Completed ({reports.completed.length})
@@ -715,6 +878,7 @@ export default function Home() {
                           onDownloadTurnitinReports={
                             handleDownloadTurnitinReports
                           }
+                          onDelete={handleDeleteCheck}
                         />
                       ))
                   )}
@@ -744,35 +908,7 @@ export default function Home() {
                         onDownloadTurnitinReports={
                           handleDownloadTurnitinReports
                         }
-                      />
-                    ))
-                  )}
-                </CardContent>
-              </Card>
-            </TabsContent>
-            <TabsContent value="processing">
-              <Card className="shadow-md">
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-semibold mb-4">
-                    Processing Reports
-                  </h3>
-                  {reports.processing.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center p-6 space-y-4">
-                      <Clock className="h-12 w-12 text-yellow-400" />
-                      <p className="text-gray-600 dark:text-gray-400">
-                        No processing reports at the moment.
-                      </p>
-                    </div>
-                  ) : (
-                    reports.processing.map((report) => (
-                      <ReportItem
-                        key={report.checkId}
-                        report={report}
-                        onDownload={downloadFile}
-                        onViewTurnitinReports={handleViewTurnitinReports}
-                        onDownloadTurnitinReports={
-                          handleDownloadTurnitinReports
-                        }
+                        onDelete={handleDeleteCheck}
                       />
                     ))
                   )}
@@ -781,72 +917,112 @@ export default function Home() {
             </TabsContent>
             <TabsContent value="all">
               <Card className="shadow-md">
-              <CardContent className="p-6">
-                <div className="flex justify-between mb-4">
-                <div className="flex items-center space-x-2">
-                  <h3 className="text-lg font-semibold">All Reports</h3>
-                  <span className="text-green-500">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 inline-block"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 12H8m0 0l4-4m-4 4l4 4m8-4a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  </span>
-                  <p className="text-xs text-green-500 mt-1">
-                  Email notification is on
-                  </p>
-                </div>
-                <Link
-                  href="/deletechecks"
-                  className="flex items-center space-x-2 text-red-500 hover:text-red-700 transition-colors duration-200"
-                >
-                  <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 6h18M9 6v12m6-12v12M4 6l1-1h14l1 1M5 6v12a2 2 0 002 2h10a2 2 0 002-2V6"
-                  />
-                  </svg>
-                  <span className="text-sm font-medium">Delete Checks</span>
-                </Link>
-                </div>
-                {filteredAllReports.length === 0 ? (
-                <div className="flex flex-col items-center justify-center p-6 space-y-4">
-                  <FileText className="h-12 w-12 text-gray-400" />
-                  <p className="text-gray-600 dark:text-gray-400">
-                  No reports yet. Try submitting a file for free!
-                  </p>
-                </div>
-                ) : (
-                filteredAllReports.map((report) => (
-                  <ReportItem
-                  key={report.checkId}
-                  report={report}
-                  onDownload={downloadFile}
-                  onViewTurnitinReports={handleViewTurnitinReports}
-                  onDownloadTurnitinReports={
-                    handleDownloadTurnitinReports
-                  }
-                  />
-                ))
-                )}
-              </CardContent>
+                <CardContent className="p-6">
+                  <div className="flex justify-between mb-4">
+                    <div className="flex items-center space-x-2">
+                      <h3 className="text-lg font-semibold">All Reports</h3>
+                      <span className="text-green-500">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5 inline-block"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M16 12H8m0 0l4-4m-4 4l4 4m8-4a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                      </span>
+                      <p className="text-xs text-green-500 mt-1">
+                        Email notification is on
+                      </p>
+                    </div>
+                    <div className="flex items-center space-x-3">
+                      {isSearchActive && (
+                        <div className="flex items-center space-x-2 bg-gray-100 dark:bg-gray-800 rounded-md px-3 py-1">
+                          <Input
+                            type="text"
+                            placeholder="Search by filename..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="border-0 bg-transparent focus-visible:ring-0 h-8 w-48 text-sm"
+                            autoFocus
+                          />
+                          {searchQuery && (
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-6 w-6 p-0"
+                              onClick={() => setSearchQuery("")}
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          )}
+                        </div>
+                      )}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={toggleSearch}
+                        className={`flex items-center space-x-1 ${
+                          isSearchActive
+                            ? "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400"
+                            : ""
+                        }`}
+                      >
+                        <Search className="h-4 w-4" />
+                        <span className="text-sm font-medium">Search</span>
+                      </Button>
+                      <Link
+                        href="/deletechecks"
+                        className="flex items-center space-x-2 text-red-500 hover:text-red-700 transition-colors duration-200"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M3 6h18M9 6v12m6-12v12M4 6l1-1h14l1 1M5 6v12a2 2 0 002 2h10a2 2 0 002-2V6"
+                          />
+                        </svg>
+                        <span className="text-sm font-medium">
+                          Delete Checks
+                        </span>
+                      </Link>
+                    </div>
+                  </div>
+                  {filteredAllReports.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center p-6 space-y-4">
+                      <FileText className="h-12 w-12 text-gray-400" />
+                      <p className="text-gray-600 dark:text-gray-400">
+                        No reports yet. Try submitting a file for free!
+                      </p>
+                    </div>
+                  ) : (
+                    filteredAllReports.map((report) => (
+                      <ReportItem
+                        key={report.checkId}
+                        report={report}
+                        onDownload={downloadFile}
+                        onViewTurnitinReports={handleViewTurnitinReports}
+                        onDownloadTurnitinReports={
+                          handleDownloadTurnitinReports
+                        }
+                        onDelete={handleDeleteCheck}
+                      />
+                    ))
+                  )}
+                </CardContent>
               </Card>
             </TabsContent>
           </Tabs>
