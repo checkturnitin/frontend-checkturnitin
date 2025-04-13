@@ -116,7 +116,7 @@ export default function ProfilePage() {
         // Refresh user data to reflect updated credits and plan
         getUser();
       } else {
-        toast.error(response.data.message || "Failed to claim Turnitin credits.", {
+        toast.error("Failed to claim Turnitin credits.", {
           position: "top-center",
           autoClose: 2000,
           hideProgressBar: true,
@@ -133,7 +133,7 @@ export default function ProfilePage() {
       }
     } catch (error) {
       console.error("Error claiming Turnitin credits:", error);
-      toast.error("An error occurred while claiming Turnitin credits.", {
+      toast.success("Refreshed", {
         position: "top-center",
         autoClose: 2000,
         hideProgressBar: true,
@@ -190,8 +190,7 @@ export default function ProfilePage() {
   }, [])
 
   const handleRedirect = () => {
-    const planType = expirationStatus?.user?.planType || "basic"
-    window.location.href = `/profile/plans?yourplan=${planType}`
+    window.location.href = `/pricing`
   }
 
   const copyReferralLink = () => {
@@ -301,26 +300,8 @@ export default function ProfilePage() {
                           </Button>
                         </div>
                         <p className="text-gray-600 mt-2">Total Completed Referrals: {totalCompletedReferrals}</p>
-                        <div className="flex items-center mt-2">
-                          <span className="text-gray-600 mr-2">Telegram:</span>
-                          {user.telegramId ? (
-                            <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                              Verified
-                            </span>
-                          ) : (
-                            <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                              Not Verified
-                            </span>
-                          )}
-                        </div>
-                        {expirationStatus?.user.planType !== "basic" && (
-                          <div className="flex items-center mt-2 text-gray-600">
-                            <p>
-                              <span className="font-semibold text-gray-900">Expiration Date:</span>{" "}
-                              {expirationStatus?.user.expirationDate?.split("T")[0] || "N/A"}
-                            </p>
-                          </div>
-                        )}
+
+         
                       </div>
                       <div className="flex flex-col items-end">
                         <Button
@@ -414,7 +395,7 @@ export default function ProfilePage() {
                 <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger>
-                  <p className="text-sm text-gray-600 dark:text-gray-400 cursor-pointer">
+                  {/* <p className="text-sm text-gray-600 dark:text-gray-400 cursor-pointer">
                     Credit Expiration Date:
                     <span className="text-gray-900 dark:text-gray-100 font-semibold ml-2">
                     {expirationStatus?.user.expirationDate?.split("T")[0] || "N/A"}
@@ -430,7 +411,7 @@ export default function ProfilePage() {
                       })()})
                     </span>
                     )}
-                  </p>
+                  </p> */}
                   </TooltipTrigger>
                   <TooltipContent className="bg-white text-gray-900 p-2 rounded shadow-lg">
                   {expirationStatus?.user.expirationDate
@@ -489,17 +470,7 @@ export default function ProfilePage() {
                       </CardContent>
                     </Card>
                   </Link>
-                  <Link href="/dashboard/history">
-                    <Card className="bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 cursor-pointer rounded-lg shadow-lg border-2 border-indigo-500">
-                      <CardContent className="flex flex-col items-center justify-center p-8">
-                        <FiFileText className="text-5xl text-indigo-600 mb-4" />
-                        <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">Documents</h3>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
-                          View and manage your documents
-                        </p>
-                      </CardContent>
-                    </Card>
-                  </Link>
+ 
                 </div>
               </CardContent>
             </Card>
