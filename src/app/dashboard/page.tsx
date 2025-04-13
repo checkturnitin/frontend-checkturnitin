@@ -781,38 +781,72 @@ export default function Home() {
             </TabsContent>
             <TabsContent value="all">
               <Card className="shadow-md">
-                <CardContent className="p-6">
-                  <div className="flex justify-between mb-4">
-                    <h3 className="text-lg font-semibold">All Reports</h3>
-                    <input
-                      type="text"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                      placeholder="Search by file name"
-                      className="border border-gray-400 p-2 rounded w-64 max-w-xs dark:border-gray-600 dark:bg-gray-800 dark:text-white"
+              <CardContent className="p-6">
+                <div className="flex justify-between mb-4">
+                <div className="flex items-center space-x-2">
+                  <h3 className="text-lg font-semibold">All Reports</h3>
+                  <span className="text-green-500">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 inline-block"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M16 12H8m0 0l4-4m-4 4l4 4m8-4a9 9 0 11-18 0 9 9 0 0118 0z"
                     />
-                  </div>
-                  {filteredAllReports.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center p-6 space-y-4">
-                      <FileText className="h-12 w-12 text-gray-400" />
-                      <p className="text-gray-600 dark:text-gray-400">
-                        No reports yet. Try submitting a file for free!
-                      </p>
-                    </div>
-                  ) : (
-                    filteredAllReports.map((report) => (
-                      <ReportItem
-                        key={report.checkId}
-                        report={report}
-                        onDownload={downloadFile}
-                        onViewTurnitinReports={handleViewTurnitinReports}
-                        onDownloadTurnitinReports={
-                          handleDownloadTurnitinReports
-                        }
-                      />
-                    ))
-                  )}
-                </CardContent>
+                  </svg>
+                  </span>
+                  <p className="text-xs text-green-500 mt-1">
+                  Email notification is on
+                  </p>
+                </div>
+                <Link
+                  href="/deletechecks"
+                  className="flex items-center space-x-2 text-red-500 hover:text-red-700 transition-colors duration-200"
+                >
+                  <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 6h18M9 6v12m6-12v12M4 6l1-1h14l1 1M5 6v12a2 2 0 002 2h10a2 2 0 002-2V6"
+                  />
+                  </svg>
+                  <span className="text-sm font-medium">Delete Checks</span>
+                </Link>
+                </div>
+                {filteredAllReports.length === 0 ? (
+                <div className="flex flex-col items-center justify-center p-6 space-y-4">
+                  <FileText className="h-12 w-12 text-gray-400" />
+                  <p className="text-gray-600 dark:text-gray-400">
+                  No reports yet. Try submitting a file for free!
+                  </p>
+                </div>
+                ) : (
+                filteredAllReports.map((report) => (
+                  <ReportItem
+                  key={report.checkId}
+                  report={report}
+                  onDownload={downloadFile}
+                  onViewTurnitinReports={handleViewTurnitinReports}
+                  onDownloadTurnitinReports={
+                    handleDownloadTurnitinReports
+                  }
+                  />
+                ))
+                )}
+              </CardContent>
               </Card>
             </TabsContent>
           </Tabs>

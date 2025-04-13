@@ -224,10 +224,7 @@ export const ReportItem: React.FC<ReportItemProps> = ({
               style={{ width: `${progress}%` }}
             ></div>
           </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-            Estimated time left: {timeLeft.hoursLeft} hrs {timeLeft.minutesLeft}{" "}
-            mins
-          </p>
+  
         </div>
       )}
 
