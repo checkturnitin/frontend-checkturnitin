@@ -87,6 +87,68 @@ export default function ProfilePage() {
       console.error("Error checking credit expiration:", error)
     }
   }
+  const claimTurnitinCredits = async () => {
+    try {
+      const response = await axios.post(
+        `${serverURL}/users/claim-turnitin-credits`,
+        { email: user?.email },
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("Turnitin credits claimed successfully!", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: {
+            backgroundColor: "#272727",
+            color: "#fff",
+            borderRadius: "8px",
+          },
+        });
+
+        // Refresh user data to reflect updated credits and plan
+        getUser();
+      } else {
+        toast.error(response.data.message || "Failed to claim Turnitin credits.", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: {
+            backgroundColor: "#272727",
+            color: "#fff",
+            borderRadius: "8px",
+          },
+        });
+      }
+    } catch (error) {
+      console.error("Error claiming Turnitin credits:", error);
+      toast.error("An error occurred while claiming Turnitin credits.", {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          backgroundColor: "#272727",
+          color: "#fff",
+          borderRadius: "8px",
+        },
+      });
+    }
+  };
 
   const getUser = async () => {
     const token = localStorage.getItem("token")
@@ -312,84 +374,90 @@ export default function ProfilePage() {
 
             <Card className="mb-12 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md text-gray-900 dark:text-gray-100 rounded-lg">
               <CardHeader className="bg-gradient-to-r from-indigo-100 to-indigo-200 dark:from-indigo-900 dark:to-black p-6">
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  File Credits Balance
-                </CardTitle>
+              <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                File Credits Balance
+              </CardTitle>
               </CardHeader>
               <CardContent className="p-6">
-                <div className="flex flex-col sm:flex-row justify-between items-center">
-                  <div className="mb-4 sm:mb-0 text-center sm:text-left">
-                    <div className="flex items-center">
-                      <FiFileText className="text-4xl text-indigo-600 mr-4" />
-                      <div>
-                        <p className="text-6xl font-bold text-indigo-600 mb-2">{user.credits || 0}</p>
-                        <p className="text-lg text-gray-600 dark:text-gray-400">Available File Credits</p>
-                      </div>
-                    </div>
+              <div className="flex flex-col sm:flex-row justify-between items-center">
+                <div className="mb-4 sm:mb-0 text-center sm:text-left">
+                <div className="flex items-center">
+                  <FiFileText className="text-4xl text-indigo-600 mr-4" />
+                  <div>
+                  <p className="text-6xl font-bold text-indigo-600 mb-2">{user.credits || 0}</p>
+                  <p className="text-lg text-gray-600 dark:text-gray-400">Available File Credits</p>
                   </div>
                 </div>
-                <div className="mt-6">
-                  <p className="text-lg text-gray-600 dark:text-gray-400">
-                    <span className="font-semibold text-gray-900 dark:text-gray-100">Plan Type:</span>{" "}
-                    {expirationStatus?.user.planType?.toUpperCase() || "N/A"}
+                </div>
+                <Button
+                onClick={claimTurnitinCredits}
+                className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200"
+                >
+                Refresh Credits
+                </Button>
+              </div>
+              <div className="mt-6">
+                <p className="text-lg text-gray-600 dark:text-gray-400">
+                <span className="font-semibold text-gray-900 dark:text-gray-100">Plan Type:</span>{" "}
+                {expirationStatus?.user.planType?.toUpperCase() || "N/A"}
+                </p>
+              </div>
+              <div className="mt-4">
+                <Button
+                onClick={handleRedirect}
+                className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-102"
+                >
+                Upgrade Your Plan
+                </Button>
+              </div>
+              <div className="mt-4">
+                <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 cursor-pointer">
+                    Credit Expiration Date:
+                    <span className="text-gray-900 dark:text-gray-100 font-semibold ml-2">
+                    {expirationStatus?.user.expirationDate?.split("T")[0] || "N/A"}
+                    </span>
+                    {expirationStatus?.user.expirationDate && (
+                    <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
+                      ({(() => {
+                      const expirationDate = new Date(expirationStatus.user.expirationDate)
+                      const today = new Date()
+                      const timeDifference = expirationDate.getTime() - today.getTime()
+                      const daysToExpire = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
+                      return `${daysToExpire} day${daysToExpire !== 1 ? "s" : ""} left`
+                      })()})
+                    </span>
+                    )}
                   </p>
-                </div>
-                <div className="mt-4">
-                  <Button
-                    onClick={handleRedirect}
-                    className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-102"
-                  >
-                    Upgrade Your Plan
-                  </Button>
-                </div>
-                <div className="mt-4">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 cursor-pointer">
-                          Credit Expiration Date:
-                          <span className="text-gray-900 dark:text-gray-100 font-semibold ml-2">
-                            {expirationStatus?.user.expirationDate?.split("T")[0] || "N/A"}
-                          </span>
-                          {expirationStatus?.user.expirationDate && (
-                            <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
-                              ({(() => {
-                                const expirationDate = new Date(expirationStatus.user.expirationDate)
-                                const today = new Date()
-                                const timeDifference = expirationDate.getTime() - today.getTime()
-                                const daysToExpire = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
-                                return `${daysToExpire} day${daysToExpire !== 1 ? "s" : ""} left`
-                              })()})
-                            </span>
-                          )}
-                        </p>
-                      </TooltipTrigger>
-                      <TooltipContent className="bg-white text-gray-900 p-2 rounded shadow-lg">
-                        {expirationStatus?.user.expirationDate
-                          ? "Your credits will expire if not renewed."
-                          : "No expiration date available."}
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-                {expirationStatus?.user.expirationDate &&
-                  (() => {
-                    const expirationDate = new Date(expirationStatus.user.expirationDate)
-                    const today = new Date()
-                    const timeDifference = expirationDate.getTime() - today.getTime()
-                    const daysToExpire = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
+                  </TooltipTrigger>
+                  <TooltipContent className="bg-white text-gray-900 p-2 rounded shadow-lg">
+                  {expirationStatus?.user.expirationDate
+                    ? "Your credits will expire if not renewed."
+                    : "No expiration date available."}
+                  </TooltipContent>
+                </Tooltip>
+                </TooltipProvider>
+              </div>
+              {expirationStatus?.user.expirationDate &&
+                (() => {
+                const expirationDate = new Date(expirationStatus.user.expirationDate)
+                const today = new Date()
+                const timeDifference = expirationDate.getTime() - today.getTime()
+                const daysToExpire = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
 
-                    if (daysToExpire < 0) {
-                      return <p className="mt-2 text-sm text-red-400">Warning: Your credits have expired!</p>
-                    } else if (daysToExpire <= 30) {
-                      return (
-                        <p className="mt-2 text-sm text-yellow-400">
-                          Your credits are going to expire in {daysToExpire} days. Renew fast!
-                        </p>
-                      )
-                    }
-                    return null
-                  })()}
+                if (daysToExpire < 0) {
+                  return <p className="mt-2 text-sm text-red-400">Warning: Your credits have expired!</p>
+                } else if (daysToExpire <= 30) {
+                  return (
+                  <p className="mt-2 text-sm text-yellow-400">
+                    Your credits are going to expire in {daysToExpire} days. Renew fast!
+                  </p>
+                  )
+                }
+                return null
+                })()}
               </CardContent>
             </Card>
 
