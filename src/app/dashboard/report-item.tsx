@@ -24,6 +24,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { toast } from "sonner";
 
 interface ReportItemProps {
   report: {
@@ -142,6 +143,16 @@ export const ReportItem: React.FC<ReportItemProps> = ({
     }
   };
 
+  const handlePreview = () => {
+    // Check if the file is a PDF based on the file extension
+    const fileExtension = report.fileId.originalFileName.split('.').pop()?.toLowerCase();
+    if (fileExtension !== 'pdf') {
+      toast.error("Only PDF files can be previewed. Please download the file to view it.");
+      return;
+    }
+    setIsViewModalOpen(true);
+  };
+
   return (
     <Card className="mb-4 transition-all duration-200 hover:shadow-lg dark:bg-gray-800/50">
       <CardContent className="p-6">
@@ -164,7 +175,7 @@ export const ReportItem: React.FC<ReportItemProps> = ({
                     : "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300"
                 }`}
               >
-                {report.status === "completed" ? "Completed" : report.status}
+                {report.status === "completed" ? "Completed" : "Processing"}
               </Badge>
             </div>
 
@@ -203,7 +214,7 @@ export const ReportItem: React.FC<ReportItemProps> = ({
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => setIsViewModalOpen(true)}
+                  onClick={handlePreview}
                   className="text-xs"
                 >
                   <Eye className="h-4 w-4" />
@@ -248,18 +259,6 @@ export const ReportItem: React.FC<ReportItemProps> = ({
                       >
                         {report.reportId.reports.ai.metadata.score === "-1" ? "0-20%" : `${report.reportId.reports.ai.metadata.score}%`}
                       </span>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <div className="inline-flex items-center ml-2">
-                              <FiMail className="h-3 w-3 text-green-600 dark:text-green-400" />
-                            </div>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Report sent to your email</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
                     </div>
                   )}
                   {report.reportId.reports.plagiarism && (
@@ -274,18 +273,6 @@ export const ReportItem: React.FC<ReportItemProps> = ({
                       >
                         {report.reportId.reports.plagiarism.metadata.score}%
                       </span>
-                      <TooltipProvider>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <div className="inline-flex items-center ml-2">
-                              <FiMail className="h-3 w-3 text-green-600 dark:text-green-400" />
-                            </div>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Report sent to your email</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
                     </div>
                   )}
                 </>

@@ -300,6 +300,10 @@ export default function Home() {
   };
 
   const handlePreview = (file: File) => {
+    if (file.type !== "application/pdf") {
+      toast.error("Only PDF files can be previewed. Please download the file to view it.");
+      return;
+    }
     setPreviewFile(file);
   };
 
@@ -876,7 +880,7 @@ export default function Home() {
             <Tabs defaultValue="all" className="w-full">
               <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="all">All</TabsTrigger>
-                <TabsTrigger value="pending">Pending</TabsTrigger>
+                <TabsTrigger value="pending">Processing</TabsTrigger>
                 <TabsTrigger value="completed">Completed</TabsTrigger>
               </TabsList>
               <TabsContent value="all" className="space-y-4">

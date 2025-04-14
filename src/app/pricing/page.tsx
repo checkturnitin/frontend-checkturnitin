@@ -10,6 +10,8 @@
   import PlansAndPriority from "./PlansAndPriority";
   import Head from "next/head";
   import { Toaster } from "sonner";
+  import { FaCcVisa, FaCcMastercard, FaCcDiscover, FaCcPaypal } from "react-icons/fa";
+  import { SiAlipay, SiApplepay, SiGooglepay } from "react-icons/si";
 
   interface Item {
     _id: string;
@@ -233,23 +235,22 @@
         <main className="relative flex flex-col w-full min-h-screen bg-white text-gray-900 overflow-hidden dark:bg-black dark:text-white">
           <Header onShowSignupForm={() => setShowSignupForm(true)} />
 
-          <div className="flex flex-col items-center mt-24  px-4 dark:bg-black dark:text-white">
+          <div className="flex flex-col items-center mt-24 px-4 dark:bg-black dark:text-white">
             <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-center text-gray-900 p-4 dark:bg-black dark:text-white">
-              Get Authentic{" "}
-              <img src="/assets/logos/Turnitin_logo.svg" alt="Turnitin Logo" className="inline-block w-40 h-12" /> Checks in{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Minutes⚡</span>
+              Authentic AI and{" "}
+              <img src="/assets/logos/Turnitin_logo.svg" alt="Turnitin Logo" className="inline-block w-40 h-12" /> Plagiarism Reports
             </h1>
-            <p className="text-lg text-gray-600 text-center max-w-xl dark:bg-black  dark:text-white"> 
-              Ensure your content is{" "}
-              <span className="font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                unique, undetectable
-              </span>
-              , and ready to ace any academic or professional challenge.
+            <p className="text-lg text-gray-600 text-center max-w-xl dark:bg-black dark:text-white">
+              Get instant AI analysis and detailed plagiarism reports for your content
             </p>
-            <p className="text-lg text-blue-600 font-semibold text-center mt-4">
-              No monthly cost,{" "}
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">pay what you use!</span>
-            </p>
+            <div className="flex flex-col items-center mt-6 space-y-2">
+              <p className="text-lg text-blue-600 font-semibold text-center">
+                Pay-as-you-go model • No monthly fees • Credits never expire
+              </p>
+              <p className="text-sm text-gray-500 text-center">
+                Top up your account anytime and use credits whenever you need them
+              </p>
+            </div>
           </div>
 
           <PricingCards
@@ -262,12 +263,18 @@
             openCheckout={openCheckout}
           />
 
-          <p className="text-center mb-10 text-gray-600">
-            Supported payment methods:
-            <span className="text-blue-600 flex items-center justify-center mt-6">
-              <img src="/assets/logos/internationalpayment.png" alt="International Pay" className="w-90 h-20 mr-2" />
-            </span>
-          </p>
+          <div className="text-center mb-10">
+            <p className="text-gray-600 mb-4">Supported payment methods:</p>
+            <div className="flex flex-wrap justify-center items-center gap-6">
+              <FaCcVisa className="h-8 w-auto text-blue-600" />
+              <FaCcMastercard className="h-8 w-auto text-orange-500" />
+              <FaCcDiscover className="h-8 w-auto text-red-500" />
+              <SiAlipay className="h-8 w-auto text-blue-500" />
+              <SiApplepay className="h-8 w-auto text-gray-800 dark:text-white" />
+              <SiGooglepay className="h-8 w-auto text-blue-500" />
+              <FaCcPaypal className="h-8 w-auto text-blue-500" />
+            </div>
+          </div>
           <PlansAndPriority />
 
           <ElegantFooter />

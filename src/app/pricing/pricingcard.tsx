@@ -135,40 +135,41 @@ const PricingCard: React.FC<{
   const isPopular = item.title === "Pro"
 
   return (
-    <Card className="relative w-full max-w-xs flex flex-col m-3 overflow-hidden transition-all duration-300 border border-gray-200 dark:border-gray-700 hover:shadow-lg hover:border-blue-500 dark:hover:border-purple-500 bg-white dark:bg-black">
+    <Card className="relative w-full max-w-xs flex flex-col m-3 overflow-hidden transition-all duration-300 border-0 hover:shadow-2xl bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-black">
       {isPopular && (
-        <Badge className="absolute top-4 right-4 bg-green-500 text-white text-sm font-bold py-1 px-3 shadow-lg">
-          Popular
-        </Badge>
+        <div className="absolute top-0 right-0">
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold py-1 px-4 rounded-bl-lg shadow-md">
+            Most Popular
+          </div>
+        </div>
       )}
 
-      <CardHeader className="text-center pb-0">
-        <CardTitle className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2 whitespace-nowrap">
+      <CardHeader className="text-center pb-0 pt-6">
+        <CardTitle className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">
           {item.title}
         </CardTitle>
         <CardDescription className="text-sm text-gray-600 dark:text-gray-300">
-          Perfect for{" "}
-          {item.title === "Starter Plan" ? "beginners" : "professionals"}
+          {item.creditLimit.toLocaleString()} credits
         </CardDescription>
       </CardHeader>
 
-      <CardContent className="text-center pt-4 flex-grow">
-        <div className="flex flex-col items-center mb-4">
-          <div className="text-3xl font-extrabold text-gray-900 dark:text-white mb-2">
+      <CardContent className="text-center pt-6 flex-grow">
+        <div className="flex flex-col items-center mb-6">
+          <div className="text-4xl font-extrabold text-gray-900 dark:text-white mb-1">
             {item.currency} {item.price.toFixed(2)}
           </div>
-          <div className="text-sm font-semibold text-gray-700 dark:text-gray-400">
-            {item.creditLimit.toLocaleString()} files
+          <div className="text-sm text-gray-500 dark:text-gray-400">
+            One-time payment
           </div>
         </div>
 
-        <div className="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-          <p className="text-gray-900 dark:text-white font-semibold mb-2 text-md">Features:</p>
-          <ul className="space-y-2">
+        <div className="space-y-4">
+          <p className="text-gray-900 dark:text-white font-semibold text-md">What's included:</p>
+          <ul className="space-y-3">
             {item.features.map((feature, index) => (
-              <li key={index} className="flex items-center text-gray-700 dark:text-gray-300">
+              <li key={index} className="flex items-start text-gray-700 dark:text-gray-300">
                 <FiCheckCircle
-                  className="mr-2 text-green-500 flex-shrink-0"
+                  className="mr-2 text-green-500 flex-shrink-0 mt-1"
                   size={18}
                 />
                 <span className="text-left text-sm">{feature}</span>
@@ -178,21 +179,23 @@ const PricingCard: React.FC<{
         </div>
       </CardContent>
 
-      <CardFooter className="mt-auto">
+      <CardFooter className="mt-auto pt-6 pb-6">
         <Button
           onClick={() => onSelect(item)}
           disabled={!item.enable}
-          className={`w-full text-md font-semibold py-3 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 ${
+          className={`w-full text-md font-semibold py-3 rounded-lg transition-all duration-300 ${
             item.enable
-              ? "bg-white text-black hover:bg-blue-900 dark:hover:bg-purple-100 hover:text-blue-100 dark:hover:text-purple-500 border border-gray-300"
+              ? isPopular 
+                ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl"
+                : "bg-white text-gray-900 hover:bg-gray-100 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700"
               : "bg-gray-300 text-gray-400 cursor-not-allowed"
           }`}
         >
           {isLoggedIn
             ? item.enable
-              ? "Choose Plan"
+              ? isPopular ? "Get Started" : "Choose Plan"
               : "Currently Unavailable"
-            : "Sign Up to Choose Plan"}
+            : "Sign Up to Continue"}
         </Button>
       </CardFooter>
     </Card>
@@ -254,7 +257,7 @@ const PricingCards: React.FC<PricingCardsProps> = ({
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 py-12 dark:bg-black dark:text-white">
-      <div className="flex flex-wrap items-stretch justify-center gap-6">
+      <div className="flex flex-wrap items-stretch justify-center gap-8">
         {pricingData.map((item) => (
           <PricingCard
             key={item._id}
