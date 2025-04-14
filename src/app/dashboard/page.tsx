@@ -925,7 +925,7 @@ export default function Home() {
           </div>
         </div>
       </main>
-      <Toaster position="bottom-center" richColors />
+      <Toaster position="bottom-right" richColors />
 
       {/* Delete All Confirmation Modal */}
       {isDeleteAllModalOpen && (

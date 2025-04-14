@@ -9,6 +9,7 @@
   import { initializePaddle } from "@paddle/paddle-js";
   import PlansAndPriority from "./PlansAndPriority";
   import Head from "next/head";
+  import { Toaster } from "sonner";
 
   interface Item {
     _id: string;
@@ -188,7 +189,7 @@
       <meta name="twitter:title" content="Pricing Plans - Aiplagreport" />
       <meta
         name="twitter:description"
-        content="Choose from CheckTurnitin’s flexible pricing plans to access powerful plagiarism detection technology. Ensure high-quality, authentic content with advanced algorithms across all plans."
+        content="Choose from CheckTurnitin's flexible pricing plans to access powerful plagiarism detection technology. Ensure high-quality, authentic content with advanced algorithms across all plans."
       />
       <meta name="twitter:image" content="https://Aiplagreport.com/assets/images/pricing.png" />
       <script type="application/ld+json">
@@ -271,6 +272,7 @@
 
           <ElegantFooter />
           {showSignupForm && <SignupForm onClose={() => setShowSignupForm(false)} />}
+          <Toaster position="bottom-right" richColors />
         </main>
       </>
     );

@@ -2,9 +2,8 @@
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { Toaster, toast } from "sonner";
 import { serverURL } from "@/utils/utils";
-import "react-toastify/dist/ReactToastify.css";
 
 import {
   FiCopy,
@@ -91,6 +90,8 @@ export default function ProfilePage() {
     if (typeof window !== "undefined") {
       const storedTheme = localStorage.getItem("theme");
       const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      
       
       // Set dark theme if explicitly set to 'dark' or if system prefers dark and no theme is stored
       const isDark = storedTheme === "dark" || (!storedTheme && prefersDark);
@@ -102,6 +103,9 @@ export default function ProfilePage() {
       } else {
         document.documentElement.classList.remove("dark");
       }
+
+
+
 
       // Listen for theme changes
       const handleStorageChange = () => {
@@ -136,37 +140,11 @@ export default function ProfilePage() {
       );
 
       if (response.status === 200) {
-        toast.success("All checks and associated files deleted successfully", {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          style: {
-            backgroundColor: "#272727",
-            color: "#fff",
-            borderRadius: "8px",
-          },
-        });
+        toast.success("All checks and associated files deleted successfully");
       }
     } catch (error) {
       console.error("Error deleting checks:", error);
-      toast.success("All checks and associated files deleted successfully.", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: {
-          backgroundColor: "#272727",
-          color: "#fff",
-          borderRadius: "8px",
-        },
-      });
+      toast.success("All checks and associated files deleted successfully.");
     } finally {
       setIsDeleting(false);
       setIsDeleteModalOpen(false);
@@ -207,55 +185,16 @@ export default function ProfilePage() {
       );
 
       if (response.status === 200) {
-        toast.success("Turnitin credits claimed successfully!", {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          style: {
-            backgroundColor: "#272727",
-            color: "#fff",
-            borderRadius: "8px",
-          },
-        });
+        toast.success("Turnitin credits claimed successfully!");
 
         // Refresh user data to reflect updated credits and plan
         getUser();
       } else {
-        toast.error("Failed to claim Turnitin credits.", {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          style: {
-            backgroundColor: "#272727",
-            color: "#fff",
-            borderRadius: "8px",
-          },
-        });
+        toast.error("Failed to claim Turnitin credits.");
       }
     } catch (error) {
       console.error("Error claiming Turnitin credits:", error);
-      toast.success("Refreshed", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: {
-          backgroundColor: "#272727",
-          color: "#fff",
-          borderRadius: "8px",
-        },
-      });
+      toast.success("Refreshed");
     }
   };
 
@@ -299,6 +238,15 @@ export default function ProfilePage() {
     getUser();
     checkCreditsExpiration();
     fetchPurchases();
+    claimTurnitinCredits();
+
+    // Set up interval to claim Turnitin credits every 5 minutes
+    const intervalId = setInterval(() => {
+      claimTurnitinCredits();
+    }, 5 * 60 * 1000); // 5 minutes in milliseconds
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   const handleRedirect = () => {
@@ -311,36 +259,10 @@ export default function ProfilePage() {
       navigator.clipboard
         .writeText(referralLink)
         .then(() =>
-          toast.success("Referral link copied to clipboard!", {
-            position: "top-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: {
-              backgroundColor: "#272727",
-              color: "#fff",
-              borderRadius: "8px",
-            },
-          })
+          toast.success("Referral link copied to clipboard!")
         )
         .catch(() =>
-          toast.error("Failed to copy referral link.", {
-            position: "top-center",
-            autoClose: 2000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            style: {
-              backgroundColor: "#272727",
-              color: "#fff",
-              borderRadius: "8px",
-            },
-          })
+          toast.error("Failed to copy referral link.")
         );
     }
   };
@@ -775,10 +697,7 @@ export default function ProfilePage() {
         </div>
       )}
 
-      <ToastContainer
-        theme="dark"
-        toastClassName="bg-indigo-900 dark:bg-gray-900 text-white"
-      />
+      <Toaster position="bottom-right" richColors />
     </>
   );
 }

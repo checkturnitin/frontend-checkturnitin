@@ -5,7 +5,7 @@ import Link from "next/link";
 import { X, Menu, Sun, Moon } from "lucide-react";
 import { FaDiscord, FaTelegramPlane } from "react-icons/fa";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast } from "sonner";
 import { serverURL } from "@/utils/utils";
 import Image from "next/image";
 import { Toggle } from "@/components/ui/toggle";
@@ -382,15 +382,13 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                   </button>
                 ) : (
                   <>
-                    <button
-                      onClick={() => {
-                        setIsMobileMenuOpen(false);
-                        handleMouseEnter();
-                      }}
+                    <Link
+                      href="/profile"
                       className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      onClick={() => setIsMobileMenuOpen(false)}
                     >
-                      <span>{user?.name || "Dashboard"}</span>
-                    </button>
+                      <span>{user?.name || "Profile"}</span>
+                    </Link>
                     <button
                       onClick={() => {
                         localStorage.clear();

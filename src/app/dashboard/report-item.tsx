@@ -94,6 +94,8 @@ export const ReportItem: React.FC<ReportItemProps> = ({
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isViewTurnitinLoading, setIsViewTurnitinLoading] = useState(false);
+  const [isDownloadTurnitinLoading, setIsDownloadTurnitinLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [timeLeft, setTimeLeft] = useState({
     hoursLeft: 0,
@@ -123,6 +125,22 @@ export const ReportItem: React.FC<ReportItemProps> = ({
   };
 
   const isTurnitinReportAvailable = !!report.reportId;
+
+  const handleViewTurnitinReports = async () => {
+    if (isTurnitinReportAvailable) {
+      setIsViewTurnitinLoading(true);
+      await onViewTurnitinReports(report.reportId!._id);
+      setIsViewTurnitinLoading(false);
+    }
+  };
+
+  const handleDownloadTurnitinReports = async () => {
+    if (isTurnitinReportAvailable) {
+      setIsDownloadTurnitinLoading(true);
+      await onDownloadTurnitinReports(report.reportId!._id);
+      setIsDownloadTurnitinLoading(false);
+    }
+  };
 
   return (
     <Card className="mb-4 transition-all duration-200 hover:shadow-lg dark:bg-gray-800/50">
@@ -283,22 +301,22 @@ export const ReportItem: React.FC<ReportItemProps> = ({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => isTurnitinReportAvailable && onViewTurnitinReports(report.reportId!._id)}
+                onClick={handleViewTurnitinReports}
                 className="text-xs"
-                disabled={!isTurnitinReportAvailable}
+                disabled={!isTurnitinReportAvailable || isViewTurnitinLoading}
               >
                 <Eye className="h-3 w-3 mr-1" />
-                View Turnitin Reports
+                {isViewTurnitinLoading ? "Loading..." : "View Turnitin Reports"}
               </Button>
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => isTurnitinReportAvailable && onDownloadTurnitinReports(report.reportId!._id)}
+                onClick={handleDownloadTurnitinReports}
                 className="text-xs"
-                disabled={!isTurnitinReportAvailable}
+                disabled={!isTurnitinReportAvailable || isDownloadTurnitinLoading}
               >
                 <Download className="h-3 w-3 mr-1" />
-                Download Turnitin Reports
+                {isDownloadTurnitinLoading ? "Downloading..." : "Download Turnitin Reports"}
               </Button>
             </div>
           </div>
