@@ -9,13 +9,15 @@ import { toast, Toaster } from "sonner";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Clock, CheckCircle, Eye, Search, X } from "lucide-react";
+import { FileText, Clock, CheckCircle, Eye, Search, X, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { ReportItem } from "./report-item";
 import { CustomModal } from "./custom-modal";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { FiTrash2 } from "react-icons/fi";
 
 const PDFViewer = dynamic(
   () => import("./pdf-viewer").then((mod) => mod.default),
@@ -79,6 +81,44 @@ export default function Home() {
   const [checkToDelete, setCheckToDelete] = useState<string | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
+  const [isDeleteAllModalOpen, setIsDeleteAllModalOpen] = useState(false);
+  const [isDeletingAll, setIsDeletingAll] = useState(false);
+
+  // Define fetchData function at component level so it can be reused
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+      const response = await axios.get(`${serverURL}/turnitin/check`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("Fetched reports:", response.data);
+      const fetchedReports = response.data;
+      const pending = fetchedReports.filter(
+        (report: any) => report.status === "pending"
+      );
+      const processing = fetchedReports.filter(
+        (report: any) =>
+          report.status !== "completed" && report.status !== "pending"
+      );
+      const completed = fetchedReports.filter(
+        (report: any) => report.status === "completed"
+      );
+      setReports({ pending, processing, completed });
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        toast.error(
+          `Server Error: ${
+            error.response.data.message || "Something went wrong"
+          }`
+        );
+      } else {
+        toast.error("Failed to fetch reports");
+      }
+    }
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -104,40 +144,6 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (!token) return;
-        const response = await axios.get(`${serverURL}/turnitin/check`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        console.log("Fetched reports:", response.data);
-        const fetchedReports = response.data;
-        const pending = fetchedReports.filter(
-          (report: any) => report.status === "pending"
-        );
-        const processing = fetchedReports.filter(
-          (report: any) =>
-            report.status !== "completed" && report.status !== "pending"
-        );
-        const completed = fetchedReports.filter(
-          (report: any) => report.status === "completed"
-        );
-        setReports({ pending, processing, completed });
-      } catch (error) {
-        if (axios.isAxiosError(error) && error.response) {
-          toast.error(
-            `Server Error: ${
-              error.response.data.message || "Something went wrong"
-            }`
-          );
-        } else {
-          toast.error("Failed to fetch reports");
-        }
-      }
-    };
     fetchData();
     const interval = setInterval(fetchData, 10000);
     return () => clearInterval(interval);
@@ -423,52 +429,74 @@ export default function Home() {
 
   const handleDeleteCheck = (checkId: string) => {
     setCheckToDelete(checkId);
-    setIsDeleteModalOpen(true);
+    confirmDeleteCheck(checkId);
   };
 
-  const confirmDeleteCheck = async () => {
-    if (!checkToDelete) return;
+  const confirmDeleteCheck = async (checkId: string) => {
+    if (!checkId) return;
 
     setIsDeleting(true);
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        toast.error("Authentication error. Please log in again.");
+        toast.error("Authentication required");
         return;
       }
 
-      await axios.delete(`${serverURL}/turnitin/check/${checkToDelete}`, {
+      await axios.delete(`${serverURL}/turnitin/check/${checkId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      // Update the reports state by removing the deleted check
       setReports((prevReports) => {
         const newReports = { ...prevReports };
         Object.keys(newReports).forEach((status) => {
           newReports[status as keyof typeof newReports] = newReports[
             status as keyof typeof newReports
-          ].filter((report) => report.checkId !== checkToDelete);
+          ].filter((report: any) => report.checkId !== checkId);
         });
         return newReports;
       });
 
       toast.success("Check deleted successfully");
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        toast.error(
-          `Failed to delete check: ${
-            error.response.data.message || "Something went wrong"
-          }`
-        );
-      } else {
-        toast.error("Failed to delete check");
-      }
+      console.error("Error deleting check:", error);
+      toast.error("Failed to delete check");
     } finally {
       setIsDeleting(false);
-      setIsDeleteModalOpen(false);
       setCheckToDelete(null);
+    }
+  };
+
+  const deleteAllChecks = async () => {
+    setIsDeletingAll(true);
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Authentication required");
+        return;
+      }
+
+      const response = await axios.post(
+        `${serverURL}/turnitin/deleteAll`,
+        {},
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (response.status === 200) {
+        toast.success("All checks and associated files deleted successfully");
+        // Refresh the reports after successful deletion
+        fetchData();
+      }
+    } catch (error) {
+      console.error("Error deleting all checks:", error);
+      toast.error("Failed to delete all checks");
+    } finally {
+      setIsDeletingAll(false);
+      setIsDeleteAllModalOpen(false);
     }
   };
 
@@ -484,7 +512,7 @@ export default function Home() {
       <Header />
       <main className="flex-grow flex flex-col items-center justify-start px-4 py-8 mt-16">
         <div className="w-full max-w-3xl mx-auto">
-          <Card className="shadow-md hover:shadow-lg transition-all duration-300 bg-black dark:bg-black border border-gray-800">
+          <Card className="shadow-md hover:shadow-lg transition-all duration-300 bg-white dark:bg-black border border-gray-200 dark:border-gray-800">
             <CardContent className="p-8">
               <div className="space-y-6">
                 <FileUpload
@@ -494,20 +522,20 @@ export default function Home() {
                 />
 
                 {file && (
-                  <div className="mt-6 bg-gray-900 rounded-lg p-4 border border-gray-800">
+                  <div className="mt-6 bg-gray-100 dark:bg-gray-900 rounded-lg p-4 border border-gray-200 dark:border-gray-800">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
-                        <FileText className="h-8 w-8 text-indigo-400" />
+                        <FileText className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
                         <div>
-                          <h3 className="font-medium text-white">
+                          <h3 className="font-medium text-gray-900 dark:text-white">
                             {file.name}
                           </h3>
                           {wordCountLoading ? (
-                            <p className="text-sm text-gray-400">
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
                               Calculating word count...
                             </p>
                           ) : (
-                            <p className="text-sm text-gray-400">
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
                               {wordCount} words
                             </p>
                           )}
@@ -518,7 +546,7 @@ export default function Home() {
                           variant="ghost"
                           size="sm"
                           onClick={() => handlePreview(file)}
-                          className="text-indigo-400 hover:text-indigo-300 hover:bg-gray-800"
+                          className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 hover:bg-gray-200 dark:hover:bg-gray-800"
                         >
                           <Eye className="h-4 w-4 mr-1" />
                           Preview
@@ -527,7 +555,7 @@ export default function Home() {
                           variant="ghost"
                           size="sm"
                           onClick={removeFile}
-                          className="text-red-400 hover:text-red-300 hover:bg-gray-800"
+                          className="text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 hover:bg-gray-200 dark:hover:bg-gray-800"
                         >
                           Remove
                         </Button>
@@ -536,37 +564,37 @@ export default function Home() {
                   </div>
                 )}
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-400">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-500 dark:text-gray-400">
                   <div className="space-y-2">
-                    <h4 className="font-semibold text-white">
+                    <h4 className="font-semibold text-gray-900 dark:text-white">
                       File Requirements
                     </h4>
                     <ul className="space-y-1">
                       <li className="flex items-center">
-                        <CheckCircle className="h-4 w-4 mr-2 text-green-400" />
+                        <CheckCircle className="h-4 w-4 mr-2 text-green-600 dark:text-green-400" />
                         File Size: Less than 100 MB
                       </li>
                       <li className="flex items-center">
-                        <CheckCircle className="h-4 w-4 mr-2 text-green-400" />
+                        <CheckCircle className="h-4 w-4 mr-2 text-green-600 dark:text-green-400" />
                         Word Count: 300 - 30,000 words
                       </li>
                       <li className="flex items-center">
-                        <CheckCircle className="h-4 w-4 mr-2 text-green-400" />
+                        <CheckCircle className="h-4 w-4 mr-2 text-green-600 dark:text-green-400" />
                         Page Limit: Less than 800 pages
                       </li>
                     </ul>
                   </div>
                   <div className="space-y-2">
-                    <h4 className="font-semibold text-white">
+                    <h4 className="font-semibold text-gray-900 dark:text-white">
                       Supported Formats
                     </h4>
                     <ul className="space-y-1">
                       <li className="flex items-center">
-                        <CheckCircle className="h-4 w-4 mr-2 text-green-400" />
+                        <CheckCircle className="h-4 w-4 mr-2 text-green-600 dark:text-green-400" />
                         PDF (.pdf)
                       </li>
                       <li className="flex items-center">
-                        <CheckCircle className="h-4 w-4 mr-2 text-green-400" />
+                        <CheckCircle className="h-4 w-4 mr-2 text-green-600 dark:text-green-400" />
                         Microsoft Word (.doc, .docx)
                       </li>
                     </ul>
@@ -581,35 +609,29 @@ export default function Home() {
                     wordCountLoading ||
                     (wordCount !== null && wordCount < 300)
                   }
-                  className="w-full bg-white hover:bg-gray-100 text-indigo-600 py-3 rounded-lg shadow-lg transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed text-lg font-medium border border-indigo-200"
+                  className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 sm:py-3 rounded-lg shadow-lg transition-all duration-300 flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed text-base sm:text-lg font-medium border border-indigo-500"
                 >
-                  <Image
-                    src="/assets/logos/Turnitin_logo.svg"
-                    alt="Turnitin Logo"
-                    width={24}
-                    height={24}
-                    className="mr-2"
-                  />
-                  <span>
+     
+                  <span className="text-sm sm:text-base md:text-lg">
                     {loading
                       ? "Submitting..."
                       : "Submit for AI & Plagiarism Report"}
                   </span>
                 </Button>
 
-                <div className="mt-4 p-4 bg-gradient-to-r from-indigo-900/50 to-purple-900/50 rounded-lg border border-indigo-800/50">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-3">
-                      <span className="text-2xl">🎉</span>
+                <div className="mt-4 p-3 sm:p-4 bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900/50 dark:to-purple-900/50 rounded-lg border border-indigo-200 dark:border-indigo-800/50">
+                  <div className="flex flex-col sm:flex-row items-center justify-between space-y-3 sm:space-y-0">
+                    <div className="flex items-center space-x-2 sm:space-x-3 text-center sm:text-left">
+                      <span className="text-xl sm:text-2xl">🎉</span>
                       <div>
-                        <p className="text-white font-medium">
+                        <p className="text-sm sm:text-base text-gray-900 dark:text-white font-medium">
                           Join our Discord channel and get{" "}
-                          <span className="text-green-400 font-bold">
+                          <span className="text-green-600 dark:text-green-400 font-bold">
                             5 credits
                           </span>{" "}
                           as a bonus!
                         </p>
-                        <p className="text-sm text-gray-400 mt-1">
+                        <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
                           Connect with our community and get instant rewards
                         </p>
                       </div>
@@ -618,10 +640,10 @@ export default function Home() {
                       href="https://discord.gg/R2zK3A5ftj"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center space-x-2 bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 rounded-full px-4 py-2 text-sm font-medium text-white"
+                      className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 rounded-full px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-medium text-white"
                     >
                       <svg
-                        className="w-5 h-5"
+                        className="w-4 h-4 sm:w-5 sm:h-5"
                         fill="currentColor"
                         viewBox="0 0 24 24"
                       >
@@ -795,240 +817,194 @@ export default function Home() {
             </div>
           </CustomModal>
 
-          {/* Delete Confirmation Modal */}
-          <CustomModal
-            isOpen={isDeleteModalOpen}
-            onClose={() => {
-              setIsDeleteModalOpen(false);
-              setCheckToDelete(null);
-            }}
-            heading="Delete Check"
-          >
-            <div className="p-4">
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
-                Are you sure you want to delete this check? This action cannot
-                be undone.
+          {/* Reports Tabs */}
+          <div className="mt-8">
+            <div className="flex flex-col sm:flex-row items-center justify-between mb-4 space-y-4 sm:space-y-0">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                Your Reports
+              </h2>
+              <div className="flex items-center space-x-2 sm:space-x-4">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={toggleSearch}
+                  className="flex items-center space-x-2"
+                >
+                  <Search className="h-4 w-4" />
+                  <span className="hidden sm:inline">Search</span>
+                </Button>
+                <div className="flex items-center gap-2">
+                  <span className="hidden sm:inline text-sm text-gray-600 dark:text-gray-400">Email Notification:</span>
+                  <Badge variant="outline" className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
+                    <span className="hidden sm:inline">On</span>
+                    <span className="sm:hidden">✓</span>
+                  </Badge>
+                </div>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => setIsDeleteAllModalOpen(true)}
+                  disabled={Object.values(reports).flat().length === 0}
+                  className="text-xs"
+                >
+                  <FiTrash2 className="h-3 w-3 sm:mr-1" />
+                  <span className="hidden sm:inline">Delete All</span>
+                </Button>
+              </div>
+            </div>
+
+            {isSearchActive && (
+              <div className="mb-4 relative">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search by filename..."
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                )}
+              </div>
+            )}
+
+            <Tabs defaultValue="all" className="w-full">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="all">All</TabsTrigger>
+                <TabsTrigger value="pending">Pending</TabsTrigger>
+                <TabsTrigger value="completed">Completed</TabsTrigger>
+              </TabsList>
+              <TabsContent value="all" className="space-y-4">
+                {filteredAllReports.length > 0 ? (
+                  filteredAllReports.map((report) => (
+                    <ReportItem
+                      key={report.checkId}
+                      report={report}
+                      onDownload={downloadFile}
+                      onViewTurnitinReports={handleViewTurnitinReports}
+                      onDownloadTurnitinReports={handleDownloadTurnitinReports}
+                      onDelete={handleDeleteCheck}
+                    />
+                  ))
+                ) : (
+                  <div className="text-center py-8">
+                    <p className="text-gray-500 dark:text-gray-400">No reports found</p>
+                  </div>
+                )}
+              </TabsContent>
+              <TabsContent value="pending" className="space-y-4">
+                {reports.pending.map((report) => (
+                  <ReportItem
+                    key={report.checkId}
+                    report={report}
+                    onDownload={downloadFile}
+                    onViewTurnitinReports={handleViewTurnitinReports}
+                    onDownloadTurnitinReports={handleDownloadTurnitinReports}
+                    onDelete={handleDeleteCheck}
+                  />
+                ))}
+              </TabsContent>
+              <TabsContent value="completed" className="space-y-4">
+                {reports.completed.map((report) => (
+                  <ReportItem
+                    key={report.checkId}
+                    report={report}
+                    onDownload={downloadFile}
+                    onViewTurnitinReports={handleViewTurnitinReports}
+                    onDownloadTurnitinReports={handleDownloadTurnitinReports}
+                    onDelete={handleDeleteCheck}
+                  />
+                ))}
+              </TabsContent>
+            </Tabs>
+          </div>
+        </div>
+      </main>
+      <Toaster position="bottom-center" richColors />
+
+      {/* Delete All Confirmation Modal */}
+      {isDeleteAllModalOpen && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-black rounded-lg shadow-xl max-w-md w-full border-2 border-red-500 animate-in fade-in zoom-in duration-300">
+            <div className="p-5">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="bg-red-100 dark:bg-red-900/30 p-2 rounded-full">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-red-600 dark:text-red-400"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                    />
+                  </svg>
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 dark:text-white">Confirm Deletion</h3>
+              </div>
+
+              <p className="mb-4 text-gblack dark:text-gray-300 text-sm">
+                This will permanently delete all <span className="font-semibold">{filteredAllReports.length}</span> checks and
+                associated files.
+                <span className="font-bold text-red-500 block mt-2"> This action cannot be undone.</span>
               </p>
+
               <div className="flex justify-end gap-2">
                 <Button
                   variant="outline"
-                  onClick={() => {
-                    setIsDeleteModalOpen(false);
-                    setCheckToDelete(null);
-                  }}
+                  size="sm"
+                  onClick={() => setIsDeleteAllModalOpen(false)}
+                  disabled={isDeletingAll}
+                  className="border-gray-300 dark:border-gray-600"
                 >
                   Cancel
                 </Button>
                 <Button
                   variant="destructive"
-                  onClick={confirmDeleteCheck}
-                  disabled={isDeleting}
+                  size="sm"
+                  onClick={deleteAllChecks}
+                  disabled={isDeletingAll}
+                  className={`${isDeletingAll ? "opacity-80" : ""}`}
                 >
-                  {isDeleting ? "Deleting..." : "Delete"}
+                  {isDeletingAll ? (
+                    <>
+                      <div className="h-4 w-4 mr-1 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                      Deleting...
+                    </>
+                  ) : (
+                    <>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-4 w-4 mr-1"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                        />
+                      </svg>
+                      Delete All
+                    </>
+                  )}
                 </Button>
               </div>
             </div>
-          </CustomModal>
-
-          {/* Reports Tabs */}
-          <Tabs
-            defaultValue={activeTab}
-            onValueChange={(value) => {
-              setActiveTab(value);
-            }}
-            className="w-full mt-8"
-          >
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="all">
-                All ({filteredAllReports.length})
-              </TabsTrigger>
-              <TabsTrigger value="pending">
-                Pending ({reports.pending.length})
-              </TabsTrigger>
-              <TabsTrigger value="completed">
-                Completed ({reports.completed.length})
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="completed">
-              <Card className="shadow-md">
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-semibold mb-4">
-                    Completed Reports
-                  </h3>
-                  {reports.completed.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center p-6 space-y-4">
-                      <CheckCircle className="h-12 w-12 text-green-400" />
-                      <p className="text-gray-600 dark:text-gray-400">
-                        No completed reports yet.
-                      </p>
-                    </div>
-                  ) : (
-                    reports.completed
-                      .sort(
-                        (a, b) =>
-                          new Date(b.deliveryTime).getTime() -
-                          new Date(a.deliveryTime).getTime()
-                      )
-                      .map((report) => (
-                        <ReportItem
-                          key={report.checkId}
-                          report={report}
-                          onDownload={downloadFile}
-                          onViewTurnitinReports={handleViewTurnitinReports}
-                          onDownloadTurnitinReports={
-                            handleDownloadTurnitinReports
-                          }
-                          onDelete={handleDeleteCheck}
-                        />
-                      ))
-                  )}
-                </CardContent>
-              </Card>
-            </TabsContent>
-            <TabsContent value="pending">
-              <Card className="shadow-md">
-                <CardContent className="p-6">
-                  <h3 className="text-lg font-semibold mb-4">
-                    Pending Reports
-                  </h3>
-                  {reports.pending.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center p-6 space-y-4">
-                      <Clock className="h-12 w-12 text-yellow-400" />
-                      <p className="text-gray-600 dark:text-gray-400">
-                        No pending reports at the moment.
-                      </p>
-                    </div>
-                  ) : (
-                    reports.pending.map((report) => (
-                      <ReportItem
-                        key={report.checkId}
-                        report={report}
-                        onDownload={downloadFile}
-                        onViewTurnitinReports={handleViewTurnitinReports}
-                        onDownloadTurnitinReports={
-                          handleDownloadTurnitinReports
-                        }
-                        onDelete={handleDeleteCheck}
-                      />
-                    ))
-                  )}
-                </CardContent>
-              </Card>
-            </TabsContent>
-            <TabsContent value="all">
-              <Card className="shadow-md">
-                <CardContent className="p-6">
-                  <div className="flex justify-between mb-4">
-                    <div className="flex items-center space-x-2">
-                      <h3 className="text-lg font-semibold">All Reports</h3>
-                      <span className="text-green-500">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 inline-block"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M16 12H8m0 0l4-4m-4 4l4 4m8-4a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                      </span>
-                      <p className="text-xs text-green-500 mt-1">
-                        Email notification is on
-                      </p>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      {isSearchActive && (
-                        <div className="flex items-center space-x-2 bg-gray-100 dark:bg-gray-800 rounded-md px-3 py-1">
-                          <Input
-                            type="text"
-                            placeholder="Search by filename..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="border-0 bg-transparent focus-visible:ring-0 h-8 w-48 text-sm"
-                            autoFocus
-                          />
-                          {searchQuery && (
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              className="h-6 w-6 p-0"
-                              onClick={() => setSearchQuery("")}
-                            >
-                              <X className="h-4 w-4" />
-                            </Button>
-                          )}
-                        </div>
-                      )}
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={toggleSearch}
-                        className={`flex items-center space-x-1 ${
-                          isSearchActive
-                            ? "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400"
-                            : ""
-                        }`}
-                      >
-                        <Search className="h-4 w-4" />
-                        <span className="text-sm font-medium">Search</span>
-                      </Button>
-                      <Link
-                        href="/deletechecks"
-                        className="flex items-center space-x-2 text-red-500 hover:text-red-700 transition-colors duration-200"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M3 6h18M9 6v12m6-12v12M4 6l1-1h14l1 1M5 6v12a2 2 0 002 2h10a2 2 0 002-2V6"
-                          />
-                        </svg>
-                        <span className="text-sm font-medium">
-                          Delete Checks
-                        </span>
-                      </Link>
-                    </div>
-                  </div>
-                  {filteredAllReports.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center p-6 space-y-4">
-                      <FileText className="h-12 w-12 text-gray-400" />
-                      <p className="text-gray-600 dark:text-gray-400">
-                        No reports yet. Try submitting a file for free!
-                      </p>
-                    </div>
-                  ) : (
-                    filteredAllReports.map((report) => (
-                      <ReportItem
-                        key={report.checkId}
-                        report={report}
-                        onDownload={downloadFile}
-                        onViewTurnitinReports={handleViewTurnitinReports}
-                        onDownloadTurnitinReports={
-                          handleDownloadTurnitinReports
-                        }
-                        onDelete={handleDeleteCheck}
-                      />
-                    ))
-                  )}
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
+          </div>
         </div>
-      </main>
-      <Toaster position="bottom-center" richColors />
+      )}
     </div>
   );
 }

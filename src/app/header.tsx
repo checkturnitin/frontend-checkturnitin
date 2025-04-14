@@ -10,6 +10,7 @@ import { serverURL } from "@/utils/utils";
 import Image from "next/image";
 import { Toggle } from "@/components/ui/toggle";
 import { FiDollarSign } from "react-icons/fi";
+import MinidenticonImg from "./profile/MinidenticonImg";
 
 interface HeaderProps {
   onShowSignupForm?: () => void;
@@ -230,7 +231,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                 <button
                   className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
                 >
-                  {user?.name || "Dashboard"}
+                  <span>{user?.name || "Dashboard"}</span>
                 </button>
                 {isDropdownOpen && (
                   <div 
@@ -247,7 +248,13 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                   >
                     <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
                       <p className="text-sm font-medium text-gray-900 dark:text-white">
-                        Plan: {user?.planType?.toUpperCase() || 'BASIC'}
+                        Plan: {user?.planType?.toLowerCase() === 'pro' || user?.planType?.toLowerCase() === 'pro+' ? (
+                          <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-transparent bg-clip-text font-bold">
+                            {user.planType.toUpperCase()}
+                          </span>
+                        ) : (
+                          user?.planType?.toUpperCase() || 'BASIC'
+                        )}
                       </p>
                       <p className="text-sm text-gray-600 dark:text-gray-300">
                         Credits: {user?.credits || 0}
@@ -336,7 +343,13 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
               {isLoggedIn && (
                 <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
                   <p className="text-sm font-medium text-gray-900 dark:text-white">
-                    Plan: {user?.planType?.toUpperCase() || 'BASIC'}
+                    Plan: {user?.planType?.toLowerCase() === 'pro' || user?.planType?.toLowerCase() === 'pro+' ? (
+                      <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-transparent bg-clip-text font-bold">
+                        {user.planType.toUpperCase()}
+                      </span>
+                    ) : (
+                      user?.planType?.toUpperCase() || 'BASIC'
+                    )}
                   </p>
                   <p className="text-sm text-gray-600 dark:text-gray-300">
                     Credits: {user?.credits || 0}
@@ -359,7 +372,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                 )}
                 {isDarkMode ? "Light Mode" : "Dark Mode"}
               </Toggle>
-              <div>
+              <div className="space-y-4">
                 {!isLoggedIn ? (
                   <button
                     onClick={onShowSignupForm}
@@ -368,15 +381,26 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                     Try for Free
                   </button>
                 ) : (
-                  <button
-                    onClick={() => {
-                      setIsMobileMenuOpen(false);
-                      handleMouseEnter();
-                    }}
-                    className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                  >
-                    {user?.name || "Dashboard"}
-                  </button>
+                  <>
+                    <button
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        handleMouseEnter();
+                      }}
+                      className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    >
+                      <span>{user?.name || "Dashboard"}</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        localStorage.clear();
+                        window.location.href = "/";
+                      }}
+                      className="w-full flex items-center justify-center px-4 py-2 border border-red-300 rounded-md shadow-sm text-base font-medium text-red-600 bg-white hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    >
+                      Logout
+                    </button>
+                  </>
                 )}
               </div>
             </div>

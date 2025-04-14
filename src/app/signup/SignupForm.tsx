@@ -162,23 +162,23 @@ export default function SignupForm({ onClose }: SignupFormProps) {
         </Button>
         <div className="flex flex-col md:flex-row h-full relative z-10">
           {/* Left Side */}
-          <div className="flex-1 p-8 border-b md:border-b-0 md:border-r border-gray-200 dark:border-gray-700 flex flex-col justify-center items-center h-full bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-900">
-            <CardHeader className="text-center mb-8 flex flex-col justify-center items-center">
+          <div className="flex-1 p-4 md:p-8 border-b md:border-b-0 md:border-r border-gray-200 dark:border-gray-700 flex flex-col justify-center items-center h-full bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-900">
+            <CardHeader className="text-center mb-4 md:mb-8 flex flex-col justify-center items-center">
               <Image
                 src="/assets/logos/checkturnitin.svg"
                 alt="Aiplagreport Logo"
-                width={120}
-                height={120}
-                className="mb-4"
+                width={80}
+                height={80}
+                className="mb-2 md:mb-4 md:w-[120px] md:h-[120px]"
               />
-              <CardTitle className="text-4xl md:text-5xl font-extrabold text-indigo-900 dark:text-indigo-100 mb-2">
+              <CardTitle className="text-2xl md:text-4xl lg:text-5xl font-extrabold text-indigo-900 dark:text-indigo-100 mb-2">
                 Aiplagreport
               </CardTitle>
-              <p className="text-xl md:text-2xl text-indigo-700 dark:text-indigo-300">
+              <p className="text-lg md:text-xl lg:text-2xl text-indigo-700 dark:text-indigo-300">
                 Get authentic Turnitin AI and plagiarism reports in minutes
               </p>
             </CardHeader>
-            <div className="mt-8 text-center">
+            <div className="mt-4 md:mt-8 text-center">
               <p className="text-sm text-indigo-600 dark:text-indigo-400">
                 Join thousands of users ensuring academic integrity with Aiplagreport
               </p>
@@ -186,10 +186,10 @@ export default function SignupForm({ onClose }: SignupFormProps) {
           </div>
 
           {/* Right Side */}
-          <div className="flex-1 p-8 flex flex-col justify-center items-center bg-white dark:bg-gray-800">
-            <div className="w-full max-w-sm space-y-6">
+          <div className="flex-1 p-4 md:p-8 flex flex-col justify-center items-center bg-white dark:bg-gray-800">
+            <div className="w-full max-w-sm space-y-4 md:space-y-6">
               <div className="text-center space-y-2">
-                <h3 className="text-2xl font-bold text-indigo-900 dark:text-indigo-100">Get Started</h3>
+                <h3 className="text-xl md:text-2xl font-bold text-indigo-900 dark:text-indigo-100">Get Started</h3>
                 <p className="text-sm text-indigo-600 dark:text-indigo-400">Join in seconds • No credit card needed</p>
               </div>
               <div className="space-y-4">
@@ -199,14 +199,24 @@ export default function SignupForm({ onClose }: SignupFormProps) {
                       <GoogleLogin
                         onSuccess={handleGoogleSuccess}
                         onError={handleGoogleError}
+                        useOneTap
+                        theme="filled_black"
                         size="large"
-                        theme="outline"
-                        shape="pill"
-                        locale="english"
-                        text="continue_with"
+                        width="100%"
                       />
                     ) : (
-                      <div className="h-10 w-64 bg-gray-200 dark:bg-gray-700 rounded-full animate-pulse"></div>
+                      <Button
+                        onClick={triggerGoogleLogin}
+                        className="w-full flex items-center justify-center space-x-2 bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+                      >
+                        <Image
+                          src="/assets/logos/google.svg"
+                          alt="Google Logo"
+                          width={20}
+                          height={20}
+                        />
+                        <span>Continue with Google</span>
+                      </Button>
                     )}
                   </div>
                 </GoogleOAuthProvider>

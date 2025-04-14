@@ -8,7 +8,7 @@ import dynamic from "next/dynamic";
 const PDFViewer = dynamic(() => import("./pdf-viewer").then(mod => mod.default), { ssr: false });
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
-import { FiDownload, FiEye, FiTrash2 } from "react-icons/fi";
+import { FiDownload, FiEye, FiTrash2, FiMail } from "react-icons/fi";
 import {
   Dialog,
   DialogContent,
@@ -18,6 +18,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface ReportItemProps {
   report: {
@@ -70,6 +76,14 @@ const isRecent = (deliveryTime: string) => {
   return currentTime - deliveryDateTime < 24 * 60 * 60 * 1000; // Less than 24 hours
 };
 
+const truncateFileName = (fileName: string, maxLength: number = 20) => {
+  if (fileName.length <= maxLength) return fileName;
+  const extension = fileName.split('.').pop();
+  const nameWithoutExtension = fileName.substring(0, fileName.lastIndexOf('.'));
+  const truncatedName = nameWithoutExtension.substring(0, maxLength - 3);
+  return `${truncatedName}...${extension ? `.${extension}` : ''}`;
+};
+
 export const ReportItem: React.FC<ReportItemProps> = ({
   report,
   onDownload,
@@ -115,11 +129,11 @@ export const ReportItem: React.FC<ReportItemProps> = ({
       <CardContent className="p-6">
         <div className="flex flex-col md:flex-row justify-between gap-4">
           <div className="space-y-3 flex-1">
-            <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-lg flex items-center gap-2">
-                {report.fileId.originalFileName}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+              <h3 className="font-semibold text-lg flex flex-wrap items-center gap-2">
+                {truncateFileName(report.fileId.originalFileName)}
                 {isRecent(report.deliveryTime) && (
-                  <Badge variant="secondary" className="ml-2">Recent</Badge>
+                  <Badge variant="secondary" className="ml-0 sm:ml-2">Recent</Badge>
                 )}
               </h3>
               <Badge
@@ -140,9 +154,24 @@ export const ReportItem: React.FC<ReportItemProps> = ({
               <p>Stored Filename: {report.fileId.storedFileName}</p>
               <p>Check ID: {report.checkId.slice(0, 8)}...</p>
               <p>Delivery: {new Date(report.deliveryTime).toLocaleString()}</p>
+              <div className="flex items-center gap-2">
+                <span>Email Notification:</span>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <div className="flex items-center">
+                        <FiMail className="h-4 w-4 text-green-600 dark:text-green-400" />
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>All check notifications are sent to your email</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
             </div>
 
-            {timeLeft.isExceededBy20Minutes && (
+            {timeLeft.isExceededBy20Minutes && report.status !== "completed" && report.status !== "failed" && (
               <div className="mt-2 p-3 bg-red-50 dark:bg-red-900/20 rounded-md border border-red-200 dark:border-red-800">
                 <p className="text-sm text-red-600 dark:text-red-400 flex items-center gap-2">
                   <span className="text-lg">⚠️</span>
@@ -152,34 +181,36 @@ export const ReportItem: React.FC<ReportItemProps> = ({
             )}
 
             <div className="flex flex-wrap gap-2 pt-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setIsViewModalOpen(true)}
-                className="text-xs"
-              >
-                <Eye className="h-3 w-3 mr-1" />
-                View Initial
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleDownload}
-                disabled={isLoading}
-                className="text-xs"
-              >
-                <Download className="h-3 w-3 mr-1" />
-                {isLoading ? "Downloading..." : "Download Initial"}
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setIsDeleteDialogOpen(true)}
-                className="text-xs text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
-              >
-                <FiTrash2 className="h-3 w-3 mr-1" />
-                Delete
-              </Button>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setIsViewModalOpen(true)}
+                  className="text-xs"
+                >
+                  <Eye className="h-4 w-4" />
+                  <span className="hidden sm:inline ml-1">Preview</span>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleDownload}
+                  disabled={isLoading}
+                  className="text-xs"
+                >
+                  <Download className="h-3 w-3 mr-1" />
+                  {isLoading ? "Downloading..." : "Download Initial"}
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setIsDeleteDialogOpen(true)}
+                  className="text-xs text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                >
+                  <FiTrash2 className="h-3 w-3 mr-1" />
+                  Delete
+                </Button>
+              </div>
             </div>
           </div>
 
@@ -199,6 +230,18 @@ export const ReportItem: React.FC<ReportItemProps> = ({
                       >
                         {report.reportId.reports.ai.metadata.score === "-1" ? "0-20%" : `${report.reportId.reports.ai.metadata.score}%`}
                       </span>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="inline-flex items-center ml-2">
+                              <FiMail className="h-3 w-3 text-green-600 dark:text-green-400" />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Report sent to your email</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </div>
                   )}
                   {report.reportId.reports.plagiarism && (
@@ -213,6 +256,18 @@ export const ReportItem: React.FC<ReportItemProps> = ({
                       >
                         {report.reportId.reports.plagiarism.metadata.score}%
                       </span>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <div className="inline-flex items-center ml-2">
+                              <FiMail className="h-3 w-3 text-green-600 dark:text-green-400" />
+                            </div>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>Report sent to your email</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
                     </div>
                   )}
                 </>
@@ -271,7 +326,7 @@ export const ReportItem: React.FC<ReportItemProps> = ({
       <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
         <DialogContent className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] z-50">
           <DialogHeader>
-            <DialogTitle>Delete Check</DialogTitle>
+            <DialogTitle>Delete All</DialogTitle>
             <DialogDescription>
               Are you sure you want to delete this check? This action cannot be undone.
             </DialogDescription>
