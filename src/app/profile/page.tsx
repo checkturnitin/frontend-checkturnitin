@@ -312,92 +312,67 @@ export default function ProfilePage() {
     <>
       <Header />
       <div className="min-h-screen bg-white dark:bg-black text-gray-900 dark:text-gray-100 transition-colors duration-200">
-        <main className="pt-9 pb-8 overflow-y-auto">
-          <div className="max-w-7xl mx-auto sm:px-6 lg:px-8 mt-20">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <main className="pt-4 sm:pt-9 pb-8 overflow-y-auto">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16 sm:mt-20">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8 mb-8 sm:mb-12">
               <Card className="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md text-gray-900 dark:text-gray-100 rounded-lg">
-                <CardHeader>
-                  <CardTitle>Profile Information</CardTitle>
+                <CardHeader className="p-4 sm:p-6">
+                  <CardTitle className="text-lg sm:text-xl">Profile Information</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="flex items-center mb-6">
+                <CardContent className="p-4 sm:p-6">
+                  <div className="flex flex-col sm:flex-row items-center mb-4 sm:mb-6">
                     <MinidenticonImg
                       username={user.email}
                       width={150}
                       height={150}
-                      className="w-[100px] h-[100px] sm:w-[150px] sm:h-[150px] rounded-full mr-6"
+                      className="w-[80px] h-[80px] sm:w-[100px] sm:h-[100px] rounded-full mb-4 sm:mb-0 sm:mr-6"
                     />
-                    <div className="max-w-full overflow-hidden flex flex-col sm:flex-row sm:justify-between w-full">
-                      <div className="mb-4 sm:mb-0">
-                        <p className="text-xl font-semibold mb-2">
-                          {user.name}
-                        </p>
-                        <p className="text-gray-600 mb-2">{user.email}</p>
-                        <div className="flex items-center">
-                          <p className="text-gray-600 mr-2">Referral Code:</p>
-                          <p className="font-semibold">{user.referralCode}</p>
-                          <Button
-                            variant="ghost"
-                            onClick={copyReferralLink}
-                            className="ml-2 text-gray-600 hover:text-gray-800"
-                          >
-                            <FiCopy />
-                          </Button>
-                        </div>
-                        <p className="text-gray-600 mt-2">
-                          Total Completed Referrals: {totalCompletedReferrals}
-                        </p>
-                      </div>
-                      <div className="flex flex-col items-end">
+                    <div className="text-center sm:text-left w-full">
+                      <p className="text-lg sm:text-xl font-semibold mb-2">
+                        {user.name}
+                      </p>
+                      <p className="text-gray-600 dark:text-gray-400 mb-2 break-all">{user.email}</p>
+                      <div className="flex items-center justify-center sm:justify-start">
+                        <p className="text-gray-600 dark:text-gray-400 mr-2">Referral Code:</p>
+                        <p className="font-semibold">{user.referralCode}</p>
                         <Button
-                          variant="default"
-                          className={`text-gray-900 font-semibold py-2 px-4 rounded-lg relative ${
-                            expirationStatus?.user.planType === "basic"
-                              ? "bg-gray-200 hover:bg-gray-300 border border-gray-300"
-                              : "border-2 border-transparent"
-                          }`}
-                          style={{
-                            background:
-                              expirationStatus?.user.planType !== "basic"
-                                ? "linear-gradient(to right, #ffffff, #ffffff) padding-box, linear-gradient(to right, #ffaa40, #9c40ff) border-box"
-                                : undefined,
-                            backgroundClip:
-                              expirationStatus?.user.planType !== "basic"
-                                ? "padding-box, border-box"
-                                : undefined,
-                          }}
-                          onClick={handleRedirect}
+                          variant="ghost"
+                          onClick={copyReferralLink}
+                          className="ml-2 text-gray-600 hover:text-gray-800"
                         >
-                          {expirationStatus?.user.planType?.toUpperCase()}
+                          <FiCopy />
                         </Button>
                       </div>
+                      <p className="text-gray-600 dark:text-gray-400 mt-2">
+                        Total Completed Referrals: {totalCompletedReferrals}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
 
               <Card className="bg-gradient-to-br from-indigo-500 to-purple-600 dark:from-indigo-800 dark:to-purple-900 text-white shadow-xl overflow-hidden">
-                <CardHeader className="bg-opacity-80 backdrop-blur-sm">
-                  <CardTitle className="text-2xl font-bold flex items-center">
+                <CardHeader className="bg-opacity-80 backdrop-blur-sm p-4 sm:p-6">
+                  <CardTitle className="text-xl sm:text-2xl font-bold flex items-center">
                     <FiGift className="mr-2" /> Refer Your Friends
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="p-6">
-                  <p className="text-lg mb-6">
+                <CardContent className="p-4 sm:p-6">
+                  <p className="text-base sm:text-lg mb-4 sm:mb-6">
                     Earn{" "}
                     <span className="font-bold text-yellow-300">
                       1 File credits
                     </span>{" "}
                     for each friend who signs up using your referral code! 🎉
                   </p>
-                  <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-4 mb-6">
-                    <p className="font-semibold text-center break-all">
+                  <div className="bg-white bg-opacity-20 backdrop-blur-sm rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
+                    <p className="font-semibold text-center break-all text-sm sm:text-base">
                       {referralLink}
                     </p>
                   </div>
                   <Button
                     onClick={copyReferralLink}
-                    className="w-full bg-white text-indigo-600 hover:bg-indigo-100 font-semibold py-3 px-4 rounded-full transition-all duration-200 flex items-center justify-center"
+                    className="w-full bg-white text-indigo-600 hover:bg-indigo-100 font-semibold py-2 sm:py-3 px-4 rounded-full transition-all duration-200 flex items-center justify-center"
                   >
                     <FiCopy className="mr-2" /> Copy Referral Link
                   </Button>
@@ -405,44 +380,38 @@ export default function ProfilePage() {
               </Card>
             </div>
 
-            <Card className="mb-12 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md text-gray-900 dark:text-gray-100 rounded-lg">
-              <CardHeader className="bg-gradient-to-r from-indigo-100 to-indigo-200 dark:from-indigo-900 dark:to-black p-6">
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+            <Card className="mb-8 sm:mb-12 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md text-gray-900 dark:text-gray-100 rounded-lg">
+              <CardHeader className="bg-gradient-to-r from-indigo-100 to-indigo-200 dark:from-indigo-900 dark:to-black p-4 sm:p-6">
+                <CardTitle className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">
                   File Credits Balance
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-6">
+              <CardContent className="p-4 sm:p-6">
                 <div className="flex flex-col sm:flex-row justify-between items-center">
                   <div className="mb-4 sm:mb-0 text-center sm:text-left">
-                    <div className="flex items-center">
-                      <FiFileText className="text-4xl text-indigo-600 mr-4" />
+                    <div className="flex items-center justify-center sm:justify-start">
+                      <FiFileText className="text-3xl sm:text-4xl text-indigo-600 mr-3 sm:mr-4" />
                       <div>
-                        <p className="text-6xl font-bold text-indigo-600 mb-2">
+                        <p className="text-4xl sm:text-6xl font-bold text-indigo-600 mb-2">
                           {user.credits || 0}
                         </p>
-                        <p className="text-lg text-gray-600 dark:text-gray-400">
+                        <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400">
                           Available File Credits
                         </p>
                       </div>
                     </div>
                   </div>
-                  <div className="flex space-x-2">
+                  <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2 w-full sm:w-auto">
                     <Button
                       onClick={claimTurnitinCredits}
-                      className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200"
+                      className="w-full sm:w-auto bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200"
                     >
                       Refresh Credits
                     </Button>
-                    {/* <Button
-                      onClick={claimTurnitinCredits}
-                      className="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200"
-                    >
-                      Claim Credits
-                    </Button> */}
                   </div>
                 </div>
-                <div className="mt-6">
-                  <p className="text-lg text-gray-600 dark:text-gray-400">
+                <div className="mt-4 sm:mt-6">
+                  <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400">
                     <span className="font-semibold text-gray-900 dark:text-gray-100">
                       Plan Type:
                     </span>{" "}
@@ -457,80 +426,22 @@ export default function ProfilePage() {
                     Upgrade Your Plan
                   </Button>
                 </div>
-                <div className="mt-4">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        {/* <p className="text-sm text-gray-600 dark:text-gray-400 cursor-pointer">
-                          Credit Expiration Date:
-                          <span className="text-gray-900 dark:text-gray-100 font-semibold ml-2">
-                            {expirationStatus?.user.expirationDate?.split("T")[0] || "N/A"}
-                          </span>
-                          {expirationStatus?.user.expirationDate && (
-                            <span className="text-sm text-gray-600 dark:text-gray-400 ml-2">
-                              ({(() => {
-                                const expirationDate = new Date(expirationStatus.user.expirationDate)
-                                const today = new Date()
-                                const timeDifference = expirationDate.getTime() - today.getTime()
-                                const daysToExpire = Math.ceil(timeDifference / (1000 * 60 * 60 * 24))
-                                return `${daysToExpire} day${daysToExpire !== 1 ? "s" : ""} left`
-                              })()})
-                            </span>
-                          )}
-                        </p> */}
-                      </TooltipTrigger>
-                      <TooltipContent className="bg-white text-gray-900 p-2 rounded shadow-lg">
-                        {expirationStatus?.user.expirationDate
-                          ? "Your credits will expire if not renewed."
-                          : "No expiration date available."}
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-                {expirationStatus?.user.expirationDate &&
-                  (() => {
-                    const expirationDate = new Date(
-                      expirationStatus.user.expirationDate
-                    );
-                    const today = new Date();
-                    const timeDifference =
-                      expirationDate.getTime() - today.getTime();
-                    const daysToExpire = Math.ceil(
-                      timeDifference / (1000 * 60 * 60 * 24)
-                    );
-
-                    if (daysToExpire < 0) {
-                      return (
-                        <p className="mt-2 text-sm text-red-400">
-                          Warning: Your credits have expired!
-                        </p>
-                      );
-                    } else if (daysToExpire <= 30) {
-                      return (
-                        <p className="mt-2 text-sm text-yellow-400">
-                          Your credits are going to expire in {daysToExpire}{" "}
-                          days. Renew fast!
-                        </p>
-                      );
-                    }
-                    return null;
-                  })()}
               </CardContent>
             </Card>
 
-            <Card className="mb-12 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 cursor-pointer rounded-lg shadow-lg border-2 border-indigo-500">
-              <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+            <Card className="mb-8 sm:mb-12 bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 cursor-pointer rounded-lg shadow-lg border-2 border-indigo-500">
+              <CardHeader className="p-4 sm:p-6">
+                <CardTitle className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">
                   Quick Actions
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <Link href="/pricing">
-                    <Card className="bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 cursor-pointer rounded-lg shadow-lg border-2 border-indigo-500">
-                      <CardContent className="flex flex-col items-center justify-center p-8">
-                        <FiShoppingCart className="text-5xl text-indigo-600 mb-4" />
-                        <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+              <CardContent className="p-4 sm:p-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+                  <Link href="/pricing" className="w-full">
+                    <Card className="bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 cursor-pointer rounded-lg shadow-lg border-2 border-indigo-500 h-full">
+                      <CardContent className="flex flex-col items-center justify-center p-6">
+                        <FiShoppingCart className="text-4xl sm:text-5xl text-indigo-600 mb-3 sm:mb-4" />
+                        <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
                           Purchase
                         </h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
@@ -539,11 +450,11 @@ export default function ProfilePage() {
                       </CardContent>
                     </Card>
                   </Link>
-                  <Link href="/earn">
-                    <Card className="bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 cursor-pointer rounded-lg shadow-lg border-2 border-indigo-500">
-                      <CardContent className="flex flex-col items-center justify-center p-8">
-                        <FiDollarSign className="text-5xl text-indigo-600 mb-4" />
-                        <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                  <Link href="/earn" className="w-full">
+                    <Card className="bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 cursor-pointer rounded-lg shadow-lg border-2 border-indigo-500 h-full">
+                      <CardContent className="flex flex-col items-center justify-center p-6">
+                        <FiDollarSign className="text-4xl sm:text-5xl text-indigo-600 mb-3 sm:mb-4" />
+                        <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
                           Earn
                         </h3>
                         <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
@@ -553,12 +464,12 @@ export default function ProfilePage() {
                     </Card>
                   </Link>
                   <Card 
-                    className="bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 cursor-pointer rounded-lg shadow-lg border-2 border-red-500"
+                    className="bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 transition-all duration-200 cursor-pointer rounded-lg shadow-lg border-2 border-red-500 h-full"
                     onClick={() => setIsDeleteModalOpen(true)}
                   >
-                    <CardContent className="flex flex-col items-center justify-center p-8">
-                      <FiTrash2 className="text-5xl text-red-600 mb-4" />
-                      <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                    <CardContent className="flex flex-col items-center justify-center p-6">
+                      <FiTrash2 className="text-4xl sm:text-5xl text-red-600 mb-3 sm:mb-4" />
+                      <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2">
                         Delete All Checks
                       </h3>
                       <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
@@ -570,13 +481,13 @@ export default function ProfilePage() {
               </CardContent>
             </Card>
 
-            <Card className="mb-12 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md text-gray-900 dark:text-gray-100 rounded-lg">
-              <CardHeader className="flex items-center justify-between cursor-pointer bg-gradient-to-r from-indigo-100 to-indigo-200 dark:from-indigo-900 dark:to-black">
+            <Card className="mb-8 sm:mb-12 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 shadow-md text-gray-900 dark:text-gray-100 rounded-lg">
+              <CardHeader className="flex items-center justify-between cursor-pointer bg-gradient-to-r from-indigo-100 to-indigo-200 dark:from-indigo-900 dark:to-black p-4 sm:p-6">
                 <div
                   className="flex items-center flex-grow"
                   onClick={() => setIsPurchasesCollapsed(!isPurchasesCollapsed)}
                 >
-                  <CardTitle className="flex items-center text-gray-900 dark:text-gray-100">
+                  <CardTitle className="flex items-center text-gray-900 dark:text-gray-100 text-lg sm:text-xl">
                     Recent Purchases
                     <TooltipProvider>
                       <Tooltip>
@@ -601,41 +512,41 @@ export default function ProfilePage() {
               </CardHeader>
 
               {!isPurchasesCollapsed && (
-                <CardContent>
+                <CardContent className="p-4 sm:p-6">
                   {purchases.length > 0 ? (
-                    <Table className="text-gray-900 dark:text-gray-100">
-                      <TableHead>
-                        <TableRow className="bg-indigo-100 dark:bg-gray-800">
-                          <TableHead className="text-indigo-700 dark:text-indigo-300 font-semibold">
-                            Item
-                          </TableHead>
-                          <TableHead className="text-indigo-700 font-semibold">
-                            Amount
-                          </TableHead>
-                          <TableHead className="text-indigo-700 font-semibold">
-                            Payment Method
-                          </TableHead>
-                          <TableHead className="text-indigo-700 font-semibold">
-                            Date
-                          </TableHead>
-                          <TableHead className="text-indigo-700 font-semibold">
-                            Invoice
-                          </TableHead>
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                        {purchases.map((purchase) => (
-                          <TableRow
-                            key={purchase._id}
-                            className="hover:bg-indigo-100 dark:hover:bg-gray-800 transition-colors duration-200"
-                          >
-                            <TableCell>{purchase.item}</TableCell>
-                            <TableCell>${purchase.amount.toFixed(2)}</TableCell>
-                            <TableCell>{purchase.paymentMethod}</TableCell>
-                            <TableCell>{purchase.date}</TableCell>
-                            <TableCell className="text-indigo-600 cursor-pointer hover:text-indigo-700 transition-colors duration-200">
-                              {purchase.invoiceId ? (
-                                <>
+                    <div className="overflow-x-auto">
+                      <Table className="text-gray-900 dark:text-gray-100">
+                        <TableHead>
+                          <TableRow className="bg-indigo-100 dark:bg-gray-800">
+                            <TableHead className="text-indigo-700 dark:text-indigo-300 font-semibold whitespace-nowrap">
+                              Item
+                            </TableHead>
+                            <TableHead className="text-indigo-700 font-semibold whitespace-nowrap">
+                              Amount
+                            </TableHead>
+                            <TableHead className="text-indigo-700 font-semibold whitespace-nowrap">
+                              Payment Method
+                            </TableHead>
+                            <TableHead className="text-indigo-700 font-semibold whitespace-nowrap">
+                              Date
+                            </TableHead>
+                            <TableHead className="text-indigo-700 font-semibold whitespace-nowrap">
+                              Invoice
+                            </TableHead>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {purchases.map((purchase) => (
+                            <TableRow
+                              key={purchase._id}
+                              className="hover:bg-indigo-100 dark:hover:bg-gray-800 transition-colors duration-200"
+                            >
+                              <TableCell className="whitespace-nowrap">{purchase.item}</TableCell>
+                              <TableCell className="whitespace-nowrap">${purchase.amount.toFixed(2)}</TableCell>
+                              <TableCell className="whitespace-nowrap">{purchase.paymentMethod}</TableCell>
+                              <TableCell className="whitespace-nowrap">{purchase.date}</TableCell>
+                              <TableCell className="text-indigo-600 cursor-pointer hover:text-indigo-700 transition-colors duration-200 whitespace-nowrap">
+                                {purchase.invoiceId ? (
                                   <button
                                     onClick={() =>
                                       downloadInvoice(purchase.invoiceId)
@@ -645,17 +556,17 @@ export default function ProfilePage() {
                                     Download
                                     <FiDownload className="ml-1" />
                                   </button>
-                                </>
-                              ) : (
-                                "N/A"
-                              )}
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
+                                ) : (
+                                  "N/A"
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
                   ) : (
-                    <p className="text-gray-600 dark:text-gray-400">
+                    <p className="text-gray-600 dark:text-gray-400 text-center">
                       No purchases yet.
                     </p>
                   )}
