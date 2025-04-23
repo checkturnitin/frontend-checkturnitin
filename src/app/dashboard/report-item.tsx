@@ -263,7 +263,7 @@ export const ReportItem: React.FC<ReportItemProps> = ({
                             : "text-red-600 dark:text-red-400"
                         }`}
                       >
-                        {report.reportId.reports.ai.metadata.score === "-1" ? "0-20%" : `${report.reportId.reports.ai.metadata.score}%`}
+                        {report.reportId.reports.ai.metadata.score === "-1" ? "0-19%" : `${report.reportId.reports.ai.metadata.score}%`}
                       </span>
                     </div>
                   )}
