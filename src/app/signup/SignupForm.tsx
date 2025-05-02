@@ -193,31 +193,17 @@ export default function SignupForm({ onClose }: SignupFormProps) {
                 <p className="text-sm text-indigo-600 dark:text-indigo-400">Join in seconds • No credit card needed</p>
               </div>
               <div className="space-y-4">
-                <GoogleOAuthProvider clientId="602949390183-ojddmp4tgg8tslj9oqd7orv8otekopdr.apps.googleusercontent.com">
+                <GoogleOAuthProvider clientId="602949390183-psrsjirtds7nqpm6f9j07rkasc0jecss.apps.googleusercontent.com">
                   <div className="flex justify-center" ref={googleLoginRef}>
-                    {isGoogleLoaded ? (
-                      <GoogleLogin
-                        onSuccess={handleGoogleSuccess}
-                        onError={handleGoogleError}
-                        useOneTap
-                        theme="filled_black"
-                        size="large"
-                        width="100%"
-                      />
-                    ) : (
-                      <Button
-                        onClick={triggerGoogleLogin}
-                        className="w-full flex items-center justify-center space-x-2 bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
-                      >
-                        <Image
-                          src="/assets/logos/google.svg"
-                          alt="Google Logo"
-                          width={20}
-                          height={20}
-                        />
-                        <span>Continue with Google</span>
-                      </Button>
-                    )}
+                    <GoogleLogin
+                      onSuccess={handleGoogleSuccess}
+                      onError={handleGoogleError}
+                      useOneTap
+                      theme="filled_black"
+                      size="large"
+                      width="100%"
+                      auto_select={false}
+                    />
                   </div>
                 </GoogleOAuthProvider>
                 <div className="text-xs text-gray-600 dark:text-gray-400 text-center px-6">

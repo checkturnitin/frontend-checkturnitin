@@ -18,6 +18,8 @@ import dynamic from "next/dynamic";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { FiTrash2 } from "react-icons/fi";
+import Stepper, { Step } from '@/components/Stepper/Stepper';
+import { CheckCircle2, Globe, HelpCircle } from "lucide-react";
 
 const PDFViewer = dynamic(
   () => import("./pdf-viewer").then((mod) => mod.default),
@@ -32,6 +34,7 @@ export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [planType, setPlanType] = useState<string>("basic");
   const [wordCount, setWordCount] = useState<number | null>(null);
+  const [showStepper, setShowStepper] = useState(false);
 
   interface Report {
     checkId: string;
@@ -135,6 +138,13 @@ export default function Home() {
         setIsLoggedIn(true);
         setPlanType(response.data.user.planType);
         localStorage.setItem("planType", response.data.user.planType);
+        
+        // Show stepper on first visit
+        const hasSeenStepper = localStorage.getItem("hasSeenStepper");
+        if (!hasSeenStepper) {
+          setShowStepper(true);
+          localStorage.setItem("hasSeenStepper", "true");
+        }
       } catch (error) {
         setIsLoggedIn(false);
         toast.error("Something went wrong!");
@@ -1006,6 +1016,113 @@ export default function Home() {
                 </Button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Stepper Modal */}
+      {showStepper && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="w-full max-w-2xl">
+            <Stepper
+              initialStep={1}
+              onStepChange={(step) => {
+                console.log(step);
+              }}
+              onFinalStepCompleted={() => {
+                setShowStepper(false);
+                console.log("All steps completed!");
+              }}
+              backButtonText="Previous"
+              nextButtonText="Next"
+              stepCircleContainerClassName="rounded-2xl"
+              stepContainerClassName="p-4"
+              contentClassName="p-4"
+              footerClassName="mt-2"
+            >
+              <Step>
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <h2 className="text-2xl font-bold text-white">
+                      Welcome to AIPlagReport 👋
+                    </h2>
+                    <p className="text-white/80 text-lg">
+                      Your journey to authentic Turnitin checks starts here!
+                    </p>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                      <div className="h-2 w-2 rounded-full bg-white/80" />
+                      <span className="text-white/90">Upload your document</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                      <div className="h-2 w-2 rounded-full bg-white/80" />
+                      <span className="text-white/90">Get instant AI & Plagiarism analysis</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                      <div className="h-2 w-2 rounded-full bg-white/80" />
+                      <span className="text-white/90">Download your authentic Turnitin report</span>
+                    </div>
+                  </div>
+                </div>
+              </Step>
+              <Step>
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <h2 className="text-2xl font-bold text-white">
+                      What files do we accept?
+                    </h2>
+                    <p className="text-white/80 text-lg">
+                      We support the following file formats and requirements:
+                    </p>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                      <div className="h-2 w-2 rounded-full bg-white/80" />
+                      <span className="text-white/90">PDF, DOC, or DOCX format</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                      <div className="h-2 w-2 rounded-full bg-white/80" />
+                      <span className="text-white/90">Minimum 350 words per paragraph</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                      <div className="h-2 w-2 rounded-full bg-white/80" />
+                      <span className="text-white/90">No presentations or Excel files</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                      <div className="h-2 w-2 rounded-full bg-white/80" />
+                      <span className="text-white/90">Maximum file size: 100MB</span>
+                    </div>
+                  </div>
+                </div>
+              </Step>
+              <Step>
+                <div className="space-y-6">
+                  <div className="space-y-2">
+                    <h2 className="text-2xl font-bold text-white">
+                      Ready to get started?
+                    </h2>
+                    <p className="text-white/80 text-lg">
+                      Upload your document now and receive your authentic Turnitin report in minutes!
+                    </p>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                      <div className="h-2 w-2 rounded-full bg-white/80" />
+                      <span className="text-white/90">No database storage - your document stays private</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                      <div className="h-2 w-2 rounded-full bg-white/80" />
+                      <span className="text-white/90">Get both AI and Plagiarism reports</span>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
+                      <div className="h-2 w-2 rounded-full bg-white/80" />
+                      <span className="text-white/90">Instant results with detailed analysis</span>
+                    </div>
+                  </div>
+                </div>
+              </Step>
+            </Stepper>
           </div>
         </div>
       )}

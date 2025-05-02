@@ -15,6 +15,7 @@ import {
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core"
 import { Card, CardContent } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { TextHoverEffect } from "@/components/ui/text-hover-effect"
 
 const paymentIcons = [
   { icon: faCcVisa, name: "Visa", lightColor: "#1a1f71", darkColor: "#ffffff" },
@@ -43,28 +44,28 @@ const CenteredFooter: React.FC = () => {
   }
 
   return (
-    <footer className="bg-gradient-to-b from-background to-muted py-12 w-full font-sans border-t rounded-t-3xl">
+    <footer className="bg-gradient-to-b from-background to-muted py-16 w-full font-sans border-t rounded-t-3xl">
       <motion.div
-        className="container mx-auto px-4 max-w-4xl"
+        className="container mx-auto px-4 max-w-6xl"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        <motion.div variants={itemVariants} className="text-center mb-8">
-          <img src="/assets/images/checkturnitin.svg" alt="aiplagreport Logo" className="mx-auto mb-4 h-12" />
-          <h2 className="text-2xl font-bold text-primary">Check For Plagiarism and AI</h2>
+        <motion.div variants={itemVariants} className="text-center mb-12">
+          <img src="/assets/images/checkturnitin.svg" alt="aiplagreport Logo" className="mx-auto mb-6 h-16" />
+
         </motion.div>
 
-        <Card className="mb-8">
-          <CardContent className="p-6">
+        <Card className="mb-12 bg-white/50 dark:bg-white/5 backdrop-blur-sm">
+          <CardContent className="p-8">
             <motion.div variants={itemVariants}>
-              <h3 className="text-xl font-semibold mb-4 text-center">Supported Payments</h3>
-              <div className="flex flex-wrap justify-center gap-4">
+              <h3 className="text-3xl font-semibold mb-6 text-center">Supported Payments</h3>
+              <div className="flex flex-wrap justify-center gap-8">
                 {paymentIcons.map((icon, idx) => (
                   <FontAwesomeIcon
                     key={idx}
                     icon={icon.icon as IconDefinition}
-                    className="text-3xl transition-all duration-300 hover:scale-110 hover:drop-shadow-md"
+                    className="text-5xl transition-all duration-300 hover:scale-110 hover:drop-shadow-lg"
                     style={{
                       color: `var(--icon-color-${icon.name.toLowerCase().replace(/\s+/g, "-")})`,
                     }}
@@ -75,33 +76,40 @@ const CenteredFooter: React.FC = () => {
           </CardContent>
         </Card>
 
-        <motion.div variants={itemVariants} className="text-center mb-8">
+        <motion.div variants={itemVariants} className="text-center mb-12">
           <a
             href="mailto:contact@aiplagreport.com"
-            className="text-primary hover:text-primary/80 transition-colors duration-300"
+            className="text-3xl text-primary hover:text-primary/80 transition-colors duration-300"
           >
             contact@aiplagreport.com
           </a>
         </motion.div>
 
-        <Separator className="mb-8" />
+        <Separator className="mb-12" />
 
         <motion.div variants={itemVariants} className="text-center">
-          <div className="text-sm text-muted-foreground">
-            <a href="/assets/terms-condition.txt" className="mr-4 hover:text-primary">
+          <div className="text-xl text-muted-foreground space-x-8 mb-8">
+            <a href="/assets/terms-condition.txt" className="hover:text-primary transition-colors duration-300">
               Terms & Conditions
             </a>
-            <a href="/assets/privacypolicy.txt" className="mr-4 hover:text-primary">
+            <a href="/assets/privacypolicy.txt" className="hover:text-primary transition-colors duration-300">
               Privacy Policy
             </a>
-            <a href="/assets/refundpolicy.txt" className="hover:text-primary">
+            <a href="/assets/refundpolicy.txt" className="hover:text-primary transition-colors duration-300">
               Refund Policy
             </a>
           </div>
-          <p className="mt-4">
+          <p className="text-2xl mb-4">
             © aiplagreport {new Date().getFullYear()}. Designed with ❤️ by aiplagreport Team. 
           </p>
+          <p className="text-xl text-gray-600 dark:text-gray-400 mb-4">
+            Made in Estonia
+          </p>
         </motion.div>
+
+        <div className="h-32 sm:h-40 md:h-48 lg:h-56 mb-8 sm:mb-12">
+            <TextHoverEffect text="Aiplagreport.com" duration={0.3} />
+        </div>
       </motion.div>
     </footer>
   )

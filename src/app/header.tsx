@@ -184,6 +184,9 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
             <Link href="/earn" className="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition duration-150 ease-in-out">
               Earn
             </Link>
+            <Link href="/faq" className="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition duration-150 ease-in-out">
+              FAQ
+            </Link>
             <a
               href="https://discord.gg/R2zK3A5ftj"
               target="_blank"
@@ -316,6 +319,9 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                   </Link>
                   <Link href="/earn" className="text-base font-medium text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300">
                     Earn
+                  </Link>
+                  <Link href="/faq" className="text-base font-medium text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300">
+                    FAQ
                   </Link>
                   <a
                     href="https://discord.gg/R2zK3A5ftj"

@@ -17,6 +17,9 @@
     --color-4: 195 100% 63%;
     --color-5: 90 100% 63%;
   }
+  .theme {
+    --animate-shine: shine var(--duration) infinite linear;
+  }
 }
 
 @layer base {
@@ -152,7 +155,6 @@ html.dark {
   }
 }
 
-
 @keyframes scroll {
   0% {
     transform: translateX(0);
@@ -200,4 +202,40 @@ html.dark {
 
 body {
   overflow-y: scroll;
+}
+
+@theme inline {
+  @keyframes shine {
+  0% {
+    background-position: 0% 0%;
+    }
+  50% {
+    background-position: 100% 100%;
+    }
+  to {
+    background-position: 0% 0%;
+    }
+  }
+  @keyframes shine {
+  0% {
+    background-position: 0% 0%;
+    }
+  50% {
+    background-position: 100% 100%;
+    }
+  to {
+    background-position: 0% 0%;
+    }
+  }
+  @keyframes shine {
+  0% {
+    background-position: 0% 0%;
+    }
+  50% {
+    background-position: 100% 100%;
+    }
+  to {
+    background-position: 0% 0%;
+    }
+  }
 }
