@@ -3,8 +3,10 @@ import React from "react";
 
 export const TextHoverEffect = ({
   text,
+  duration = 0.3,
 }: {
   text: string;
+  duration?: number;
 }) => {
   return (
     <svg
