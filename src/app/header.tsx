@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { X, Menu, Sun, Moon } from "lucide-react";
+import { X, Menu, Sun, Moon, Shield, Check, Award } from "lucide-react";
 import { FaDiscord, FaTelegramPlane } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "sonner";
@@ -11,6 +11,7 @@ import Image from "next/image";
 import { Toggle } from "@/components/ui/toggle";
 import { FiDollarSign } from "react-icons/fi";
 import MinidenticonImg from "./profile/MinidenticonImg";
+import { motion } from "framer-motion";
 
 interface HeaderProps {
   onShowSignupForm?: () => void;
@@ -35,6 +36,21 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const slides = [
+    {
+      icon: <Shield className="w-4 h-4" />,
+      text: "Turnitin No-Repository Mode: Your documents are not stored in Turnitin's database"
+    },
+    {
+      icon: <Check className="w-4 h-4" />,
+      text: "Perfect for draft checking before final submission"
+    },
+    {
+      icon: <Award className="w-4 h-4" />,
+      text: "100% accurate AI and plagiarism detection"
+    }
+  ];
 
   // Load theme from localStorage on component mount
   useEffect(() => {
@@ -117,6 +133,13 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
     getUser();
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
   const handleMouseEnter = () => {
     if (isLoggedIn) {
       // Clear any existing timeout to prevent closing
@@ -150,140 +173,169 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
   };
 
   return (
-    <header className="fixed left-0 right-0 z-50 bg-white bg-opacity-10 backdrop-blur-lg dark:bg-gray-900 dark:bg-opacity-10">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4 md:justify-start md:space-x-10">
-          <div className="flex justify-start lg:w-0 lg:flex-1">
-            <Link href="/" className="flex items-center">
-              <Image
-                src="/assets/images/checkturnitin.svg"
-                alt="aiplagreport Logo"
-                width={40}
-                height={40}
-                className="mr-2"
-              />
-              <h1 className="text-xl font-bold tracking-tight text-gray-800 dark:text-white">
-                aiplagreport
-              </h1>
-            </Link>
+    <header className="fixed left-0 right-0 z-50">
+      {/* Announcement Banner */}
+      <div className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-white">
+        <div className="max-w-6xl mx-auto px-4 py-2">
+          {/* Desktop View */}
+          <div className="hidden md:flex items-center justify-center text-sm">
+            <Shield className="w-4 h-4 mr-2" />
+            <span className="font-medium">Turnitin No-Repository Mode:</span>
+            <span className="ml-2">Your documents are not stored in Turnitin's database - perfect for draft checking before final submission!</span>
           </div>
-          <div className="-mr-2 -my-2 md:hidden">
-            <button
-              type="button"
-              className="bg-white bg-opacity-20 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
-              onClick={toggleMobileMenu}
+          
+          {/* Mobile Carousel */}
+          <div className="md:hidden overflow-hidden">
+            <motion.div
+              key={currentSlide}
+              initial={{ x: 300 }}
+              animate={{ x: 0 }}
+              exit={{ x: -300 }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              className="flex items-center justify-center text-sm"
             >
-              <span className="sr-only">Open menu</span>
-              <Menu className="h-6 w-6" aria-hidden="true" />
-            </button>
+              {slides[currentSlide].icon}
+              <span className="ml-2">{slides[currentSlide].text}</span>
+            </motion.div>
           </div>
-          <nav className="hidden md:flex space-x-10">
-            <Link href="/pricing" className="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition duration-150 ease-in-out">
-              Pricing
-            </Link>
-            <Link href="/earn" className="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition duration-150 ease-in-out">
-              Earn
-            </Link>
-            <Link href="/faq" className="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition duration-150 ease-in-out">
-              FAQ
-            </Link>
-            <a
-              href="https://discord.gg/R2zK3A5ftj"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition duration-150 ease-in-out"
-            >
-              <FaDiscord className="h-5 w-5 inline-block mr-1" />
-              Discord
-            </a>
-            {/* <Link
-              href="/telegram"
-              className="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition duration-150 ease-in-out"
-            >
-              <FaTelegramPlane className="h-5 w-5 inline-block mr-1" />
-              Telegram
-            </Link> */}
-          </nav>
-          <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-            {/* Theme toggle button */}
-            <button
-              onClick={toggleTheme}
-              className="ml-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-150 ease-in-out"
-              aria-label="Toggle theme"
-            >
-              {isDarkMode ? (
-                <Sun className="h-5 w-5 text-gray-800 dark:text-gray-200" />
-              ) : (
-                <Moon className="h-5 w-5 text-gray-800 dark:text-gray-200" />
-              )}
-            </button>
-            {!isLoggedIn ? (
+        </div>
+      </div>
+      
+      <div className="bg-white bg-opacity-10 backdrop-blur-lg dark:bg-gray-900 dark:bg-opacity-10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center py-4 md:justify-start md:space-x-10">
+            <div className="flex justify-start lg:w-0 lg:flex-1">
+              <Link href="/" className="flex items-center">
+                <Image
+                  src="/assets/images/checkturnitin.svg"
+                  alt="aiplagreport Logo"
+                  width={40}
+                  height={40}
+                  className="mr-2"
+                />
+                <h1 className="text-xl font-bold tracking-tight text-gray-800 dark:text-white">
+                  aiplagreport
+                </h1>
+              </Link>
+            </div>
+            <div className="-mr-2 -my-2 md:hidden">
               <button
-                onClick={onShowSignupForm}
-                className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
+                type="button"
+                className="bg-white bg-opacity-20 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
+                onClick={toggleMobileMenu}
               >
-                Try for Free
+                <span className="sr-only">Open menu</span>
+                <Menu className="h-6 w-6" aria-hidden="true" />
               </button>
-            ) : (
-              <div 
-                className="relative" 
-                ref={dropdownRef}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
+            </div>
+            <nav className="hidden md:flex space-x-10">
+              <Link href="/pricing" className="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition duration-150 ease-in-out">
+                Pricing
+              </Link>
+              <Link href="/earn" className="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition duration-150 ease-in-out">
+                Earn
+              </Link>
+              <Link href="/faq" className="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition duration-150 ease-in-out">
+                FAQ
+              </Link>
+              <a
+                href="https://discord.gg/R2zK3A5ftj"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition duration-150 ease-in-out"
               >
+                <FaDiscord className="h-5 w-5 inline-block mr-1" />
+                Discord
+              </a>
+              {/* <Link
+                href="/telegram"
+                className="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition duration-150 ease-in-out"
+              >
+                <FaTelegramPlane className="h-5 w-5 inline-block mr-1" />
+                Telegram
+              </Link> */}
+            </nav>
+            <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
+              {/* Theme toggle button */}
+              <button
+                onClick={toggleTheme}
+                className="ml-4 p-2 rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-150 ease-in-out"
+                aria-label="Toggle theme"
+              >
+                {isDarkMode ? (
+                  <Sun className="h-5 w-5 text-gray-800 dark:text-gray-200" />
+                ) : (
+                  <Moon className="h-5 w-5 text-gray-800 dark:text-gray-200" />
+                )}
+              </button>
+              {!isLoggedIn ? (
                 <button
+                  onClick={onShowSignupForm}
                   className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
                 >
-                  <span>{user?.name || "Dashboard"}</span>
+                  Try for Free
                 </button>
-                {isDropdownOpen && (
-                  <div 
-                    className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5"
-                    onMouseEnter={() => {
-                      // Clear any existing timeout when hovering over dropdown
-                      if (timeoutRef.current) {
-                        clearTimeout(timeoutRef.current);
-                        timeoutRef.current = null;
-                      }
-                      setIsDropdownOpen(true);
-                    }}
-                    onMouseLeave={handleMouseLeave}
+              ) : (
+                <div 
+                  className="relative" 
+                  ref={dropdownRef}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                >
+                  <button
+                    className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out"
                   >
-                    <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
-                      <p className="text-sm font-medium text-gray-900 dark:text-white">
-                        Plan: {user?.planType?.toLowerCase() === 'pro' || user?.planType?.toLowerCase() === 'pro+' ? (
-                          <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-transparent bg-clip-text font-bold">
-                            {user.planType.toUpperCase()}
-                          </span>
-                        ) : (
-                          user?.planType?.toUpperCase() || 'BASIC'
-                        )}
-                      </p>
-                      <p className="text-sm text-gray-600 dark:text-gray-300">
-                        Credits: {user?.credits || 0}
-                      </p>
-                    </div>
-                    <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Dashboard</Link>
-                    <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Profile</Link>
-                    <Link href="/pricing" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-                      <span className="flex items-center">
-                        <FiDollarSign className="mr-2" />
-                        Add Credits
-                      </span>
-                    </Link>
-                    <button
-                      onClick={() => {
-                        localStorage.clear();
-                        window.location.href = "/";
+                    <span>{user?.name || "Dashboard"}</span>
+                  </button>
+                  {isDropdownOpen && (
+                    <div 
+                      className="absolute right-0 mt-2 w-64 bg-white dark:bg-gray-800 rounded-md shadow-lg py-1 ring-1 ring-black ring-opacity-5"
+                      onMouseEnter={() => {
+                        // Clear any existing timeout when hovering over dropdown
+                        if (timeoutRef.current) {
+                          clearTimeout(timeoutRef.current);
+                          timeoutRef.current = null;
+                        }
+                        setIsDropdownOpen(true);
                       }}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      onMouseLeave={handleMouseLeave}
                     >
-                      Logout
-                    </button>
-                  </div>
-                )}
-              </div>
-            )}
+                      <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
+                        <p className="text-sm font-medium text-gray-900 dark:text-white">
+                          Plan: {user?.planType?.toLowerCase() === 'pro' || user?.planType?.toLowerCase() === 'pro+' ? (
+                            <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 text-transparent bg-clip-text font-bold">
+                              {user.planType.toUpperCase()}
+                            </span>
+                          ) : (
+                            user?.planType?.toUpperCase() || 'BASIC'
+                          )}
+                        </p>
+                        <p className="text-sm text-gray-600 dark:text-gray-300">
+                          Credits: {user?.credits || 0}
+                        </p>
+                      </div>
+                      <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Dashboard</Link>
+                      <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Profile</Link>
+                      <Link href="/pricing" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <span className="flex items-center">
+                          <FiDollarSign className="mr-2" />
+                          Add Credits
+                        </span>
+                      </Link>
+                      <button
+                        onClick={() => {
+                          localStorage.clear();
+                          window.location.href = "/";
+                        }}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      >
+                        Logout
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
