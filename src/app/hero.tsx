@@ -594,12 +594,56 @@ const Hero: React.FC<HeroProps> = ({ isLoggedIn }) => {
         transition={{ duration: 0.5, delay: 1.6 }}
         className="mt-8 px-2 sm:px-4"
       >
-        <Link href="/faq">
-          <Button variant="outline" className="flex items-center gap-2">
-            <HelpCircle className="w-4 h-4" />
-            View FAQ
-          </Button>
-        </Link>
+        <div className="max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <Card className="bg-white/50 dark:bg-white/5 backdrop-blur-sm border-indigo-500/20">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <Shield className="w-6 h-6 text-indigo-600" />
+                  <h3 className="text-lg font-semibold">Secure & Private</h3>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Your documents are processed securely and never stored in our database. We use industry-standard encryption.
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="bg-white/50 dark:bg-white/5 backdrop-blur-sm border-indigo-500/20">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <Clock className="w-6 h-6 text-indigo-600" />
+                  <h3 className="text-lg font-semibold">Fast Results</h3>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Get your AI and plagiarism report within minutes. No waiting in queues or delayed results.
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="bg-white/50 dark:bg-white/5 backdrop-blur-sm border-indigo-500/20">
+              <CardContent className="p-6">
+                <div className="flex items-center gap-3 mb-4">
+                  <Award className="w-6 h-6 text-indigo-600" />
+                  <h3 className="text-lg font-semibold">University Trusted</h3>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Our reports are accepted by universities worldwide. Get the same quality as official Turnitin reports.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+          
+          <div className="text-center mb-8 pt-12">
+            <h2 className="text-2xl font-bold mb-4">Have Questions?</h2>
+            <p className="text-muted-foreground mb-6">
+              Check out our comprehensive FAQ section for answers to common questions about our service.
+            </p>
+            <Link href="/faq">
+              <Button variant="outline" className="flex items-center gap-2 mx-auto">
+                <HelpCircle className="w-4 h-4" />
+                View FAQ
+              </Button>
+            </Link>
+          </div>
+        </div>
       </motion.div>
       {selectedReport !== null && (
         <PDFViewer pdfUrl={`/assets/reports/report${selectedReport + 1}.pdf`} onClose={() => setSelectedReport(null)} />

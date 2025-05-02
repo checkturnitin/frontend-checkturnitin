@@ -305,7 +305,7 @@ export default function Home() {
       <Header onShowSignupForm={() => setShowSignupForm(true)} />
 
       <div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden bg-white text-black dark:bg-black dark:text-white">
-        <main className="flex-grow px-4 overflow-y-auto overflow-x-hidden relative z-30 pb-24 bg-[#F8F8F8]  dark:bg-black dark:text-white">
+        <main className="flex-grow px-4 overflow-y-auto overflow-x-hidden relative z-30 bg-[#F8F8F8]  dark:bg-black dark:text-white">
           <animated.div
             style={fadeIn}
             className="max-w-1xl mx-auto text-[#222222]"

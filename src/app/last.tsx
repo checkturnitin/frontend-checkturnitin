@@ -83,12 +83,7 @@ const CenteredFooter: React.FC = () => {
           >
             contact@aiplagreport.com
           </a>
-        </motion.div>
-
-        <Separator className="mb-12" />
-
-        <motion.div variants={itemVariants} className="text-center">
-          <div className="text-xl text-muted-foreground space-x-8 mb-8">
+          <div className="text-sm text-muted-foreground space-x-4 mt-2">
             <a href="/assets/terms-condition.txt" className="hover:text-primary transition-colors duration-300">
               Terms & Conditions
             </a>
@@ -99,6 +94,11 @@ const CenteredFooter: React.FC = () => {
               Refund Policy
             </a>
           </div>
+        </motion.div>
+
+        <Separator className="mb-12" />
+
+        <motion.div variants={itemVariants} className="text-center">
           <p className="text-2xl mb-4">
             © aiplagreport {new Date().getFullYear()}. Designed with ❤️ by aiplagreport Team. 
           </p>
@@ -106,7 +106,7 @@ const CenteredFooter: React.FC = () => {
             Made in Estonia
           </p>
         </motion.div>
-        <div className="h-32 sm:h-40 md:h-48 lg:h-56 mb-8 sm:mb-12">
+        <div className="h-32 sm:h-40 md:h-48 lg:h-56 mb-0sm:mb-6">
             <TextHoverEffect text="Aiplagreport.com" />
         </div>
       </motion.div>
