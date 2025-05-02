@@ -106,9 +106,8 @@ const CenteredFooter: React.FC = () => {
             Made in Estonia
           </p>
         </motion.div>
-
         <div className="h-32 sm:h-40 md:h-48 lg:h-56 mb-8 sm:mb-12">
-            <TextHoverEffect text="Aiplagreport.com" duration={0.3} />
+            <TextHoverEffect text="Aiplagreport.com" />
         </div>
       </motion.div>
     </footer>

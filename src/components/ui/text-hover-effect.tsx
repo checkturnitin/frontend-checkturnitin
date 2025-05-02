@@ -3,10 +3,8 @@ import React from "react";
 
 export const TextHoverEffect = ({
   text,
-  duration = 0.3,
 }: {
   text: string;
-  duration?: number;
 }) => {
   return (
     <svg
@@ -46,7 +44,7 @@ export const TextHoverEffect = ({
         dominantBaseline="middle"
         stroke="url(#textGradient)"
         strokeWidth="0.7"
-        className="fill-transparent font-[helvetica] text-8xl sm:text-6xl md:text-7xl lg:text-8xl font-bold"
+        className="fill-transparent font-[helvetica] text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold"
         filter="url(#glow)"
       >
         {text}

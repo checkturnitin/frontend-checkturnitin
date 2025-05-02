@@ -56,7 +56,7 @@ const Slogan: React.FC = () => {
   return (
     <div className="relative w-full max-w-2xl mx-auto">
       <TextAnimate
-        className="text-lg sm:text-xl mb-8 flex items-center justify-center text-gray-700 dark:text-gray-300"
+        className="text-sm md:text-lg lg:text-xl mb-8 flex items-center justify-center text-gray-700 dark:text-gray-300 line-clamp-2 md:line-clamp-none"
         by="word"
         animation="fadeIn"
         delay={0.7}
@@ -356,23 +356,15 @@ const FAQSection: React.FC = () => {
 }
 
 const AIDetectorComparison: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState(0)
   const logos = [
     { src: "/assets/logos/Writer.webp", alt: "Writer Logo" },
-    { src: "/assets/images/zerogpt.png", alt: "ZeroGPT Logo" },
+    { src: "/assets/logos/zerogpt.webp", alt: "ZeroGPT Logo" },
+    { src: "/assets/logos/winston-ai-logo.svg", alt: "winston-ai" },
+    { src: "/assets/logos/justdone.png", alt: "justdone" },
     { src: "/assets/logos/Gptzero.webp", alt: "GPTZero Logo" },
     { src: "/assets/logos/Crossplag.webp", alt: "Crossplag Logo" },
     { src: "/assets/logos/scribbr.svg", alt: "Scam Logo" },
-    { src: "/assets/logos/winston-ai-logo.svg", alt: "winston-ai" },
-    { src: "/assets/logos/jusdone.png", alt: "justdone" },
   ]
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % logos.length)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [])
 
   return (
     <div className="w-full max-w-4xl mx-auto mt-16">
@@ -450,13 +442,13 @@ const AIDetectorComparison: React.FC = () => {
                   <motion.div
                     className="flex space-x-8"
                     animate={{
-                      x: [0, -400],
+                      x: [0, -800],
                     }}
                     transition={{
                       x: {
                         repeat: Infinity,
                         repeatType: "loop",
-                        duration: 20,
+                        duration: 30,
                         ease: "linear",
                       },
                     }}
@@ -466,13 +458,13 @@ const AIDetectorComparison: React.FC = () => {
                         key={index}
                         className="relative h-24 w-32 flex-shrink-0 flex items-center justify-center"
                       >
-                        <div className="relative">
+                        <div className="relative w-24 h-12">
                           <Image
                             src={logo.src}
                             alt={logo.alt}
-                            width={120}
-                            height={40}
-                            className="object-contain dark:filter dark:brightness-0 dark:invert opacity-70 hover:opacity-100 transition-opacity"
+                            fill
+                            style={{ objectFit: "contain" }}
+                            className="dark:filter dark:brightness-0 dark:invert opacity-70 hover:opacity-100 transition-opacity"
                           />
                         </div>
                       </div>
@@ -483,13 +475,13 @@ const AIDetectorComparison: React.FC = () => {
                         key={`duplicate-${index}`}
                         className="relative h-24 w-32 flex-shrink-0 flex items-center justify-center"
                       >
-                        <div className="relative">
+                        <div className="relative w-24 h-12">
                           <Image
                             src={logo.src}
                             alt={logo.alt}
-                            width={120}
-                            height={40}
-                            className="object-contain dark:filter dark:brightness-0 dark:invert opacity-70 hover:opacity-100 transition-opacity"
+                            fill
+                            style={{ objectFit: "contain" }}
+                            className="dark:filter dark:brightness-0 dark:invert opacity-70 hover:opacity-100 transition-opacity"
                           />
                         </div>
                       </div>
