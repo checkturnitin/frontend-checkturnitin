@@ -35,6 +35,8 @@ export default function Home() {
   const [planType, setPlanType] = useState<string>("basic");
   const [wordCount, setWordCount] = useState<number | null>(null);
   const [showStepper, setShowStepper] = useState(false);
+  const [isEnglish, setIsEnglish] = useState<boolean | null>(null);
+  const [englishPercentage, setEnglishPercentage] = useState<number | null>(null);
 
   interface Report {
     checkId: string;
@@ -174,41 +176,51 @@ export default function Home() {
     if (selectedFile) {
       setFile(selectedFile);
       setWordCountLoading(true);
-      const wordCount = await getWordCount(selectedFile);
-      setWordCountLoading(false);
 
-      if (wordCount !== null) {
+      try {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+
+        const [wordCountResponse, englishCheckResponse] = await Promise.all([
+          axios.post(`${serverURL}/file/wordcount`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }),
+          axios.post(`${serverURL}/file/check-english`, formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+        ]);
+
+        const wordCount = wordCountResponse.data.total_words;
+        const englishCheck = englishCheckResponse.data;
+
         setWordCount(wordCount);
+        setIsEnglish(englishCheck.english_percentage >= 50);
+        setEnglishPercentage(englishCheck.english_percentage);
+
         if (wordCount < 300 || wordCount > 30000) {
           toast.error(
             "The document must contain between 300 and 30,000 words. Please upload a document within this range."
           );
           setFile(null);
         }
-      }
-    }
-  };
 
-  const getWordCount = async (file: File): Promise<number | null> => {
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const response = await axios.post(
-        `${serverURL}/file/wordcount`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
+        if (englishCheck.english_percentage < 50) {
+          toast.error(
+            "The document must be at in English. Please upload a document with more English content."
+          );
+          setFile(null);
         }
-      );
-
-      return response.data.total_words;
-    } catch (error) {
-      toast.error("Failed to count words in document.");
-      console.error("Word count error:", error);
-      return null;
+      } catch (error) {
+        toast.error("Failed to analyze document.");
+        console.error("Document analysis error:", error);
+        setFile(null);
+      } finally {
+        setWordCountLoading(false);
+      }
     }
   };
 
@@ -524,7 +536,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 text-black dark:bg-black dark:text-white">
       <Header />
-      <main className="flex-grow flex flex-col items-center justify-start px-4 py-8 mt-16">
+      <main className="flex-grow flex flex-col items-center justify-start px-4 py-8 mt-20">
         <div className="w-full max-w-3xl mx-auto">
           <Card className="shadow-md hover:shadow-lg transition-all duration-300 bg-white dark:bg-black border border-gray-200 dark:border-gray-800">
             <CardContent className="p-8">
@@ -546,12 +558,39 @@ export default function Home() {
                           </h3>
                           {wordCountLoading ? (
                             <p className="text-sm text-gray-500 dark:text-gray-400">
-                              Calculating word count...
+                              Analyzing document...
                             </p>
                           ) : (
-                            <p className="text-sm text-gray-500 dark:text-gray-400">
-                              {wordCount} words
-                            </p>
+                            <div className="flex items-center gap-3">
+                              <div className="flex items-center gap-2">
+                                <FileText className="h-4 w-4 text-gray-500 dark:text-gray-400" />
+                                <p className="text-sm text-gray-500 dark:text-gray-400">
+                                  {wordCount} words
+                                </p>
+                              </div>
+                              {isEnglish !== null && (
+                                <>
+                                  <div className="h-4 w-px bg-gray-300 dark:bg-gray-700" />
+                                  <div className="flex items-center gap-1">
+                                    {isEnglish ? (
+                                      <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-green-50 dark:bg-green-900/30">
+                                        <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
+                                        <span className="text-sm font-medium text-green-700 dark:text-green-300">
+                                          English
+                                        </span>
+                                      </div>
+                                    ) : (
+                                      <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-red-50 dark:bg-red-900/30">
+                                        <X className="h-4 w-4 text-red-600 dark:text-red-400" />
+                                        <span className="text-sm font-medium text-red-700 dark:text-red-300">
+                                          Not English
+                                        </span>
+                                      </div>
+                                    )}
+                                  </div>
+                                </>
+                              )}
+                            </div>
                           )}
                         </div>
                       </div>

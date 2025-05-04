@@ -18,6 +18,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { Cover } from "@/components/ui/cover"
 import { TextAnimate } from "@/components/magicui/text-animate"
+import HeroVideoDialog from "@/components/ui/hero-video-dialog"
 
 interface HeroProps {
   isLoggedIn: boolean
@@ -188,6 +189,22 @@ const DraftCheckInfo: React.FC = () => (
         We use Turnitin in draft check mode, which means your documents are not stored in Turnitin's database. This is perfect for checking your work before final submission.
       </AlertDescription>
     </Alert>
+    <div className="mt-6">
+      <div className="relative w-full aspect-video rounded-lg overflow-hidden">
+        <video
+          src="/assets/Aiplaglanding.webm"
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="w-full h-full object-cover"
+          style={{ filter: 'brightness(0.8)' }}
+          onLoadedMetadata={(e) => {
+            e.currentTarget.playbackRate = 0.8;
+          }}
+        />
+      </div>
+    </div>
   </div>
 )
 
