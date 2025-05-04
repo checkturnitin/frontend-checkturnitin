@@ -210,7 +210,7 @@ export default function Home() {
 
         if (englishCheck.english_percentage < 50) {
           toast.error(
-            "The document must be at in English. Please upload a document with more English content."
+            "The document must in English. Please upload a document with more English content."
           );
           setFile(null);
         }
