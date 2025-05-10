@@ -192,7 +192,8 @@ const defaultSEOConfig: DefaultSeoProps = {
 };
 
 const productJsonLd: ProductJsonLdProps = {
-  type: "Product",
+  "@context": "https://schema.org",
+  "@type": "Product",
   name: "Aiplagreport Plagiarism Detection Suite",
   productName: "Aiplagreport Plagiarism Detection Suite",
   description: "The most accurate Turnitin alternative for plagiarism detection. Used by 10,000+ educators worldwide. Features AI-powered content detection, comprehensive similarity analysis, and detailed plagiarism reports.",
