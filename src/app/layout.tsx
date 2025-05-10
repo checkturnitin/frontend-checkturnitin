@@ -3,7 +3,7 @@ import { appName } from '@/utils/utils';
 import { Inter } from 'next/font/google';
 import { Metadata } from 'next';
 import { GoogleAnalytics } from '@next/third-parties/google';
-import { defaultSEOConfig } from '../../next-seo.config';
+import { config } from '../../next-seo.config';
 
 // Initialize Inter font
 const inter = Inter({
@@ -14,8 +14,8 @@ const inter = Inter({
 
 // Metadata configuration
 export const metadata: Metadata = {
-  metadataBase: new URL('https://Aiplagreport.com'),
-  keywords: defaultSEOConfig.additionalMetaTags?.find(tag => tag.name === 'keywords')?.content,
+  metadataBase: new URL('https://aiplagreport.com'),
+  keywords: config.additionalMetaTags?.find(tag => tag.name === 'keywords')?.content,
   authors: [{ name: 'Aiplagreport' }],
   creator: 'Aiplagreport',
   publisher: 'Aiplagreport',
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: 'https://Aiplagreport.com',
+    canonical: 'https://aiplagreport.com',
   },
 
 
