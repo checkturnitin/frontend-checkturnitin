@@ -101,6 +101,50 @@ const defaultSEOConfig: DefaultSeoProps = {
       name: "msapplication-config",
       content: "/browserconfig.xml",
     },
+    {
+      name: "revisit-after",
+      content: "7 days",
+    },
+    {
+      name: "distribution",
+      content: "global",
+    },
+    {
+      name: "rating",
+      content: "general",
+    },
+    {
+      name: "coverage",
+      content: "Worldwide",
+    },
+    {
+      name: "target",
+      content: "all",
+    },
+    {
+      name: "audience",
+      content: "all",
+    },
+    {
+      name: "document-type",
+      content: "Public",
+    },
+    {
+      name: "document-rating",
+      content: "Safe for Kids",
+    },
+    {
+      name: "document-state",
+      content: "Dynamic",
+    },
+    {
+      name: "resource-type",
+      content: "document",
+    },
+    {
+      name: "classification",
+      content: "Business",
+    },
   ],
   additionalLinkTags: [
     {
@@ -129,6 +173,20 @@ const defaultSEOConfig: DefaultSeoProps = {
       rel: "alternate",
       href: "https://aiplagreport.com",
       hrefLang: "en-US",
+    },
+    {
+      rel: "canonical",
+      href: "https://aiplagreport.com",
+    },
+    {
+      rel: "alternate",
+      href: "https://aiplagreport.com",
+      hrefLang: "x-default",
+    },
+    {
+      rel: "alternate",
+      href: "https://aiplagreport.com",
+      hrefLang: "en",
     },
   ],
 };

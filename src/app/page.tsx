@@ -15,6 +15,7 @@ import AccordionDemo from "./FAQ"; // Import FAQ component
 // import {WobbleCardDemo} from "./TrustTurnitinSection";
 import CheckTurnitinCTA from "./CheckTurnitinCTA";
 import Image from "next/image";
+import Head from "next/head";
 
 interface Message {
   id: number;
@@ -129,98 +130,93 @@ export default function Home() {
     config: { duration: 1000 },
   });
 
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Aiplagreport - AI-Powered Plagiarism Detection",
+    "url": "https://aiplagreport.com",
+    "description": "The most accurate Turnitin alternative for plagiarism detection. Used by 10,000+ educators worldwide. Features AI-powered content detection, comprehensive similarity analysis, and detailed plagiarism reports.",
+    "applicationCategory": "EducationalApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "999",
+      "priceCurrency": "USD"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "ratingCount": "1000"
+    },
+    "featureList": [
+      "AI-Powered Plagiarism Detection",
+      "Instant Reports",
+      "Comprehensive Similarity Analysis",
+      "Educational Institution Support",
+      "Multiple Document Format Support"
+    ],
+    "screenshot": "https://aiplagreport.com/assets/images/og-image.png",
+    "softwareVersion": "1.0",
+    "browserRequirements": "Requires JavaScript. Requires HTML5.",
+    "permissions": "high",
+    "author": {
+      "@type": "Organization",
+      "name": "Aiplagreport",
+      "url": "https://aiplagreport.com"
+    }
+  };
+
   if (!isLoaded) {
     return (
-        <>
-        <head>
-        <meta charSet="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Aiplagreport - Reliable Turnitin Check & Plagiarism Detection</title>
-        <meta
-          name="description"
-          content="Ensure your content is plagiarism-free with Aiplagreport. Trusted by educators and institutions for accurate Turnitin checks and comprehensive plagiarism detection."
-        />
-        <link rel="canonical" href="https://Aiplagreport.com/" />
-  
-        <meta property="og:type" content="website" />
-        <meta property="og:locale" content="en_US" />
-        <meta property="og:url" content="https://Aiplagreport.com/" />
-        <meta property="og:site_name" content="Aiplagreport" />
-        <meta property="og:title" content="Aiplagreport - Reliable Turnitin Check | Trusted by Educators" />
-        <meta
-          property="og:description"
-          content="Ensure your content is plagiarism-free with our reliable Turnitin check platform. Trusted by educators and institutions for accurate plagiarism detection and comprehensive reports."
-        />
-        <meta property="og:image" content="https://Aiplagreport.com/assets/images/og-image.png" />
-        <meta property="og:image:secure_url" content="https://aiplagreport.com/assets/images/og-image.png" />
-        <meta property="og:image:alt" content="aiplagreport - Reliable Turnitin Check Platform" />
-        <meta property="og:image" content="https://aiplagreport.com/assets/images/og-square.png" />
-        <meta property="og:image:alt" content="aiplagreport Logo" />
-  
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@aiplagreport" />
-        <meta name="twitter:handle" content="@aiplagreport" />
-        <meta name="twitter:title" content="aiplagreport - Reliable Turnitin Check | Trusted by Educators" />
-        <meta
-          name="twitter:description"
-          content="Ensure your content is plagiarism-free with our reliable Turnitin check platform. Trusted by educators and institutions for accurate plagiarism detection and comprehensive reports."
-        />
-        <meta name="twitter:image" content="https://aiplagreport.com/assets/images/og-image.png" />
-  
-        <meta name="apple-mobile-web-app-title" content="aiplagreport" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="theme-color" content="#000000" />
-  
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
-  
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-  
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://aiplagreport.com/"
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Pricing",
-                "item": "https://aiplagreport.com/pricing"
-              },
-              {
-                "@type": "ListItem",
-                "position": 3,
-                "name": "Earn",
-                "item": "https://aiplagreport.com/earn"
-              },
-            ]
-          })}
-        </script>
-      </head>
-      <div
-      className={`flex flex-col items-center justify-center min-h-screen ${
-        theme === "dark" ? "bg-black" : "bg-[#f8f8f8]"
-      }`}
-    >
-      {/* aiplagreport Logo with Animation */}
-      <div className="transition-transform transform hover:scale-110 animate-bounce">
-        <Image
-          src="/assets/logos/checkturnitin.svg"
-          alt="aiplagreport Logo"
-          width={100}
-          height={100}
-          className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20"
-        />
-      </div>
-    </div>
-
+      <>
+        <Head>
+          <title>Aiplagreport - #1 Turnitin Alternative | AI-Powered Plagiarism Detection</title>
+          <meta name="description" content="Aiplagreport is the leading Turnitin alternative offering 99.9% accurate plagiarism detection. Trusted by 10,000+ educators and institutions worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
+          <meta name="keywords" content="Aiplagreport, Turnitin Alternative, Plagiarism Detection, AI Content Detection, Academic Integrity" />
+          <meta name="robots" content="index, follow" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <meta name="theme-color" content="#000000" />
+          
+          {/* Open Graph / Facebook */}
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://aiplagreport.com/" />
+          <meta property="og:title" content="Aiplagreport - #1 Turnitin Alternative | AI-Powered Plagiarism Detection" />
+          <meta property="og:description" content="The most accurate Turnitin alternative for plagiarism detection. Used by 10,000+ educators worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
+          <meta property="og:image" content="https://aiplagreport.com/assets/images/og-image.png" />
+          
+          {/* Twitter */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:url" content="https://aiplagreport.com/" />
+          <meta name="twitter:title" content="Aiplagreport - #1 Turnitin Alternative | AI-Powered Plagiarism Detection" />
+          <meta name="twitter:description" content="The most accurate Turnitin alternative for plagiarism detection. Used by 10,000+ educators worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
+          <meta name="twitter:image" content="https://aiplagreport.com/assets/images/og-image.png" />
+          
+          {/* Additional Meta Tags */}
+          <meta name="author" content="Aiplagreport" />
+          <meta name="application-name" content="Aiplagreport" />
+          <meta name="apple-mobile-web-app-capable" content="yes" />
+          <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+          <meta name="apple-mobile-web-app-title" content="Aiplagreport" />
+          <meta name="format-detection" content="telephone=no" />
+          <meta name="mobile-web-app-capable" content="yes" />
+          
+          {/* Structured Data */}
+          <script type="application/ld+json">
+            {JSON.stringify(structuredData)}
+          </script>
+        </Head>
+        <div className={`flex flex-col items-center justify-center min-h-screen ${theme === "dark" ? "bg-black" : "bg-[#f8f8f8]"}`}>
+          <div className="transition-transform transform hover:scale-110 animate-bounce">
+            <Image
+              src="/assets/logos/checkturnitin.svg"
+              alt="Aiplagreport Logo"
+              width={100}
+              height={100}
+              className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20"
+              priority
+            />
+          </div>
+        </div>
       </>
     );
   }
@@ -228,78 +224,42 @@ export default function Home() {
 
   return (
     <>
-    <head>
-      <meta charSet="UTF-8" />
+    <Head>
+      <title>Aiplagreport - #1 Turnitin Alternative | AI-Powered Plagiarism Detection</title>
+      <meta name="description" content="Aiplagreport is the leading Turnitin alternative offering 99.9% accurate plagiarism detection. Trusted by 10,000+ educators and institutions worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
+      <meta name="keywords" content="Aiplagreport, Turnitin Alternative, Plagiarism Detection, AI Content Detection, Academic Integrity" />
+      <meta name="robots" content="index, follow" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>aiplagreport - Reliable Turnitin Check & Plagiarism Detection</title>
-      <meta
-        name="description"
-        content="Ensure your content is plagiarism-free with aiplagreport. Trusted by educators and institutions for accurate Turnitin checks and comprehensive plagiarism detection."
-      />
-      <link rel="canonical" href="https://aiplagreport.com/" />
-
-      <meta property="og:type" content="website" />
-      <meta property="og:locale" content="en_US" />
-      <meta property="og:url" content="https://aiplagreport.com/" />
-      <meta property="og:site_name" content="aiplagreport" />
-      <meta property="og:title" content="aiplagreport - Reliable Turnitin Check | Trusted by Educators" />
-      <meta
-        property="og:description"
-        content="Ensure your content is plagiarism-free with our reliable Turnitin check platform. Trusted by educators and institutions for accurate plagiarism detection and comprehensive reports."
-      />
-      <meta property="og:image" content="https://aiplagreport.com/assets/images/og-image.png" />
-      <meta property="og:image:secure_url" content="https://aiplagreport.com/assets/images/og-image.png" />
-      <meta property="og:image:alt" content="aiplagreport - Reliable Turnitin Check Platform" />
-      <meta property="og:image" content="https://aiplagreport.com/assets/images/og-square.png" />
-      <meta property="og:image:alt" content="aiplagreport Logo" />
-
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@aiplagreport" />
-      <meta name="twitter:handle" content="@aiplagreport" />
-      <meta name="twitter:title" content="aiplagreport - Reliable Turnitin Check | Trusted by Educators" />
-      <meta
-        name="twitter:description"
-        content="Ensure your content is plagiarism-free with our reliable Turnitin check platform. Trusted by educators and institutions for accurate plagiarism detection and comprehensive reports."
-      />
-      <meta name="twitter:image" content="https://aiplagreport.com/assets/images/og-image.png" />
-
-      <meta name="apple-mobile-web-app-title" content="aiplagreport" />
-      <meta name="apple-mobile-web-app-capable" content="yes" />
       <meta name="theme-color" content="#000000" />
-
-      <link rel="icon" href="/favicon.ico" />
-      <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
-
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-
+      
+      {/* Open Graph / Facebook */}
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://aiplagreport.com/" />
+      <meta property="og:title" content="Aiplagreport - #1 Turnitin Alternative | AI-Powered Plagiarism Detection" />
+      <meta property="og:description" content="The most accurate Turnitin alternative for plagiarism detection. Used by 10,000+ educators worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
+      <meta property="og:image" content="https://aiplagreport.com/assets/images/og-image.png" />
+      
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:url" content="https://aiplagreport.com/" />
+      <meta name="twitter:title" content="Aiplagreport - #1 Turnitin Alternative | AI-Powered Plagiarism Detection" />
+      <meta name="twitter:description" content="The most accurate Turnitin alternative for plagiarism detection. Used by 10,000+ educators worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
+      <meta name="twitter:image" content="https://aiplagreport.com/assets/images/og-image.png" />
+      
+      {/* Additional Meta Tags */}
+      <meta name="author" content="Aiplagreport" />
+      <meta name="application-name" content="Aiplagreport" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+      <meta name="apple-mobile-web-app-title" content="Aiplagreport" />
+      <meta name="format-detection" content="telephone=no" />
+      <meta name="mobile-web-app-capable" content="yes" />
+      
+      {/* Structured Data */}
       <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Home",
-              "item": "https://aiplagreport.com/"
-            },
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "Pricing",
-              "item": "https://aiplagreport.com/pricing"
-            },
-            {
-              "@type": "ListItem",
-              "position": 3,
-              "name": "Earn",
-              "item": "https://aiplagreport.com/earn"
-            },
-          ]
-        })}
+        {JSON.stringify(structuredData)}
       </script>
-    </head>
+    </Head>
 
 
       <Header onShowSignupForm={() => setShowSignupForm(true)} />
@@ -313,13 +273,11 @@ export default function Home() {
             {showLanding && (
               <div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden overflow-x-hidden bg-[#F8F8F8] dark:bg-black dark:text-white">
                 {showLanding && <Hero isLoggedIn={!!user} />}
-                {/* <WhyTrustMatters />
+                <WhyTrustMatters />
                 <NoRepositoryMode />
                 <PricingSection />
                 <AccordionDemo />
-                <CheckTurnitinCTA /> */}
-                {/* <WobbleCardDemo /> */}
-
+                <CheckTurnitinCTA />
                 <ElegantFooter />
               </div>
             )}

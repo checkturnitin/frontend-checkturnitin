@@ -1,4 +1,39 @@
 User-agent: *
-Disallow: 
+Allow: /
+Disallow: /dashboard/
+Disallow: /profile/
+Disallow: /payment/
+Disallow: /invoice/
+Disallow: /deletechecks/
+Disallow: /login/
+Disallow: /signup/
+Disallow: /api/
 
+# Crawl delay for better server performance
+Crawl-delay: 10
+
+# Specific rules for major search engines
+User-agent: Googlebot
+Allow: /
+Disallow: /dashboard/
+Disallow: /profile/
+Disallow: /payment/
+Disallow: /invoice/
+Disallow: /deletechecks/
+Disallow: /login/
+Disallow: /signup/
+Disallow: /api/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /dashboard/
+Disallow: /profile/
+Disallow: /payment/
+Disallow: /invoice/
+Disallow: /deletechecks/
+Disallow: /login/
+Disallow: /signup/
+Disallow: /api/
+
+# Sitemap location
 Sitemap: https://www.aiplagreport.com/sitemap.xml
