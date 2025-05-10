@@ -205,60 +205,65 @@ const productJsonLd: ProductJsonLdProps = {
     priceCurrency: "USD",
     priceValidUntil: "2024-12-31",
     availability: "https://schema.org/InStock",
+    url: "https://aiplagreport.com/pricing",
     seller: {
       "@type": "Organization",
-      name: "Aiplagreport"
-    },
-    url: "https://aiplagreport.com/pricing"
+      name: "Aiplagreport",
+      url: "https://aiplagreport.com"
+    }
   },
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: "4.9",
-    reviewCount: "1000"
+    reviewCount: "1000",
+    bestRating: "5",
+    worstRating: "1"
   }
 };
 
 const faqJsonLd: FAQPageJsonLdProps = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
   mainEntity: [
     {
-      questionName: "What is No Repository Mode?",
-      acceptedAnswerText: "We're using Turnitin's 'No Repository Mode' for draft submissions. This means your work won't be stored in any database, so it won't impact your final submission later. Perfect for checking your work before final submission!"
+      "@type": "Question",
+      name: "What is No Repository Mode?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "We're using Turnitin's 'No Repository Mode' for draft submissions. This means your work won't be stored in any database, so it won't impact your final submission later. Perfect for checking your work before final submission!"
+      }
     },
     {
-      questionName: "How do credits work?",
-      acceptedAnswerText: "All purchased credits in Aiplagreport are lifetime credits with no expiry date. We operate on a pay-as-you-go model with no subscriptions or recurring charges. You only pay for the credits you need, and there are no hidden fees."
+      "@type": "Question",
+      name: "How do credits work?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "All purchased credits in Aiplagreport are lifetime credits with no expiry date. We operate on a pay-as-you-go model with no subscriptions or recurring charges. You only pay for the credits you need, and there are no hidden fees."
+      }
     },
     {
-      questionName: "How do I purchase credits?",
-      acceptedAnswerText: "1. Visit the Pricing page\n2. Choose your desired credit package\n3. Complete the payment process\n4. Credits are instantly added to your account"
+      "@type": "Question",
+      name: "How do I purchase credits?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "1. Visit the Pricing page\n2. Choose your desired credit package\n3. Complete the payment process\n4. Credits are instantly added to your account"
+      }
     },
     {
-      questionName: "How do I interpret the AI Detection Report?",
-      acceptedAnswerText: "0% AI Detected: Your submission is entirely human-written.\n1-19% AI Detected: A small portion may resemble AI-generated content, but is within safe range.\n20-100% AI Detected: A significant portion is likely AI-generated and may be reviewed for academic integrity concerns."
+      "@type": "Question",
+      name: "How do I interpret the AI Detection Report?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "0% AI Detected: Your submission is entirely human-written.\n1-19% AI Detected: A small portion may resemble AI-generated content, but is within safe range.\n20-100% AI Detected: A significant portion is likely AI-generated and may be reviewed for academic integrity concerns."
+      }
     },
     {
-      questionName: "What are the submission requirements?",
-      acceptedAnswerText: "Minimum Word Count: 300 words in paragraphs\nFile Size: Less than 100 MB\nPage Count: Maximum 800 pages\nAccepted File Types: .pdf and .docx only\nLanguage: English only"
-    },
-    {
-      questionName: "How long does processing take?",
-      acceptedAnswerText: "2000+ words: 0-2 minutes\n3000+ words: 0-10 minutes\nNote: If your file doesn't meet the requirements, it may get stuck during processing."
-    },
-    {
-      questionName: "How many credits can I earn through referrals?",
-      acceptedAnswerText: "There's no limit! You can earn as many credits as you want by referring friends. When your referred friends make their first report check, you'll receive an additional credit as a bonus - that's up to 2 credits per referral!"
-    },
-    {
-      questionName: "How long does it take to receive referral credits?",
-      acceptedAnswerText: "Credits are added to your account immediately after your friend signs up using your referral link."
-    },
-    {
-      questionName: "Can I combine referral credits with purchased credits?",
-      acceptedAnswerText: "Yes! Referral credits work exactly the same as purchased credits."
-    },
-    {
-      questionName: "Do referral credits expire?",
-      acceptedAnswerText: "No, your earned credits never expire and can be used anytime."
+      "@type": "Question",
+      name: "What are the submission requirements?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Minimum Word Count: 300 words in paragraphs\nFile Size: Less than 100 MB\nPage Count: Maximum 800 pages\nAccepted File Types: .pdf and .docx only\nLanguage: English only"
+      }
     }
   ]
 };
@@ -306,23 +311,29 @@ const socialProfileJsonLd: SocialProfileJsonLdProps = {
 };
 
 const breadcrumbJsonLd: BreadCrumbJsonLdProps = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
   itemListElements: [
     {
+      "@type": "ListItem",
       position: 1,
       name: "Home",
       item: "https://aiplagreport.com/"
     },
     {
+      "@type": "ListItem",
       position: 2,
       name: "Pricing",
       item: "https://aiplagreport.com/pricing"
     },
     {
+      "@type": "ListItem",
       position: 3,
       name: "Earn",
       item: "https://aiplagreport.com/earn"
     },
     {
+      "@type": "ListItem",
       position: 4,
       name: "FAQ",
       item: "https://aiplagreport.com/faq"
