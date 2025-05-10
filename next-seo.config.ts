@@ -220,26 +220,46 @@ const productJsonLd: ProductJsonLdProps = {
 const faqJsonLd: FAQPageJsonLdProps = {
   mainEntity: [
     {
-      questionName: "What makes Aiplagreport the best Turnitin alternative?",
-      acceptedAnswerText: "Aiplagreport offers 99.9% accuracy in plagiarism detection, instant reports, AI-powered content analysis, and comprehensive similarity checking. Our platform is trusted by 10,000+ educators and institutions worldwide, making it the leading Turnitin alternative in the market.",
+      questionName: "What is No Repository Mode?",
+      acceptedAnswerText: "We're using Turnitin's 'No Repository Mode' for draft submissions. This means your work won't be stored in any database, so it won't impact your final submission later. Perfect for checking your work before final submission!"
     },
     {
-      questionName: "How accurate is Aiplagreport's plagiarism detection?",
-      acceptedAnswerText: "Aiplagreport provides 99.9% accuracy in plagiarism detection through our advanced AI algorithms and comprehensive database. We cross-reference content against billions of web pages, academic papers, and publications to ensure the most accurate results.",
+      questionName: "How do credits work?",
+      acceptedAnswerText: "All purchased credits in Aiplagreport are lifetime credits with no expiry date. We operate on a pay-as-you-go model with no subscriptions or recurring charges. You only pay for the credits you need, and there are no hidden fees."
     },
     {
-      questionName: "Is Aiplagreport suitable for educational institutions?",
-      acceptedAnswerText: "Yes, Aiplagreport is specifically designed for educational institutions. We offer institutional licenses, bulk checking capabilities, detailed analytics, and dedicated support for schools, colleges, and universities. Our platform is used by leading educational institutions worldwide.",
+      questionName: "How do I purchase credits?",
+      acceptedAnswerText: "1. Visit the Pricing page\n2. Choose your desired credit package\n3. Complete the payment process\n4. Credits are instantly added to your account"
     },
     {
-      questionName: "How quickly can Aiplagreport process documents?",
-      acceptedAnswerText: "Aiplagreport processes most documents within seconds. Our advanced AI engine ensures real-time analysis while maintaining 99.9% accuracy. Institutional users benefit from priority processing and can check unlimited documents through our platform.",
+      questionName: "How do I interpret the AI Detection Report?",
+      acceptedAnswerText: "0% AI Detected: Your submission is entirely human-written.\n1-19% AI Detected: A small portion may resemble AI-generated content, but is within safe range.\n20-100% AI Detected: A significant portion is likely AI-generated and may be reviewed for academic integrity concerns."
     },
     {
-      questionName: "What types of documents can Aiplagreport check?",
-      acceptedAnswerText: "Aiplagreport supports all major document formats including Word, PDF, TXT, and more. Our platform can check essays, research papers, theses, dissertations, assignments, and any other academic content. We also support multiple languages for international users.",
+      questionName: "What are the submission requirements?",
+      acceptedAnswerText: "Minimum Word Count: 300 words in paragraphs\nFile Size: Less than 100 MB\nPage Count: Maximum 800 pages\nAccepted File Types: .pdf and .docx only\nLanguage: English only"
     },
-  ],
+    {
+      questionName: "How long does processing take?",
+      acceptedAnswerText: "2000+ words: 0-2 minutes\n3000+ words: 0-10 minutes\nNote: If your file doesn't meet the requirements, it may get stuck during processing."
+    },
+    {
+      questionName: "How many credits can I earn through referrals?",
+      acceptedAnswerText: "There's no limit! You can earn as many credits as you want by referring friends. When your referred friends make their first report check, you'll receive an additional credit as a bonus - that's up to 2 credits per referral!"
+    },
+    {
+      questionName: "How long does it take to receive referral credits?",
+      acceptedAnswerText: "Credits are added to your account immediately after your friend signs up using your referral link."
+    },
+    {
+      questionName: "Can I combine referral credits with purchased credits?",
+      acceptedAnswerText: "Yes! Referral credits work exactly the same as purchased credits."
+    },
+    {
+      questionName: "Do referral credits expire?",
+      acceptedAnswerText: "No, your earned credits never expire and can be used anytime."
+    }
+  ]
 };
 
 const organizationJsonLd = {
@@ -247,28 +267,29 @@ const organizationJsonLd = {
   "@type": "Organization",
   name: "Aiplagreport",
   url: "https://aiplagreport.com",
-  logo: "/assets/images/logo.png",
+  logo: "https://aiplagreport.com/assets/images/logo.png",
   sameAs: [
     "https://twitter.com/aiplagreport",
     "https://www.linkedin.com/company/aiplagreport",
     "https://www.youtube.com/aiplagreport",
-    "https://www.facebook.com/aiplagreport",
+    "https://www.facebook.com/aiplagreport"
   ],
-  contactPoint: {
-    "@type": "ContactPoint",
-    contactType: "customer service",
-    availableLanguage: ["English", "Nepali"],
-    email: "support@aiplagreport.com",
-    telephone: "+977-9767473470",
-    areaServed: "Worldwide",
-    hoursAvailable: "Mo-Su 00:00-24:00",
-  },
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      availableLanguage: ["English"],
+      email: "contact@aiplagreport.com",
+      areaServed: "Worldwide",
+      hoursAvailable: "Mo-Su 00:00-24:00"
+    }
+  ],
   address: {
     "@type": "PostalAddress",
-    addressCountry: "Nepal",
+    addressCountry: "Estonia"
   },
   foundingDate: "2023",
-  description: "Aiplagreport is the leading Turnitin alternative offering 99.9% accurate plagiarism detection. Trusted by 10,000+ educators and institutions worldwide.",
+  description: "Aiplagreport is the leading Turnitin alternative offering 99.9% accurate plagiarism detection. Trusted by 10,000+ educators and institutions worldwide."
 };
 
 const socialProfileJsonLd: SocialProfileJsonLdProps = {
@@ -297,20 +318,44 @@ const breadcrumbJsonLd: BreadCrumbJsonLdProps = {
     },
     {
       position: 3,
-      name: "Features",
-      item: "https://aiplagreport.com/features",
+      name: "Earn",
+      item: "https://aiplagreport.com/earn",
     },
     {
       position: 4,
-      name: "About",
-      item: "https://aiplagreport.com/about",
-    },
-    {
-      position: 5,
-      name: "Contact",
-      item: "https://aiplagreport.com/contact",
-    },
+      name: "FAQ",
+      item: "https://aiplagreport.com/faq",
+    }
   ],
+};
+
+const earnPageJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Earn Free Report Credits - Aiplagreport",
+  description: "Invite friends, earn rewards, and unlock premium features without spending a dime. Get your unique referral link and start earning credits today!",
+  url: "https://aiplagreport.com/earn",
+  mainEntity: {
+    "@type": "HowTo",
+    name: "How to Earn Free Report Credits",
+    step: [
+      {
+        "@type": "HowToStep",
+        name: "Log In",
+        text: "First, log into your account."
+      },
+      {
+        "@type": "HowToStep",
+        name: "Get Your Link",
+        text: "Copy your unique referral link."
+      },
+      {
+        "@type": "HowToStep",
+        name: "Share With Friends",
+        text: "Send your link to friends via email, social media, or messaging apps."
+      }
+    ]
+  }
 };
 
 export { 
@@ -319,5 +364,6 @@ export {
   faqJsonLd, 
   organizationJsonLd,
   socialProfileJsonLd, 
-  breadcrumbJsonLd 
+  breadcrumbJsonLd,
+  earnPageJsonLd 
 };
