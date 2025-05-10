@@ -377,7 +377,7 @@ const AIDetectorComparison: React.FC = () => {
     { src: "/assets/logos/Writer.webp", alt: "Writer Logo" },
     { src: "/assets/logos/zerogpt.webp", alt: "ZeroGPT Logo" },
     { src: "/assets/logos/winston-ai-logo.svg", alt: "winston-ai" },
-    { src: "/assets/logos/justdone.png", alt: "justdone" },
+    { src: "/assets/logos/Justdone.png", alt: "justdone" },
     { src: "/assets/logos/Gptzero.webp", alt: "GPTZero Logo" },
     { src: "/assets/logos/Crossplag.webp", alt: "Crossplag Logo" },
     { src: "/assets/logos/scribbr.svg", alt: "Scam Logo" },
