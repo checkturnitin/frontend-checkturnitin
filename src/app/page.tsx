@@ -132,34 +132,16 @@ export default function Home() {
 
   const structuredData = {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "Aiplagreport - AI-Powered Plagiarism Detection",
+    "@type": "WebSite",
+    "name": "Aiplagreport - Turnitin Alternative",
     "url": "https://aiplagreport.com",
-    "description": "The most accurate Turnitin alternative for plagiarism detection. Used by 10,000+ educators worldwide. Features AI-powered content detection, comprehensive similarity analysis, and detailed plagiarism reports.",
-    "applicationCategory": "EducationalApplication",
-    "operatingSystem": "Web",
-    "offers": {
-      "@type": "Offer",
-      "price": "999",
-      "priceCurrency": "USD"
+    "description": "Advanced Turnitin alternative with AI-powered plagiarism detection. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://aiplagreport.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
     },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "ratingCount": "1000"
-    },
-    "featureList": [
-      "AI-Powered Plagiarism Detection",
-      "Instant Reports",
-      "Comprehensive Similarity Analysis",
-      "Educational Institution Support",
-      "Multiple Document Format Support"
-    ],
-    "screenshot": "https://aiplagreport.com/assets/images/og-image.png",
-    "softwareVersion": "1.0",
-    "browserRequirements": "Requires JavaScript. Requires HTML5.",
-    "permissions": "high",
-    "author": {
+    "publisher": {
       "@type": "Organization",
       "name": "Aiplagreport",
       "url": "https://aiplagreport.com"
@@ -170,35 +152,26 @@ export default function Home() {
     return (
       <>
         <Head>
-          <title>Aiplagreport - #1 Turnitin Alternative | AI-Powered Plagiarism Detection</title>
-          <meta name="description" content="Aiplagreport is the leading Turnitin alternative offering 99.9% accurate plagiarism detection. Trusted by 10,000+ educators and institutions worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
-          <meta name="keywords" content="Aiplagreport, Turnitin Alternative, Plagiarism Detection, AI Content Detection, Academic Integrity" />
+          <title>Turnitin Alternative - AI-Powered Plagiarism Detection | Aiplagreport</title>
+          <meta name="description" content="Advanced Turnitin alternative with AI-powered plagiarism detection. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
+          <meta name="keywords" content="Turnitin Alternative, Plagiarism Detection, AI Content Detection, Academic Integrity, Plagiarism Checker" />
           <meta name="robots" content="index, follow" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <meta name="theme-color" content="#000000" />
           
           {/* Open Graph / Facebook */}
           <meta property="og:type" content="website" />
-          <meta property="og:url" content="https://aiplagreport.com/" />
-          <meta property="og:title" content="Aiplagreport - #1 Turnitin Alternative | AI-Powered Plagiarism Detection" />
-          <meta property="og:description" content="The most accurate Turnitin alternative for plagiarism detection. Used by 10,000+ educators worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
+          <meta property="og:url" content="https://aiplagreport.com" />
+          <meta property="og:title" content="Turnitin Alternative - AI-Powered Plagiarism Detection | Aiplagreport" />
+          <meta property="og:description" content="Advanced Turnitin alternative with AI-powered plagiarism detection. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
           <meta property="og:image" content="https://aiplagreport.com/assets/images/og-image.png" />
           
           {/* Twitter */}
           <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:url" content="https://aiplagreport.com/" />
-          <meta name="twitter:title" content="Aiplagreport - #1 Turnitin Alternative | AI-Powered Plagiarism Detection" />
-          <meta name="twitter:description" content="The most accurate Turnitin alternative for plagiarism detection. Used by 10,000+ educators worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
+          <meta name="twitter:url" content="https://aiplagreport.com" />
+          <meta name="twitter:title" content="Turnitin Alternative - AI-Powered Plagiarism Detection | Aiplagreport" />
+          <meta name="twitter:description" content="Advanced Turnitin alternative with AI-powered plagiarism detection. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
           <meta name="twitter:image" content="https://aiplagreport.com/assets/images/og-image.png" />
-          
-          {/* Additional Meta Tags */}
-          <meta name="author" content="Aiplagreport" />
-          <meta name="application-name" content="Aiplagreport" />
-          <meta name="apple-mobile-web-app-capable" content="yes" />
-          <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-          <meta name="apple-mobile-web-app-title" content="Aiplagreport" />
-          <meta name="format-detection" content="telephone=no" />
-          <meta name="mobile-web-app-capable" content="yes" />
           
           {/* Structured Data */}
           <script type="application/ld+json">

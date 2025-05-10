@@ -170,81 +170,99 @@
     return (
       <>
       <head>
-      <title>Pricing Plans - Aiplagreport</title>
-      <meta
-        name="description"
-        content="Explore Aiplagreport's flexible pricing plans designed to meet the needs of students and professionals. From the Basic plan to the Premium plan, our plagiarism detection technology guarantees high-quality, authentic content. Choose the plan that suits your needs and ensure your content is original and undetectable."
-      />
-      <meta property="og:url" content="https://Aiplagreport.com/pricing" />
-      <meta property="og:title" content="Pricing Plans - Aiplagreport" />
-      <meta
-        property="og:description"
-        content="Explore Aiplagreport's flexible pricing plans, offering high-quality plagiarism detection that guarantees authentic content. Perfect for students and professionals."
-      />
-      <meta
-        property="og:image"
-        content="https://Aiplagreport.com/assets/images/pricing.png"
-      />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@Aiplagreport" />
-      <meta name="twitter:handle" content="@Aiplagreport" />
-      <meta name="twitter:title" content="Pricing Plans - Aiplagreport" />
-      <meta
-        name="twitter:description"
-        content="Choose from CheckTurnitin's flexible pricing plans to access powerful plagiarism detection technology. Ensure high-quality, authentic content with advanced algorithms across all plans."
-      />
-      <meta name="twitter:image" content="https://Aiplagreport.com/assets/images/pricing.png" />
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Product",
-          "name": "Aiplagreport Plagiarism Detection Suite",
-          "productName": "Aiplagreport Plagiarism Detection Suite",
-          "description": "The most accurate Turnitin alternative for plagiarism detection. Used by 10,000+ educators worldwide. Features AI-powered content detection, comprehensive similarity analysis, and detailed plagiarism reports.",
-          "image": "https://aiplagreport.com/assets/images/pricing.png",
-          "brand": "Aiplagreport",
-          "offers": {
-            "@type": "Offer",
-            "price": "999",
-            "priceCurrency": "USD",
-            "priceValidUntil": "2024-12-31",
-            "availability": "https://schema.org/InStock",
-            "url": "https://aiplagreport.com/pricing",
-            "seller": {
+        <title>Turnitin Alternative - AI-Powered Plagiarism Checker | Aiplagreport</title>
+        <meta
+          name="description"
+          content="Advanced Turnitin alternative with AI-powered plagiarism detection. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://aiplagreport.com" />
+        <meta property="og:title" content="Turnitin Alternative - AI-Powered Plagiarism Checker | Aiplagreport" />
+        <meta
+          property="og:description"
+          content="Advanced Turnitin alternative with AI-powered plagiarism detection. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide."
+        />
+        <meta
+          property="og:image"
+          content="https://aiplagreport.com/assets/images/pricing.png"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@aiplagreport" />
+        <meta name="twitter:title" content="Turnitin Alternative - AI-Powered Plagiarism Checker | Aiplagreport" />
+        <meta
+          name="twitter:description"
+          content="Advanced Turnitin alternative with AI-powered plagiarism detection. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide."
+        />
+        <meta name="twitter:image" content="https://aiplagreport.com/assets/images/pricing.png" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Aiplagreport - Turnitin Alternative",
+            "url": "https://aiplagreport.com",
+            "description": "Advanced Turnitin alternative with AI-powered plagiarism detection. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide.",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": "https://aiplagreport.com/search?q={search_term_string}",
+              "query-input": "required name=search_term_string"
+            },
+            "publisher": {
               "@type": "Organization",
               "name": "Aiplagreport",
               "url": "https://aiplagreport.com"
             }
-          },
-          "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "4.9",
-            "reviewCount": "1000",
-            "bestRating": "5",
-            "worstRating": "1"
-          }
-        })}
-      </script>
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          "itemListElements": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Home",
-              "item": "https://aiplagreport.com/"
+          })}
+        </script>
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "Aiplagreport Plagiarism Checker",
+            "description": "Advanced Turnitin alternative with AI-powered plagiarism detection. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide.",
+            "image": "https://aiplagreport.com/assets/images/pricing.png",
+            "brand": {
+              "@type": "Brand",
+              "name": "Aiplagreport"
             },
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "Pricing",
-              "item": "https://aiplagreport.com/pricing"
+            "offers": {
+              "@type": "AggregateOffer",
+              "priceCurrency": "USD",
+              "lowPrice": "9.99",
+              "highPrice": "99.99",
+              "offerCount": "3",
+              "offers": [
+                {
+                  "@type": "Offer",
+                  "name": "Basic Plan",
+                  "price": "9.99",
+                  "priceCurrency": "USD",
+                  "availability": "https://schema.org/InStock"
+                },
+                {
+                  "@type": "Offer",
+                  "name": "Pro Plan",
+                  "price": "49.99",
+                  "priceCurrency": "USD",
+                  "availability": "https://schema.org/InStock"
+                },
+                {
+                  "@type": "Offer",
+                  "name": "Premium Plan",
+                  "price": "99.99",
+                  "priceCurrency": "USD",
+                  "availability": "https://schema.org/InStock"
+                }
+              ]
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "reviewCount": "1000",
+              "bestRating": "5",
+              "worstRating": "1"
             }
-          ]
-        })}
-      </script>
+          })}
+        </script>
       </head>
 
         <main className="relative flex flex-col w-full min-h-screen bg-white text-gray-900 overflow-hidden dark:bg-black dark:text-white">
