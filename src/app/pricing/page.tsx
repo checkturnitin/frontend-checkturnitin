@@ -195,40 +195,55 @@
       />
       <meta name="twitter:image" content="https://Aiplagreport.com/assets/images/pricing.png" />
       <script type="application/ld+json">
-        {JSON.stringify([
-          {
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://Aiplagreport.com/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Pricing",
-          "item": "https://Aiplagreport.com/pricing"
-        },
-            ]
-          },
-          {
-            "@context": "https://schema.org",
-            "@type": "Product",
-            "name": "Aiplagreport",
-            "image": "https://Aiplagreport.com/assets/images/pricing.png",
-            "description": "Choose the perfect plan that fits your needs.",
-            "sku": "Aiplagreport-plan",
-            "offers": {
-        "@type": "Offer",
-        "url": "https://Aiplagreport.com/pricing",
-        "priceCurrency": "USD",
-        "price": "10.00"
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Product",
+          "name": "Aiplagreport Plagiarism Detection Suite",
+          "productName": "Aiplagreport Plagiarism Detection Suite",
+          "description": "The most accurate Turnitin alternative for plagiarism detection. Used by 10,000+ educators worldwide. Features AI-powered content detection, comprehensive similarity analysis, and detailed plagiarism reports.",
+          "image": "https://aiplagreport.com/assets/images/pricing.png",
+          "brand": "Aiplagreport",
+          "offers": {
+            "@type": "Offer",
+            "price": "999",
+            "priceCurrency": "USD",
+            "priceValidUntil": "2024-12-31",
+            "availability": "https://schema.org/InStock",
+            "url": "https://aiplagreport.com/pricing",
+            "seller": {
+              "@type": "Organization",
+              "name": "Aiplagreport",
+              "url": "https://aiplagreport.com"
             }
+          },
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "1000",
+            "bestRating": "5",
+            "worstRating": "1"
           }
-        ])}
+        })}
+      </script>
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElements": [
+            {
+              "@type": "ListItem",
+              "position": 1,
+              "name": "Home",
+              "item": "https://aiplagreport.com/"
+            },
+            {
+              "@type": "ListItem",
+              "position": 2,
+              "name": "Pricing",
+              "item": "https://aiplagreport.com/pricing"
+            }
+          ]
+        })}
       </script>
       </head>
 
