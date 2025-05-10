@@ -196,7 +196,7 @@ const productJsonLd: ProductJsonLdProps = {
   name: "Aiplagreport Plagiarism Detection Suite",
   productName: "Aiplagreport Plagiarism Detection Suite",
   description: "The most accurate Turnitin alternative for plagiarism detection. Used by 10,000+ educators worldwide. Features AI-powered content detection, comprehensive similarity analysis, and detailed plagiarism reports.",
-  image: "/assets/images/pricing.png",
+  image: "https://aiplagreport.com/assets/images/pricing.png",
   brand: "Aiplagreport",
   offers: {
     "@type": "Offer",
@@ -206,15 +206,15 @@ const productJsonLd: ProductJsonLdProps = {
     availability: "https://schema.org/InStock",
     seller: {
       "@type": "Organization",
-      name: "Aiplagreport",
+      name: "Aiplagreport"
     },
-    url: "https://aiplagreport.com/pricing",
+    url: "https://aiplagreport.com/pricing"
   },
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: "4.9",
-    reviewCount: "1000",
-  },
+    reviewCount: "1000"
+  }
 };
 
 const faqJsonLd: FAQPageJsonLdProps = {
@@ -300,8 +300,8 @@ const socialProfileJsonLd: SocialProfileJsonLdProps = {
     "https://twitter.com/aiplagreport",
     "https://www.linkedin.com/company/aiplagreport",
     "https://www.youtube.com/aiplagreport",
-    "https://www.facebook.com/aiplagreport",
-  ],
+    "https://www.facebook.com/aiplagreport"
+  ]
 };
 
 const breadcrumbJsonLd: BreadCrumbJsonLdProps = {
@@ -309,24 +309,24 @@ const breadcrumbJsonLd: BreadCrumbJsonLdProps = {
     {
       position: 1,
       name: "Home",
-      item: "https://aiplagreport.com/",
+      item: "https://aiplagreport.com/"
     },
     {
       position: 2,
       name: "Pricing",
-      item: "https://aiplagreport.com/pricing",
+      item: "https://aiplagreport.com/pricing"
     },
     {
       position: 3,
       name: "Earn",
-      item: "https://aiplagreport.com/earn",
+      item: "https://aiplagreport.com/earn"
     },
     {
       position: 4,
       name: "FAQ",
-      item: "https://aiplagreport.com/faq",
+      item: "https://aiplagreport.com/faq"
     }
-  ],
+  ]
 };
 
 const earnPageJsonLd = {
@@ -342,17 +342,17 @@ const earnPageJsonLd = {
       {
         "@type": "HowToStep",
         name: "Log In",
-        text: "First, log into your account."
+        text: "First, log into your account"
       },
       {
         "@type": "HowToStep",
         name: "Get Your Link",
-        text: "Copy your unique referral link."
+        text: "Copy your unique referral link"
       },
       {
         "@type": "HowToStep",
         name: "Share With Friends",
-        text: "Send your link to friends via email, social media, or messaging apps."
+        text: "Send your link to friends via email, social media, or messaging apps"
       }
     ]
   }
