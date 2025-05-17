@@ -241,6 +241,7 @@ export const ReportItem: React.FC<ReportItemProps> = ({
                   size="sm"
                   onClick={() => setIsDeleteDialogOpen(true)}
                   className="text-xs text-red-600 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
+                  disabled={report.status !== "completed" && report.status !== "failed"}
                 >
                   <FiTrash2 className="h-3 w-3 mr-1" />
                   Delete
