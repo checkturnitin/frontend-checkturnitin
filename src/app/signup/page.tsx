@@ -194,7 +194,7 @@ export default function Home() {
             
             
             <div className="flex justify-center">
-              <GoogleOAuthProvider clientId="602949390183-k6luvt5jqll90rss2ui5tq8gv86rndg7.apps.googleusercontent.com">
+              <GoogleOAuthProvider clientId="602949390183-oa5ikpt9j6lc5ijhvjo7o8uok609snuc.apps.googleusercontent.com">
                 <GoogleLogin
                   onSuccess={handleGoogleSuccess}
                   onError={handleGoogleError}

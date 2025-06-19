@@ -193,7 +193,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
                 <p className="text-sm text-indigo-600 dark:text-indigo-400">Join in seconds • No credit card needed</p>
               </div>
               <div className="space-y-4">
-                <GoogleOAuthProvider clientId="602949390183-k6luvt5jqll90rss2ui5tq8gv86rndg7.apps.googleusercontent.com">
+                <GoogleOAuthProvider clientId="602949390183-oa5ikpt9j6lc5ijhvjo7o8uok609snuc.apps.googleusercontent.com">
                   <div className="flex justify-center" ref={googleLoginRef}>
                     <GoogleLogin
                       onSuccess={handleGoogleSuccess}
