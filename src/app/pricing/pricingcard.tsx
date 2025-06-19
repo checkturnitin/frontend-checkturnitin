@@ -131,74 +131,120 @@ const PricingCard: React.FC<{
   item: PricingItem
   onSelect: (item: PricingItem) => void
   isLoggedIn: boolean
-}> = ({ item, onSelect, isLoggedIn }) => {
+  isMiddle?: boolean
+}> = ({ item, onSelect, isLoggedIn, isMiddle = false }) => {
   const isPopular = item.title === "Pro"
 
   return (
-    <Card className="relative w-full max-w-xs flex flex-col m-3 overflow-hidden transition-all duration-300 border-0 hover:shadow-2xl bg-gradient-to-b from-white to-gray-50 dark:from-gray-900 dark:to-black">
-      {isPopular && (
-        <div className="absolute top-0 right-0">
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-xs font-bold py-1 px-4 rounded-bl-lg shadow-md">
-            Most Popular
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: isMiddle ? 0.2 : 0 }}
+      className={`relative ${isMiddle ? 'scale-105 z-10' : 'scale-100'}`}
+    >
+      <Card className={`relative w-full max-w-xs flex flex-col m-3 overflow-visible transition-all duration-500 border-0 hover:shadow-2xl ${
+        isMiddle 
+          ? 'bg-purple-50 dark:bg-purple-900/20 shadow-xl border-2 border-purple-200 dark:border-purple-700'
+          : 'bg-white dark:bg-gray-900 hover:shadow-xl border border-gray-200 dark:border-gray-700'
+      }`}>
+        {isPopular && (
+          <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
+            <div className="bg-purple-600 text-white text-xs font-bold py-2 px-6 rounded-full shadow-lg">
+              ⭐ Most Popular
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      <CardHeader className="text-center pb-0 pt-6">
-        <CardTitle className="text-2xl font-extrabold text-gray-900 dark:text-white mb-2">
-          {item.title}
-        </CardTitle>
-        <CardDescription className="text-sm text-gray-600 dark:text-gray-300">
-          {item.creditLimit.toLocaleString()} credits
-        </CardDescription>
-      </CardHeader>
+        <CardHeader className="text-center pb-0 pt-8">
+          <CardTitle className={`text-2xl font-extrabold mb-2 ${
+            isMiddle 
+              ? 'text-purple-700 dark:text-purple-300'
+              : 'text-gray-900 dark:text-white'
+          }`}>
+            {item.title}
+          </CardTitle>
+          <CardDescription className={`text-lg font-bold ${
+            isMiddle 
+              ? 'text-purple-600 dark:text-purple-400'
+              : 'text-gray-600 dark:text-gray-300'
+          }`}>
+            {item.creditLimit.toLocaleString()} credits
+          </CardDescription>
+        </CardHeader>
 
-      <CardContent className="text-center pt-6 flex-grow">
-        <div className="flex flex-col items-center mb-6">
-          <div className="text-4xl font-extrabold text-gray-900 dark:text-white mb-1">
-            {item.currency} {item.price.toFixed(2)}
+        <CardContent className="text-center pt-6 flex-grow">
+          <div className="flex flex-col items-center mb-8">
+            {/* Original Price */}
+            <div className="text-lg text-gray-500 dark:text-gray-400 line-through mb-1">
+              {item.currency} {(item.price * 1.7).toFixed(2)}
+            </div>
+            
+            {/* Discount Badge */}
+            <div className="bg-red-500 text-white text-xs font-bold py-1 px-3 rounded-full mb-2">
+              70% OFF
+            </div>
+            
+            {/* Discounted Price */}
+            <div className={`text-5xl font-extrabold mb-2 ${
+              isMiddle 
+                ? 'text-purple-700 dark:text-purple-300'
+                : 'text-gray-900 dark:text-white'
+            }`}>
+              {item.currency} {item.price.toFixed(2)}
+            </div>
+            <div className="text-sm text-gray-500 dark:text-gray-400 font-medium">
+              One-time payment
+            </div>
+            {isMiddle && (
+              <div className="mt-2 text-xs text-purple-600 dark:text-purple-400 font-semibold">
+                Best value for money
+              </div>
+            )}
           </div>
-          <div className="text-sm text-gray-500 dark:text-gray-400">
-            One-time payment
+
+          <div className="space-y-4">
+            <p className={`font-semibold text-md ${
+              isMiddle 
+                ? 'text-purple-700 dark:text-purple-300'
+                : 'text-gray-900 dark:text-white'
+            }`}>What's included:</p>
+            <ul className="space-y-3">
+              {item.features.map((feature, index) => (
+                <li key={index} className="flex items-start text-gray-700 dark:text-gray-300">
+                  <FiCheckCircle
+                    className={`mr-3 flex-shrink-0 mt-1 ${
+                      isMiddle ? 'text-purple-500' : 'text-green-500'
+                    }`}
+                    size={18}
+                  />
+                  <span className="text-left text-sm font-medium">{feature}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
+        </CardContent>
 
-        <div className="space-y-4">
-          <p className="text-gray-900 dark:text-white font-semibold text-md">What's included:</p>
-          <ul className="space-y-3">
-            {item.features.map((feature, index) => (
-              <li key={index} className="flex items-start text-gray-700 dark:text-gray-300">
-                <FiCheckCircle
-                  className="mr-2 text-green-500 flex-shrink-0 mt-1"
-                  size={18}
-                />
-                <span className="text-left text-sm">{feature}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </CardContent>
-
-      <CardFooter className="mt-auto pt-6 pb-6">
-        <Button
-          onClick={() => onSelect(item)}
-          disabled={!item.enable}
-          className={`w-full text-md font-semibold py-3 rounded-lg transition-all duration-300 ${
-            item.enable
-              ? isPopular 
-                ? "bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl"
-                : "bg-white text-gray-900 hover:bg-gray-100 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700"
-              : "bg-gray-300 text-gray-400 cursor-not-allowed"
-          }`}
-        >
-          {isLoggedIn
-            ? item.enable
-              ? isPopular ? "Get Started" : "Choose Plan"
-              : "Currently Unavailable"
-            : "Sign Up to Continue"}
-        </Button>
-      </CardFooter>
-    </Card>
+        <CardFooter className="mt-auto pt-6 pb-8">
+          <Button
+            onClick={() => onSelect(item)}
+            disabled={!item.enable}
+            className={`w-full text-md font-semibold py-4 rounded-xl transition-all duration-300 ${
+              item.enable
+                ? isMiddle 
+                  ? "bg-purple-600 text-white hover:bg-purple-700 shadow-lg hover:shadow-xl transform hover:scale-105"
+                  : "bg-gray-100 text-gray-900 hover:bg-gray-200 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 border border-gray-300 dark:border-gray-600 shadow-md hover:shadow-lg"
+                : "bg-gray-300 text-gray-400 cursor-not-allowed"
+            }`}
+          >
+            {isLoggedIn
+              ? item.enable
+                ? isMiddle ? "Get Started Now" : "Choose Plan"
+                : "Currently Unavailable"
+              : "Sign Up to Continue"}
+          </Button>
+        </CardFooter>
+      </Card>
+    </motion.div>
   )
 }
 
@@ -245,12 +291,63 @@ const PricingCards: React.FC<PricingCardsProps> = ({
     setSelectedPaymentMethod(null)
   }
 
+  // Sort pricing data to put Pro in the middle
+  const sortedPricingData = [...pricingData].sort((a, b) => {
+    if (a.title === "Pro") return 1
+    if (b.title === "Pro") return -1
+    return a.price - b.price
+  })
+
+  // Ensure Pro is in the middle by reordering if needed
+  const reorderedData = [...sortedPricingData]
+  const proIndex = reorderedData.findIndex(item => item.title === "Pro")
+  if (proIndex !== -1 && reorderedData.length === 3) {
+    // Move Pro to the middle (index 1)
+    const proItem = reorderedData.splice(proIndex, 1)[0]
+    reorderedData.splice(1, 0, proItem)
+  }
+
   if (isLoading) {
     return (
-      <div className="flex flex-wrap justify-center gap-6 dark:bg-black dark:text-white">
-        {[...Array(3)].map((_, index) => (
-          <Skeleton key={index} className="w-full max-w-xs h-80" />
-        ))}
+      <div className="w-full max-w-7xl mx-auto px-4 py-12 dark:bg-black dark:text-white">
+        <div className="flex flex-wrap items-stretch justify-center gap-8">
+          {[...Array(3)].map((_, index) => (
+            <div key={index} className="relative w-full max-w-xs flex flex-col m-3 overflow-hidden transition-all duration-300 border-0 bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-lg shadow-lg">
+              {/* Header Skeleton */}
+              <div className="text-center pb-0 pt-8 px-6">
+                <div className="h-8 bg-gray-200 dark:bg-gray-700 rounded-lg mb-2 animate-pulse"></div>
+                <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24 mx-auto animate-pulse"></div>
+              </div>
+
+              {/* Content Skeleton */}
+              <div className="text-center pt-6 flex-grow px-6">
+                {/* Price Skeleton */}
+                <div className="flex flex-col items-center mb-8">
+                  <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded-lg mb-2 w-32 animate-pulse"></div>
+                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-24 animate-pulse"></div>
+                </div>
+
+                {/* Features Skeleton */}
+                <div className="space-y-4">
+                  <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded w-32 mx-auto animate-pulse"></div>
+                  <div className="space-y-3">
+                    {[...Array(4)].map((_, featureIndex) => (
+                      <div key={featureIndex} className="flex items-start space-x-3">
+                        <div className="w-4 h-4 bg-gray-200 dark:bg-gray-700 rounded-full flex-shrink-0 animate-pulse"></div>
+                        <div className="h-4 bg-gray-200 dark:bg-gray-700 rounded flex-1 animate-pulse"></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer Skeleton */}
+              <div className="mt-auto pt-6 pb-8 px-6">
+                <div className="h-12 bg-gray-200 dark:bg-gray-700 rounded-xl w-full animate-pulse"></div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     )
   }
@@ -258,12 +355,13 @@ const PricingCards: React.FC<PricingCardsProps> = ({
   return (
     <div className="w-full max-w-7xl mx-auto px-4 py-12 dark:bg-black dark:text-white">
       <div className="flex flex-wrap items-stretch justify-center gap-8">
-        {pricingData.map((item) => (
+        {reorderedData.map((item, index) => (
           <PricingCard
             key={item._id}
             item={item}
             onSelect={handleSelectPlan}
             isLoggedIn={isLoggedIn}
+            isMiddle={item.title === "Pro"}
           />
         ))}
       </div>

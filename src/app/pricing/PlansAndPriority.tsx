@@ -9,8 +9,8 @@ const processingTimes = [
   {
     range: "0 - 1,000 words",
     description: "Short reports and essays",
-    deliveryTime: "1 - 2 minutes",
-    priorityLevel: "Instant",
+    deliveryTime: "2 - 4 minutes",
+    priorityLevel: "Fast",
     icon: FaBolt,
     color: "text-green-500",
     bgColor: "bg-gradient-to-r from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20",
@@ -18,7 +18,7 @@ const processingTimes = [
   {
     range: "1,001 - 5,000 words",
     description: "Medium length documents",
-    deliveryTime: "2 - 5 minutes",
+    deliveryTime: "3 - 6 minutes",
     priorityLevel: "Fast",
     icon: FaHourglassHalf,
     color: "text-blue-500",
@@ -27,7 +27,7 @@ const processingTimes = [
   {
     range: "5,001 - 15,000 words",
     description: "Long papers and theses",
-    deliveryTime: "5 - 15 minutes",
+    deliveryTime: "5 - 8 minutes",
     priorityLevel: "Standard",
     icon: FaHourglassHalf,
     color: "text-yellow-500",
@@ -36,7 +36,7 @@ const processingTimes = [
   {
     range: "15,001+ words",
     description: "Extended research papers",
-    deliveryTime: "15 - 30 minutes",
+    deliveryTime: "7 - 10 minutes",
     priorityLevel: "Extended",
     icon: FaHourglassEnd,
     color: "text-orange-500",
@@ -49,10 +49,10 @@ const ProcessingTimes: React.FC = () => {
     <div className="container mx-auto px-4 py-12 max-w-3xl">
       <div className="text-center mb-10">
         <h2 className="text-3xl font-bold mb-3 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-500">
-          Processing Time Estimates
+          Fast Processing Times
         </h2>
         <p className="text-muted-foreground max-w-xl mx-auto">
-          Fast and reliable processing for all document sizes
+          Improved system delivers reports in 2-10 minutes for all document sizes
         </p>
       </div>
       
@@ -101,7 +101,7 @@ const ProcessingTimes: React.FC = () => {
       
       <div className="mt-10 p-5 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-900/30 dark:to-gray-800/30 rounded-xl text-center shadow-sm">
         <p className="text-sm text-muted-foreground">
-          Processing times may vary slightly based on server load and document complexity.
+          Our improved system provides consistent processing times across all document sizes.
           <span className="block mt-2 text-blue-600 dark:text-blue-400 font-medium">
             All reports include both AI analysis and plagiarism detection
           </span>
