@@ -140,9 +140,9 @@ const PricingCard: React.FC<{
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: isMiddle ? 0.2 : 0 }}
-      className={`relative ${isMiddle ? 'scale-105 z-10' : 'scale-100'}`}
+      className={`relative scale-100 group h-full`}
     >
-      <Card className={`relative w-full max-w-xs flex flex-col m-3 overflow-visible transition-all duration-500 border-0 hover:shadow-2xl ${
+      <Card className={`relative w-full max-w-xs flex flex-col m-3 overflow-visible transition-all duration-500 border-0 hover:shadow-2xl h-full ${
         isMiddle 
           ? 'bg-purple-50 dark:bg-purple-900/20 shadow-xl border-2 border-purple-200 dark:border-purple-700'
           : 'bg-white dark:bg-gray-900 hover:shadow-xl border border-gray-200 dark:border-gray-700'
@@ -244,6 +244,23 @@ const PricingCard: React.FC<{
           </Button>
         </CardFooter>
       </Card>
+
+      {/* Hover Credit Display */}
+      <div className="absolute -bottom-8 left-0 right-0 opacity-0 group-hover:opacity-100 transition-all duration-300 z-30 text-center">
+        {/* Arrow pointing down from top */}
+        <div className={`w-0 h-0 mx-auto border-l-4 border-r-4 border-t-4 border-transparent mb-1 ${
+          isMiddle 
+            ? 'border-t-purple-500'
+            : 'border-t-gray-600 dark:border-t-gray-500'
+        }`}></div>
+        <div className={`px-4 py-2 rounded-lg shadow-xl text-xs font-semibold border ${
+          isMiddle 
+            ? 'bg-purple-600 text-white border-purple-500'
+            : 'bg-gray-800 text-white dark:bg-gray-700 border-gray-600 dark:border-gray-500'
+        }`}>
+          <span>You will receive {item.creditLimit.toLocaleString()} credits</span>
+        </div>
+      </div>
     </motion.div>
   )
 }
