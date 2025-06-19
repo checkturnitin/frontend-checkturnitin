@@ -152,7 +152,7 @@ export default function Home() {
     return (
       <>
         <Head>
-          <title>Turnitin Alternative - AI-Powered Plagiarism Detection | Aiplagreport</title>
+          <title>AIplagreport - Turnitin AI and plag report</title>
           <meta name="description" content="Advanced Turnitin alternative with AI-powered plagiarism detection. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
           <meta name="keywords" content="Turnitin Alternative, Plagiarism Detection, AI Content Detection, Academic Integrity, Plagiarism Checker" />
           <meta name="robots" content="index, follow" />
@@ -198,7 +198,7 @@ export default function Home() {
   return (
     <>
     <Head>
-      <title>Aiplagreport - #1 Turnitin Alternative | AI-Powered Plagiarism Detection</title>
+      <title>AIplagreport - Turnitin AI and plag report</title>
       <meta name="description" content="Aiplagreport is the leading Turnitin alternative offering 99.9% accurate plagiarism detection. Trusted by 10,000+ educators and institutions worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
       <meta name="keywords" content="Aiplagreport, Turnitin Alternative, Plagiarism Detection, AI Content Detection, Academic Integrity" />
       <meta name="robots" content="index, follow" />

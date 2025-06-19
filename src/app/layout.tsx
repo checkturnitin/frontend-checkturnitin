@@ -41,6 +41,7 @@ export const metadata: Metadata = {
     yahoo: 'your-yahoo-verification',
   },
   category: 'technology',
+  title: 'AIplagreport - Turnitin AI and plag report',
 };
 
 interface RootLayoutProps {
@@ -100,7 +101,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         
         {/* Apple-specific meta tags */}
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content={appName} />
+        <meta name="apple-mobile-web-app-title" content="AIplagreport - Turnitin AI and plag report" />
         
         {/* Mobile specific meta tags */}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
