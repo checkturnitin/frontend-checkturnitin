@@ -123,7 +123,14 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
       setIsLoggedIn(true);
       setDailyFreeWords(response.data.user.DailyFreeCredits);
       localStorage.setItem("planType", response.data.user.planType);
-    } catch (error) {
+    } catch (error: any) {
+      // Handle 403, 401, or 400 errors by clearing token and redirecting
+      if (error.response && (error.response.status === 403 || error.response.status === 401 || error.response.status === 400)) {
+        localStorage.clear();
+        window.location.href = "/";
+        return;
+      }
+      
       setIsLoggedIn(false);
       toast.error("Something went wrong!");
     }
