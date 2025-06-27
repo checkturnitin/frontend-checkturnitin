@@ -256,7 +256,7 @@ export default function Home() {
       );
 
       toast.success(
-        `Turnitin check initiated successfully! Check ID: ${response.data.checkId}`
+        `Plagiarism detection check initiated successfully! Check ID: ${response.data.checkId}`
       );
       setReports({ pending: [], processing: [], completed: [] });
       removeFile();
@@ -760,7 +760,7 @@ export default function Home() {
                   </p>
                 </div>
                 <p className="text-sm mt-2 italic">
-                  This is Authentic Turnitin Check and Both Turnitin AI and Plag
+                  This is Authentic Plagiarism Detection Check and Both AI and Plag
                   Report will be provided:{" "}
                   <Link
                     href="/pricing"
@@ -776,7 +776,7 @@ export default function Home() {
                 disabled={loading}
                 className="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 transition-all"
               >
-                Confirm and Receive Turnitin Reports
+                Confirm and Receive Plagiarism Detection Reports
               </Button>
 
               <h4 className="text-lg font-semibold text-white">
@@ -1086,7 +1086,7 @@ export default function Home() {
                       Welcome to AIPlagReport 👋
                     </h2>
                     <p className="text-white/80 text-lg">
-                      Your journey to authentic Turnitin checks starts here!
+                      Your journey to authentic plagiarism detection checks starts here!
                     </p>
                   </div>
                   <div className="space-y-4">
@@ -1100,7 +1100,7 @@ export default function Home() {
                     </div>
                     <div className="flex items-center gap-3 p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-colors">
                       <div className="h-2 w-2 rounded-full bg-white/80" />
-                      <span className="text-white/90">Download your authentic Turnitin report</span>
+                      <span className="text-white/90">Download your authentic plagiarism detection report</span>
                     </div>
                   </div>
                 </div>
@@ -1142,7 +1142,7 @@ export default function Home() {
                       Ready to get started?
                     </h2>
                     <p className="text-white/80 text-lg">
-                      Upload your document now and receive your authentic Turnitin report in minutes!
+                      Upload your document now and receive your authentic plagiarism detection report in minutes!
                     </p>
                   </div>
                   <div className="space-y-4">

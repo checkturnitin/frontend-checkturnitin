@@ -133,9 +133,9 @@ export default function Home() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Aiplagreport - Turnitin Alternative",
+    "name": "Aiplagreport - Advanced Plagiarism Detection Tool",
     "url": "https://aiplagreport.com",
-    "description": "Advanced Turnitin alternative with AI-powered plagiarism detection. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide.",
+    "description": "Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide.",
     "potentialAction": {
       "@type": "SearchAction",
       "target": "https://aiplagreport.com/search?q={search_term_string}",
@@ -152,9 +152,9 @@ export default function Home() {
     return (
       <>
         <Head>
-          <title>AIplagreport - Turnitin AI and plag report</title>
-          <meta name="description" content="Advanced Turnitin alternative with AI-powered plagiarism detection. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
-          <meta name="keywords" content="Turnitin Alternative, Plagiarism Detection, AI Content Detection, Academic Integrity, Plagiarism Checker" />
+          <title>AIplagreport - Advanced Plagiarism Detection and AI Report</title>
+          <meta name="description" content="Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
+          <meta name="keywords" content="Plagiarism Detection Tool, Content Analysis, AI Content Detection, Academic Integrity, Plagiarism Checker" />
           <meta name="robots" content="index, follow" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <meta name="theme-color" content="#000000" />
@@ -162,15 +162,15 @@ export default function Home() {
           {/* Open Graph / Facebook */}
           <meta property="og:type" content="website" />
           <meta property="og:url" content="https://aiplagreport.com" />
-          <meta property="og:title" content="Turnitin Alternative - AI-Powered Plagiarism Detection | Aiplagreport" />
-          <meta property="og:description" content="Advanced Turnitin alternative with AI-powered plagiarism detection. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
+          <meta property="og:title" content="Advanced Plagiarism Detection Tool - AI-Powered Content Analysis | Aiplagreport" />
+          <meta property="og:description" content="Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
           <meta property="og:image" content="https://aiplagreport.com/assets/images/og-image.png" />
           
           {/* Twitter */}
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:url" content="https://aiplagreport.com" />
-          <meta name="twitter:title" content="Turnitin Alternative - AI-Powered Plagiarism Detection | Aiplagreport" />
-          <meta name="twitter:description" content="Advanced Turnitin alternative with AI-powered plagiarism detection. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
+          <meta name="twitter:title" content="Advanced Plagiarism Detection Tool - AI-Powered Content Analysis | Aiplagreport" />
+          <meta name="twitter:description" content="Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
           <meta name="twitter:image" content="https://aiplagreport.com/assets/images/og-image.png" />
           
           {/* Structured Data */}
@@ -198,9 +198,9 @@ export default function Home() {
   return (
     <>
     <Head>
-      <title>AIplagreport - Turnitin AI and plag report</title>
-      <meta name="description" content="Aiplagreport is the leading Turnitin alternative offering 99.9% accurate plagiarism detection. Trusted by 10,000+ educators and institutions worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
-      <meta name="keywords" content="Aiplagreport, Turnitin Alternative, Plagiarism Detection, AI Content Detection, Academic Integrity" />
+      <title>AIplagreport - Advanced Plagiarism Detection and AI Report</title>
+      <meta name="description" content="Aiplagreport is the leading plagiarism detection tool offering 99.9% accurate content analysis. Trusted by 10,000+ educators and institutions worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
+      <meta name="keywords" content="Aiplagreport, Plagiarism Detection Tool, Content Analysis, AI Content Detection, Academic Integrity" />
       <meta name="robots" content="index, follow" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta name="theme-color" content="#000000" />
@@ -208,15 +208,15 @@ export default function Home() {
       {/* Open Graph / Facebook */}
       <meta property="og:type" content="website" />
       <meta property="og:url" content="https://aiplagreport.com/" />
-      <meta property="og:title" content="Aiplagreport - #1 Turnitin Alternative | AI-Powered Plagiarism Detection" />
-      <meta property="og:description" content="The most accurate Turnitin alternative for plagiarism detection. Used by 10,000+ educators worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
+      <meta property="og:title" content="Aiplagreport - #1 Advanced Plagiarism Detection Tool | AI-Powered Content Analysis" />
+      <meta property="og:description" content="The most accurate plagiarism detection tool for content analysis. Used by 10,000+ educators worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
       <meta property="og:image" content="https://aiplagreport.com/assets/images/og-image.png" />
       
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:url" content="https://aiplagreport.com/" />
-      <meta name="twitter:title" content="Aiplagreport - #1 Turnitin Alternative | AI-Powered Plagiarism Detection" />
-      <meta name="twitter:description" content="The most accurate Turnitin alternative for plagiarism detection. Used by 10,000+ educators worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
+      <meta name="twitter:title" content="Aiplagreport - #1 Advanced Plagiarism Detection Tool | AI-Powered Content Analysis" />
+      <meta name="twitter:description" content="The most accurate plagiarism detection tool for content analysis. Used by 10,000+ educators worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
       <meta name="twitter:image" content="https://aiplagreport.com/assets/images/og-image.png" />
       
       {/* Additional Meta Tags */}

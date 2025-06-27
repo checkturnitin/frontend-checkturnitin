@@ -39,12 +39,12 @@ export function FAQSection() {
     <>
       <NextSeo
         title="Frequently Asked Questions | aiplagreport"
-        description="Find answers to common questions about aiplagreport, an online tool for checking Turnitin reports with accuracy."
+        description="Find answers to common questions about aiplagreport, an online tool for checking plagiarism reports with accuracy."
         openGraph={{
           type: "website",
           title: "Frequently Asked Questions | aiplagreport",
           description:
-            "Find answers to common questions about aiplagreport, an online tool for checking Turnitin reports with accuracy.",
+            "Find answers to common questions about aiplagreport, an online tool for checking plagiarism reports with accuracy.",
           images: [
             {
               url: "/assets/images/faq.png",
@@ -95,7 +95,7 @@ const faqData = [
     id: 1,
     question: "What is aiplagreport?",
     answer:
-      "aiplagreport is an online tool that allows users to check Turnitin similarity reports with accuracy and ease.",
+      "aiplagreport is an online tool that allows users to check plagiarism similarity reports with accuracy and ease.",
   },
   {
     id: 2,
@@ -105,9 +105,9 @@ const faqData = [
   },
   {
     id: 3,
-    question: "Will my document be saved to Turnitin?",
+    question: "Will my document be saved to the plagiarism detection system?",
     answer:
-      "No, aiplagreport does not save your document to Turnitin. Your file remains private and secure.",
+      "No, aiplagreport does not save your document to any plagiarism detection database. Your file remains private and secure.",
   },
   {
     id: 4,
@@ -119,7 +119,7 @@ const faqData = [
     id: 5,
     question: "How accurate is aiplagreport?",
     answer:
-      "aiplagreport provides highly accurate plagiarism reports by integrating with Turnitin's official system.",
+      "aiplagreport provides highly accurate plagiarism reports by integrating with official plagiarism detection systems.",
   },
   {
     id: 6,

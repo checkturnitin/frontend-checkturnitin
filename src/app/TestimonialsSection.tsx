@@ -23,7 +23,7 @@ const TestimonialsSection: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          Hear from our satisfied users about their experience with our Turnitin report service.
+          Hear from our satisfied users about their experience with our plagiarism detection report service.
         </motion.p>
         <CardStackDemo />
       </div>
@@ -62,7 +62,7 @@ const CARDS = [
     designation: "University Student",
     content: (
       <p>
-        The Turnitin report I received was incredibly detailed and accurate. It
+        The plagiarism detection report I received was incredibly detailed and accurate. It
         helped me ensure my paper was{" "}
         <Highlight>100% original and plagiarism-free</Highlight>. Highly
         recommend this service!
@@ -87,7 +87,7 @@ const CARDS = [
     designation: "High School Teacher",
     content: (
       <p>
-        As a teacher, I rely on Turnitin to check my students' work. The reports
+        As a teacher, I rely on plagiarism detection to check my students' work. The reports
         are always reliable and help me ensure{" "}
         <Highlight>academic integrity</Highlight> in my classroom.
       </p>
@@ -99,7 +99,7 @@ const CARDS = [
     designation: "Content Writer",
     content: (
       <p>
-        I use Turnitin to verify the originality of my articles before
+        I use plagiarism detection to verify the originality of my articles before
         submission. The service is fast, accurate, and{" "}
         <Highlight>extremely easy to use</Highlight>.
       </p>
@@ -111,7 +111,7 @@ const CARDS = [
     designation: "PhD Candidate",
     content: (
       <p>
-        Turnitin has been a lifesaver for my thesis. The detailed similarity
+        Plagiarism detection has been a lifesaver for my thesis. The detailed similarity
         report helped me identify and fix any unintentional{" "}
         <Highlight>plagiarism issues</Highlight> before submission.
       </p>

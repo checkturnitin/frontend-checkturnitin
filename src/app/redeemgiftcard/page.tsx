@@ -168,7 +168,7 @@ export default function ClaimGiftCard() {
       // Update total credits
       setCurrentCredits((prev) => prev + newCredits)
 
-      toast.success(`Gift card claimed successfully! Added ${newCredits} CheckTurnitin Credits.`)
+      toast.success(`Gift card claimed successfully! Added ${newCredits} CheckPlagiarism Credits.`)
       setGiftCardCode("")
     } catch (error: any) {
       toast.error(error.response?.data?.message || "Failed to claim gift card. Please try again.")
@@ -215,7 +215,7 @@ export default function ClaimGiftCard() {
           </Button>
         </div>
 
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">CheckTurnitin Credits</h1>
+        <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">CheckPlagiarism Credits</h1>
 
         {/* Current Credits Card */}
         <div className="mb-8">
@@ -249,7 +249,7 @@ export default function ClaimGiftCard() {
                       <div className="bg-white/20 dark:bg-white/10 p-2 rounded-full">
                         <Check className="h-5 w-5 text-white" />
                       </div>
-                      <h3 className="ml-2 text-white font-bold text-lg">CheckTurnitin</h3>
+                      <h3 className="ml-2 text-white font-bold text-lg">CheckPlagiarism</h3>
                     </div>
 
                     <div className="flex items-center">
@@ -264,7 +264,7 @@ export default function ClaimGiftCard() {
                       <div className="flex items-center justify-center">
                         <span className="text-white font-bold text-3xl">{currentCredits}</span>
                       </div>
-                      <p className="text-white/90 text-sm mt-1">CheckTurnitin Credits</p>
+                      <p className="text-white/90 text-sm mt-1">CheckPlagiarism Credits</p>
                     </div>
                   </div>
 
@@ -294,7 +294,7 @@ export default function ClaimGiftCard() {
                 <div className="absolute inset-0 flex flex-col justify-end p-6">
                   <div className="space-y-2">
                     <p className="text-sm text-gray-600 dark:text-gray-300">
-                      Your CheckTurnitin Credits can be used to verify documents for plagiarism.
+                      Your CheckPlagiarism Credits can be used to verify documents for plagiarism.
                     </p>
                     <p className="text-xs text-gray-500 dark:text-gray-400">
                       Each credit allows you to check one document up to 25,000 words.
@@ -315,7 +315,7 @@ export default function ClaimGiftCard() {
               <span>Redeem Gift Card</span>
             </CardTitle>
             <CardDescription className="dark:text-gray-400">
-              Enter your gift card code to add CheckTurnitin Credits
+              Enter your gift card code to add CheckPlagiarism Credits
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -401,7 +401,7 @@ export default function ClaimGiftCard() {
 
                       <div className="flex items-center space-x-1">
                         <Sparkles className="h-4 w-4 text-yellow-300" />
-                        <span className="text-white font-bold">{claimedCard.credits} CheckTurnitin Credits</span>
+                        <span className="text-white font-bold">{claimedCard.credits} CheckPlagiarism Credits</span>
                       </div>
                     </div>
 
@@ -482,7 +482,7 @@ export default function ClaimGiftCard() {
                         This gift card has been added to your account.
                       </p>
                       <p className="text-xs text-gray-500 dark:text-gray-400">
-                        {claimedCard.credits} CheckTurnitin Credits have been added to your balance.
+                        {claimedCard.credits} CheckPlagiarism Credits have been added to your balance.
                       </p>
                       <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">Tap card to flip</p>
                     </div>

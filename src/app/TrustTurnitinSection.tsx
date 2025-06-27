@@ -21,9 +21,9 @@ export function WobbleCardDemo() {
         >
           <div className="flex flex-col justify-between h-full">
             <div className="max-w-md">
-              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Turnitin powers academic integrity</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">Advanced plagiarism detection powers academic integrity</h2>
               <p className="text-neutral-200">
-                With over 100,000 monthly active users, Turnitin is the most trusted platform for plagiarism checks.
+                With over 100,000 monthly active users, our advanced plagiarism detection is the most trusted platform for plagiarism checks.
               </p>
             </div>
             <div className="mt-8 relative h-32 lg:h-48 w-full">
@@ -32,7 +32,7 @@ export function WobbleCardDemo() {
                 layout="fill"
                 objectFit="contain"
                 objectPosition="right bottom"
-                alt="Turnitin logo"
+                alt="Advanced plagiarism detection logo"
               />
             </div>
           </div>
@@ -43,7 +43,7 @@ export function WobbleCardDemo() {
           <div className="p-8 flex flex-col justify-between h-full">
             <div>
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">No fake AI, no false results.</h2>
-              <p className="text-neutral-200">Turnitin ensures your work is original and free from plagiarism.</p>
+              <p className="text-neutral-200">Advanced plagiarism detection ensures your work is original and free from plagiarism.</p>
             </div>
             <Image
               src="/placeholder.svg?height=100&width=100"
@@ -60,10 +60,10 @@ export function WobbleCardDemo() {
           <div className="p-8 flex flex-col lg:flex-row justify-between items-center h-full">
             <div className="max-w-lg mb-8 lg:mb-0">
               <h2 className="text-2xl md:text-3xl font-bold text-white mb-4">
-                Sign up for blazing-fast, cutting-edge Turnitin checks today!
+                Sign up for blazing-fast, cutting-edge plagiarism detection checks today!
               </h2>
               <p className="text-neutral-200 mb-6">
-                Join over 100,000 monthly active users who trust Turnitin for plagiarism checks.
+                Join over 100,000 monthly active users who trust our advanced plagiarism detection for plagiarism checks.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button
@@ -88,7 +88,7 @@ export function WobbleCardDemo() {
                 layout="fill"
                 objectFit="contain"
                 objectPosition="center"
-                alt="Turnitin demo image"
+                alt="Advanced plagiarism detection demo image"
                 className="rounded-2xl"
               />
             </div>

@@ -48,7 +48,7 @@ const PricingSection: React.FC = () => {
             {
               icon: <Zap size={48} className="text-indigo-700 dark:text-indigo-400" />,
               title: "Fast Reports",
-              description: "Receive your Turnitin reports quickly, without any delays.",
+              description: "Receive your plagiarism detection reports quickly, without any delays.",
             },
             {
               icon: <Rocket size={48} className="text-indigo-700 dark:text-indigo-400" />,

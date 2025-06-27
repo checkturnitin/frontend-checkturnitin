@@ -17,11 +17,11 @@ const NoRepositoryMode: React.FC = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {/* Turnitin Logo */}
+          {/* Advanced Plagiarism Detection Logo */}
           <div className="mb-12">
             <Image
               src="/assets/logos/turnitin.webp"
-              alt="Turnitin Logo"
+              alt="Advanced Plagiarism Detection Logo"
               width={200}
               height={50}
               className="w-48 sm:w-56 filter dark:invert" // Use dark:invert to only apply the filter in dark mode
@@ -42,7 +42,7 @@ const NoRepositoryMode: React.FC = () => {
             </CardHeader>
             <CardContent className="text-center p-6">
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-                Your data and reports are not stored in Turnitin. We operate in{" "}
+                Your data and reports are not stored in any plagiarism detection system. We operate in{" "}
                 <Badge variant="secondary" className="font-semibold text-indigo-700 dark:text-indigo-200">
                   No Repository Mode
                 </Badge>

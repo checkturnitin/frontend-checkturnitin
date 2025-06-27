@@ -2,22 +2,22 @@ import { DefaultSeoProps, BreadCrumbJsonLdProps, SocialProfileJsonLdProps, Produ
 
 const config: DefaultSeoProps = {
   titleTemplate: '%s | Aiplagreport',
-  defaultTitle: 'Turnitin Alternative - AI-Powered Plagiarism Detection | Aiplagreport',
-  description: 'Advanced Turnitin alternative with AI-powered plagiarism detection. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide.',
+  defaultTitle: 'Advanced Plagiarism Detection Tool - AI-Powered Content Analysis | Aiplagreport',
+  description: 'Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide.',
   canonical: 'https://aiplagreport.com',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: 'https://aiplagreport.com',
     siteName: 'Aiplagreport',
-    title: 'Turnitin Alternative - AI-Powered Plagiarism Detection | Aiplagreport',
-    description: 'Advanced Turnitin alternative with AI-powered plagiarism detection. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide.',
+    title: 'Advanced Plagiarism Detection Tool - AI-Powered Content Analysis | Aiplagreport',
+    description: 'Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide.',
     images: [
       {
         url: 'https://aiplagreport.com/assets/images/og-image.png',
         width: 1200,
         height: 630,
-        alt: 'Aiplagreport - Turnitin Alternative',
+        alt: 'Aiplagreport - Advanced Plagiarism Detection',
       },
     ],
   },
@@ -29,7 +29,7 @@ const config: DefaultSeoProps = {
   additionalMetaTags: [
     {
       name: 'keywords',
-      content: 'Turnitin Alternative, Plagiarism Detection, AI Content Detection, Academic Integrity, Plagiarism Checker',
+      content: 'Plagiarism Detection Tool, Content Analysis, AI Content Detection, Academic Integrity, Plagiarism Checker',
     },
     {
       name: 'viewport',
@@ -58,7 +58,7 @@ const productJsonLd: ProductJsonLdProps = {
   "@type": "Product",
   name: "Aiplagreport Plagiarism Detection Suite",
   productName: "Aiplagreport Plagiarism Detection Suite",
-  description: "The most accurate Turnitin alternative for plagiarism detection. Used by 10,000+ educators worldwide. Features AI-powered content detection, comprehensive similarity analysis, and detailed plagiarism reports.",
+  description: "The most accurate plagiarism detection tool for content analysis. Used by 10,000+ educators worldwide. Features AI-powered content detection, comprehensive similarity analysis, and detailed plagiarism reports.",
   image: "https://aiplagreport.com/assets/images/pricing.png",
   brand: "Aiplagreport",
   offers: {
@@ -92,7 +92,7 @@ const faqJsonLd: FAQPageJsonLdProps = {
       name: "What is No Repository Mode?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "We're using Turnitin's 'No Repository Mode' for draft submissions. This means your work won't be stored in any database, so it won't impact your final submission later. Perfect for checking your work before final submission!"
+        text: "We're using a 'No Repository Mode' for draft submissions. This means your work won't be stored in any database, so it won't impact your final submission later. Perfect for checking your work before final submission!"
       }
     },
     {
@@ -157,7 +157,7 @@ const organizationJsonLd = {
     addressCountry: "Estonia"
   },
   foundingDate: "2023",
-  description: "Aiplagreport is the leading Turnitin alternative offering 99.9% accurate plagiarism detection. Trusted by 10,000+ educators and institutions worldwide."
+  description: "Aiplagreport is the leading plagiarism detection tool offering 99.9% accurate content analysis. Trusted by 10,000+ educators and institutions worldwide."
 };
 
 const socialProfileJsonLd: SocialProfileJsonLdProps = {

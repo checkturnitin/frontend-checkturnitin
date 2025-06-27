@@ -201,8 +201,8 @@ export default function EarnPage() {
           <p className="text-sm">Start earning free credits today by sharing your referral link!</p>
           <p className="mt-2 text-sm">
             Have questions? Contact our support team at{" "}
-            <a href="mailto:support@checkturnitin.com" className="text-indigo-600 dark:text-indigo-400 hover:underline">
-              support@checkturnitin.com
+            <a href="mailto:support@aiplagreport.com" className="text-indigo-600 dark:text-indigo-400 hover:underline">
+              support@aiplagreport.com
             </a>
           </p>
         </div>

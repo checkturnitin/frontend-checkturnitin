@@ -29,7 +29,7 @@ const WhyTrustMatters: React.FC = () => {
     {
       icon: <Database size={48} className="text-indigo-600 dark:text-indigo-400" />,
       title: "No Repository Mode",
-      description: "Your data and reports are not stored in Turnitin, as it operates in no repository mode, ensuring your work remains private.",
+      description: "Your data and reports are not stored in any plagiarism detection system, as it operates in no repository mode, ensuring your work remains private.",
     },
     {
       icon: <CheckCircle size={48} className="text-indigo-600 dark:text-indigo-400" />,
@@ -65,7 +65,7 @@ const WhyTrustMatters: React.FC = () => {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          Trust is the foundation of everything we do. We are committed to providing accurate, reliable, and transparent results to ensure your peace of mind. Your data and reports are not stored in Turnitin as it operates in no repository mode, ensuring complete privacy and security.
+          Trust is the foundation of everything we do. We are committed to providing accurate, reliable, and transparent results to ensure your peace of mind. Your data and reports are not stored in any plagiarism detection system as it operates in no repository mode, ensuring complete privacy and security.
         </motion.p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {items.map((item, index) => (

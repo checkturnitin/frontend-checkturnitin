@@ -24,7 +24,7 @@ export default function CheckTurnitinCTA() {
       {/* Card Content */}
       <Card className="relative z-10 flex flex-col items-center justify-center p-6 md:p-10 bg-white/90 dark:bg-black/80 backdrop-blur sm:flex sm:justify-center sm:items-center sm:rounded-xl">
         <div className="text-center text-3xl font-bold md:text-4xl text-gray-900 dark:text-white">
-          Get 100% Accurate Check with Turnitin
+          Get 100% Accurate Check with Advanced Plagiarism Detection
         </div>
         <CardContent className="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-4 md:mt-4">
           <div className="flex items-center gap-2">
@@ -53,10 +53,10 @@ export default function CheckTurnitinCTA() {
           </div>
         </CardContent>
         <CardContent className="mt-10 md:mt-8 flex flex-wrap justify-center gap-6">
-          {/* Get Free Turnitin AI & Plag Check Button */}
+          {/* Get Free AI & Plag Check Button */}
           <a href="/free-check">
             <button className="px-8 py-3 border-2 border-indigo-600 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 hover:border-indigo-700 transition-transform duration-300 transform hover:scale-105 active:scale-100">
-              Get Free Turnitin AI & Plag Check
+              Get Free AI & Plag Check
             </button>
           </a>
 

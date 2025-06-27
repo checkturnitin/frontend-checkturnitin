@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     yahoo: 'your-yahoo-verification',
   },
   category: 'technology',
-  title: 'AIplagreport - Turnitin AI and plag report',
+  title: 'AIplagreport - Advanced Plagiarism Detection and AI Report',
 };
 
 interface RootLayoutProps {
@@ -58,16 +58,16 @@ export default function RootLayout({ children }: RootLayoutProps) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Advanced Turnitin alternative with AI-powered plagiarism detection. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
+        <meta name="description" content="Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
         <meta name="robots" content="index, follow" />
         <link rel="icon" href="/favicon.ico" />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebSite",
-            "name": "Aiplagreport - Turnitin Alternative",
+            "name": "Aiplagreport - Advanced Plagiarism Detection Tool",
             "url": "https://aiplagreport.com",
-            "description": "Advanced Turnitin alternative with AI-powered plagiarism detection. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide.",
+            "description": "Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide.",
             "potentialAction": {
               "@type": "SearchAction",
               "target": "https://aiplagreport.com/search?q={search_term_string}",
@@ -101,7 +101,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         
         {/* Apple-specific meta tags */}
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        <meta name="apple-mobile-web-app-title" content="AIplagreport - Turnitin AI and plag report" />
+        <meta name="apple-mobile-web-app-title" content="AIplagreport - Advanced Plagiarism Detection and AI Report" />
         
         {/* Mobile specific meta tags */}
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />

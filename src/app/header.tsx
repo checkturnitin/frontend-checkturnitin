@@ -40,7 +40,7 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
   const slides = [
     {
       icon: <Shield className="w-4 h-4" />,
-      text: "Turnitin No-Repository Mode: Your documents are not stored in Turnitin's database"
+      text: "No-Repository Mode: Your documents are not stored in any plagiarism detection database"
     },
     {
       icon: <Check className="w-4 h-4" />,
@@ -187,8 +187,8 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
           {/* Desktop View */}
           <div className="hidden md:flex items-center justify-center text-sm">
             <Shield className="w-4 h-4 mr-2" />
-            <span className="font-medium">Turnitin No-Repository Mode:</span>
-            <span className="ml-2">Your documents are not stored in Turnitin's database - perfect for draft checking before final submission!</span>
+            <span className="font-medium">No-Repository Mode:</span>
+            <span className="ml-2">Your documents are not stored in any plagiarism detection database - perfect for draft checking before final submission!</span>
           </div>
           
           {/* Mobile Carousel */}

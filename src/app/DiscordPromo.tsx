@@ -30,7 +30,7 @@ const DiscordPromo: React.FC = () => {
           <CardDescription>
             Join our Discord server and get{" "}
             <span className="font-bold text-lg">more free credits</span> to use
-            on CheckTurnitin.
+            on Aiplagreport.
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col items-center">

@@ -15,15 +15,16 @@ interface Detector {
 
 const AIDetectorComparison: React.FC = () => {
   const detectors: Detector[] = [
-    { 
-      name: "Turnitin", 
+    {
+      name: "Advanced Plagiarism Detection",
       isAuthentic: true,
-      description: "The only AI detection tool officially recognized by educational institutions worldwide. Used by over 15,000 institutions globally.",
+      description: "Official and trusted plagiarism detection system used by universities worldwide.",
       features: [
-        "99.9% accuracy rate",
-        "Official academic standard",
-        "Global database access",
-        "Detailed similarity reports"
+        "Official & Trusted",
+        "Used by Universities",
+        "Most Accurate Results",
+        "Comprehensive Database",
+        "Academic Standards"
       ]
     },
     { 
@@ -150,7 +151,7 @@ const AIDetectorComparison: React.FC = () => {
               <Card className="border-green-500 w-full hover:shadow-lg hover:shadow-green-500/20 transition-all duration-300">
                 <CardContent className="p-4 sm:p-6">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3 sm:mb-4">
-                    <h3 className="text-base sm:text-xl font-semibold text-gray-800 dark:text-white">Turnitin</h3>
+                    <h3 className="text-base sm:text-xl font-semibold text-gray-800 dark:text-white">Advanced Plagiarism Detection</h3>
                     <div className="px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm bg-green-100 text-green-800 w-fit shadow-sm">
                       Official & Trusted
                     </div>
@@ -247,9 +248,9 @@ const AIDetectorComparison: React.FC = () => {
           >
             <Card className="w-full hover:shadow-lg transition-all duration-300">
               <CardHeader>
-                <CardTitle className="text-lg sm:text-2xl font-bold text-center text-gray-800 dark:text-white">Why Choose Turnitin?</CardTitle>
-                <CardDescription className="text-center text-xs sm:text-base">
-                  Turnitin is the only AI detection tool officially recognized and trusted by educational institutions worldwide.
+                <CardTitle className="text-lg sm:text-2xl font-bold text-center text-gray-800 dark:text-white">Why Choose Advanced Plagiarism Detection?</CardTitle>
+                <CardDescription className="text-center text-gray-600 dark:text-gray-400">
+                  Advanced Plagiarism Detection is the only AI detection tool officially recognized and trusted by educational institutions worldwide.
                 </CardDescription>
               </CardHeader>
             </Card>

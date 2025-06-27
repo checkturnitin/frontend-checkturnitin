@@ -186,7 +186,7 @@ const DraftCheckInfo: React.FC = () => (
       <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
       <AlertTitle className="text-blue-800 dark:text-blue-200">Draft Check Mode</AlertTitle>
       <AlertDescription className="text-blue-700 dark:text-blue-300">
-        We use Turnitin in draft check mode, which means your documents are not stored in Turnitin's database. This is perfect for checking your work before final submission.
+        We use advanced plagiarism detection in draft check mode, which means your documents are not stored in any database. This is perfect for checking your work before final submission.
       </AlertDescription>
     </Alert>
     <div className="mt-6">
@@ -286,7 +286,7 @@ const FAQSection: React.FC = () => {
   const faqs = [
     {
       question: "What is No Repository Mode?",
-      answer: "We're using Turnitin's 'No Repository Mode' for draft submissions. This means your work won't be stored in any database, so it won't impact your final submission later. Perfect for checking your work before final submission!",
+      answer: "We're using a 'No Repository Mode' for draft submissions. This means your work won't be stored in any database, so it won't impact your final submission later. Perfect for checking your work before final submission!",
     },
     {
       question: "How do I interpret the AI Detection Report?",
@@ -317,8 +317,8 @@ const FAQSection: React.FC = () => {
       ),
     },
     {
-      question: "How can I get free Turnitin checks?",
-      answer: "We're offering 5 free Turnitin checks to users who join our Discord! To claim yours, simply open a ticket in #support-ticket, send us your email, and DM us for your free credits. It's that easy—join now and start checking!",
+      question: "How can I get free plagiarism checks?",
+      answer: "We're offering 5 free plagiarism checks to users who join our Discord! To claim yours, simply open a ticket in #support-ticket, send us your email, and DM us for your free credits. It's that easy—join now and start checking!",
     },
     {
       question: "What are the submission requirements?",
@@ -387,14 +387,14 @@ const AIDetectorComparison: React.FC = () => {
     <div className="w-full max-w-4xl mx-auto mt-16">
       <div className="mb-12">
         <h1 className="text-4xl md:text-4xl lg:text-6xl font-semibold max-w-7xl mx-auto text-center relative z-20 py-6 bg-clip-text text-transparent bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-700 dark:from-neutral-800 dark:via-white dark:to-white">
-          You don't need fake detectors <br /> you only need <Cover>Turnitin</Cover>
+          You don't need fake detectors <br /> you only need <Cover>Advanced Plagiarism Detection</Cover>
         </h1>
       </div>
       <Card className="border-2 border-indigo-500/20 bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center flex items-center justify-center gap-2">
             <span className="bg-gradient-to-r from-amber-400 via-rose-500 to-violet-500 dark:from-amber-400 dark:via-rose-500 dark:to-violet-500 bg-clip-text text-transparent font-extrabold tracking-tight hover:scale-105 transition-transform duration-300 ease-in-out">
-              Turnitin vs All Other Detectors
+              Advanced Plagiarism Detection vs All Other Detectors
             </span>
           </CardTitle>
         </CardHeader>
@@ -405,7 +405,7 @@ const AIDetectorComparison: React.FC = () => {
                 <div className="p-2 bg-green-100 dark:bg-green-900/30 rounded-lg">
                   <Check className="w-5 h-5 text-green-600 dark:text-green-400" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Turnitin</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Advanced Plagiarism Detection</h3>
               </div>
               <div className="space-y-3 p-4 rounded-lg bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10">
                 <div className="flex items-center gap-2">
@@ -425,7 +425,7 @@ const AIDetectorComparison: React.FC = () => {
                 <div className="relative">
                   <Image
                     src="/assets/logos/Turnitin_logo.svg"
-                    alt="Turnitin Logo"
+                    alt="Advanced Plagiarism Detection Logo"
                     width={200}
                     height={50}
                     className="object-contain dark:filter dark:brightness-0 dark:invert"
@@ -544,7 +544,7 @@ const Hero: React.FC<HeroProps> = ({ isLoggedIn }) => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        Get Authentic Turnitin AI & Plagiarism Reports
+        Get Authentic AI & Plagiarism Reports
       </motion.h1>
       <motion.div
         className="mb-8 px-2 sm:px-4"
@@ -642,7 +642,7 @@ const Hero: React.FC<HeroProps> = ({ isLoggedIn }) => {
                   <h3 className="text-lg font-semibold">University Trusted</h3>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Our reports are accepted by universities worldwide. Get the same quality as official Turnitin reports.
+                  Our reports are accepted by universities worldwide. Get the same quality as official plagiarism detection reports.
                 </p>
               </CardContent>
             </Card>

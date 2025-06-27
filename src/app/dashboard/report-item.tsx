@@ -300,7 +300,7 @@ export const ReportItem: React.FC<ReportItemProps> = ({
                 disabled={!isTurnitinReportAvailable || isViewTurnitinLoading}
               >
                 <Eye className="h-3 w-3 mr-1" />
-                {isViewTurnitinLoading ? "Loading..." : "View Turnitin Reports"}
+                {isViewTurnitinLoading ? "Loading..." : "View Plagiarism Detection Reports"}
               </Button>
               <Button
                 variant="outline"
@@ -310,7 +310,7 @@ export const ReportItem: React.FC<ReportItemProps> = ({
                 disabled={!isTurnitinReportAvailable || isDownloadTurnitinLoading}
               >
                 <Download className="h-3 w-3 mr-1" />
-                {isDownloadTurnitinLoading ? "Downloading..." : "Download Turnitin Reports"}
+                {isDownloadTurnitinLoading ? "Downloading..." : "Download Plagiarism Detection Reports"}
               </Button>
             </div>
           </div>
