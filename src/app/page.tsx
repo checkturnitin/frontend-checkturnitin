@@ -1,11 +1,45 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { toast } from "sonner"; // Import sonner
+import { useSpring, animated } from "react-spring";
 import Header from "./header";
+import Hero from "./hero";
+import ElegantFooter from "./last";
+import SignupForm from "./signup/SignupForm";
+import LoginComponent from "./login/LoginComponent";
+import WhyTrustMatters from "./WhyTrustMatters"; // Import the WhyTrustMatters component
+import NoRepositoryMode from "./NoRepositoryMode"; // Import the NoRepositoryMode component
+import PricingSection from "./PricingSection";
+import AccordionDemo from "./FAQ"; // Import FAQ component
+// import {WobbleCardDemo} from "./TrustTurnitinSection";
+import CheckTurnitinCTA from "./CheckTurnitinCTA";
 import Image from "next/image";
 import Head from "next/head";
 
+interface Message {
+  id: number;
+  text: string;
+  sender: string;
+}
+
+interface User {
+  name: string;
+  email: string;
+}
+
 export default function Home() {
+  const [text, setText] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [showLanding, setShowLanding] = useState<boolean>(true);
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [showSignupForm, setShowSignupForm] = useState(false);
+  const [showLoginForm, setShowLoginForm] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [theme, setTheme] = useState("dark");
 
   useEffect(() => {
@@ -18,104 +52,226 @@ export default function Home() {
     }
   }, []);
 
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setIsLoggedIn(!!token);
+
+    setTimeout(() => {
+      setIsLoaded(true);
+    }, 500);
+  }, []);
+
+  const sendMessage = async () => {
+    if (text.trim().length < 3 || loading) return;
+
+    setLoading(true);
+    setShowLanding(false);
+    const userMessage = { id: messages.length + 1, text, sender: "user" };
+    setMessages((prevMessages) => [...prevMessages, userMessage]);
+    setText("");
+
+    try {
+      // Simulate API call
+      setTimeout(() => {
+        setLoading(false);
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            id: messages.length + 2,
+            text: "Humanized Text Version",
+            sender: "bot",
+          },
+        ]);
+        scrollToBottom();
+      }, 2000);
+    } catch (error) {
+      setLoading(false);
+      toast.error("Something went wrong!"); // Use sonner's toast
+    }
+  };
+
+  const handleTextAreaChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    setText(event.target.value);
+    adjustTextareaHeight();
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      sendMessage();
+    }
+  };
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const adjustTextareaHeight = () => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  };
+
+  useEffect(() => {
+    adjustTextareaHeight();
+  }, [text]);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const fadeIn = useSpring({
+    opacity: isLoaded ? 1 : 0,
+    from: { opacity: 0 },
+    config: { duration: 1000 },
+  });
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Aiplagreport - Advanced Plagiarism Detection Tool",
+    "url": "https://aiplagreport.com",
+    "description": "Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide.",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://aiplagreport.com/search?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Aiplagreport",
+      "url": "https://aiplagreport.com"
+    }
+  };
+
+  if (!isLoaded) {
+    return (
+      <>
+        <Head>
+          <title>AIplagreport - Advanced Plagiarism Detection and AI Report</title>
+          <meta name="description" content="Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
+          <meta name="keywords" content="Plagiarism Detection Tool, Content Analysis, AI Content Detection, Academic Integrity, Plagiarism Checker" />
+          <meta name="robots" content="index, follow" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <meta name="theme-color" content="#000000" />
+          
+          {/* Open Graph / Facebook */}
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://aiplagreport.com" />
+          <meta property="og:title" content="Advanced Plagiarism Detection Tool - AI-Powered Content Analysis | Aiplagreport" />
+          <meta property="og:description" content="Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
+          <meta property="og:image" content="https://aiplagreport.com/assets/images/og-image.png" />
+          
+          {/* Twitter */}
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:url" content="https://aiplagreport.com" />
+          <meta name="twitter:title" content="Advanced Plagiarism Detection Tool - AI-Powered Content Analysis | Aiplagreport" />
+          <meta name="twitter:description" content="Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
+          <meta name="twitter:image" content="https://aiplagreport.com/assets/images/og-image.png" />
+          
+          {/* Structured Data */}
+          <script type="application/ld+json">
+            {JSON.stringify(structuredData)}
+          </script>
+        </Head>
+        <div className={`flex flex-col items-center justify-center min-h-screen ${theme === "dark" ? "bg-black" : "bg-[#f8f8f8]"}`}>
+          <div className="transition-transform transform hover:scale-110 animate-bounce">
+            <Image
+              src="/assets/logos/checkturnitin.svg"
+              alt="Aiplagreport Logo"
+              width={100}
+              height={100}
+              className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20"
+              priority
+            />
+          </div>
+        </div>
+      </>
+    );
+  }
+  
+
   return (
     <>
-      <Head>
-        <title>Site Under Maintenance - Aiplagreport</title>
-        <meta name="description" content="Aiplagreport is currently under maintenance. We'll be back soon with improved services." />
-        <meta name="robots" content="noindex, nofollow" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="theme-color" content="#000000" />
-      </Head>
+    <Head>
+      <title>AIplagreport - Advanced Plagiarism Detection and AI Report</title>
+      <meta name="description" content="Aiplagreport is the leading plagiarism detection tool offering 99.9% accurate content analysis. Trusted by 10,000+ educators and institutions worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
+      <meta name="keywords" content="Aiplagreport, Plagiarism Detection Tool, Content Analysis, AI Content Detection, Academic Integrity" />
+      <meta name="robots" content="index, follow" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="theme-color" content="#000000" />
+      
+      {/* Open Graph / Facebook */}
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://aiplagreport.com/" />
+      <meta property="og:title" content="Aiplagreport - #1 Advanced Plagiarism Detection Tool | AI-Powered Content Analysis" />
+      <meta property="og:description" content="The most accurate plagiarism detection tool for content analysis. Used by 10,000+ educators worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
+      <meta property="og:image" content="https://aiplagreport.com/assets/images/og-image.png" />
+      
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:url" content="https://aiplagreport.com/" />
+      <meta name="twitter:title" content="Aiplagreport - #1 Advanced Plagiarism Detection Tool | AI-Powered Content Analysis" />
+      <meta name="twitter:description" content="The most accurate plagiarism detection tool for content analysis. Used by 10,000+ educators worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
+      <meta name="twitter:image" content="https://aiplagreport.com/assets/images/og-image.png" />
+      
+      {/* Additional Meta Tags */}
+      <meta name="author" content="Aiplagreport" />
+      <meta name="application-name" content="Aiplagreport" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+      <meta name="apple-mobile-web-app-title" content="Aiplagreport" />
+      <meta name="format-detection" content="telephone=no" />
+      <meta name="mobile-web-app-capable" content="yes" />
+      
+      {/* Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify(structuredData)}
+      </script>
+    </Head>
 
-      <Header />
+
+      <Header onShowSignupForm={() => setShowSignupForm(true)} />
 
       <div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden bg-white text-black dark:bg-black dark:text-white">
-        <main className="flex-grow flex items-center justify-center px-4 py-8 mt-20">
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="mb-8">
-              <Image
-                src="/assets/logos/checkturnitin.svg"
-                alt="Aiplagreport Logo"
-                width={120}
-                height={120}
-                className="mx-auto mb-6"
-                priority
-              />
-            </div>
-            
-            <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl p-8 border border-gray-200 dark:border-gray-700">
-              <div className="mb-6">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-yellow-100 dark:bg-yellow-900/30 rounded-full mb-4">
-                  <svg 
-                    className="w-8 h-8 text-yellow-600 dark:text-yellow-400" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={2} 
-                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" 
-                    />
-                  </svg>
+        <main className="flex-grow px-4 overflow-y-auto overflow-x-hidden relative z-30 bg-[#F8F8F8]  dark:bg-black dark:text-white">
+          <animated.div
+            style={fadeIn}
+            className="max-w-1xl mx-auto text-[#222222]"
+          >
+            {showLanding && (
+              <div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden overflow-x-hidden bg-[#F8F8F8] dark:bg-black dark:text-white">
+                {showLanding && <Hero isLoggedIn={!!user} />}
+                <WhyTrustMatters />
+                <NoRepositoryMode />
+                <PricingSection />
+                <AccordionDemo />
+                <CheckTurnitinCTA />
+                <ElegantFooter />
+              </div>
+            )}
+            <div className="flex flex-col items-center space-y-4 max-w-6xl mx-auto">
+              {loading && (
+                <div className="flex items-center p-4 rounded-lg bg-[#EDEDED] max-w-[50%]">
+                  <p className="ml-4 text-[#443f3f] text-lg">Processing...</p>
                 </div>
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                  Site Under Maintenance
-                </h1>
-                <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-                  We're currently performing scheduled maintenance to improve our services.
-                </p>
-              </div>
-
-              <div className="space-y-4 text-left bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-6">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                  What's happening?
-                </h2>
-                <ul className="space-y-3 text-gray-600 dark:text-gray-300">
-                  <li className="flex items-start">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <span>System upgrades and performance improvements</span>
-                  </li>
-                  <li className="flex items-start">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <span>Enhanced security features</span>
-                  </li>
-                  <li className="flex items-start">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></div>
-                    <span>Better user experience and interface updates</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                <div className="flex items-center">
-                  <svg 
-                    className="w-5 h-5 text-blue-600 dark:text-blue-400 mr-3" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path 
-                      strokeLinecap="round" 
-                      strokeLinejoin="round" 
-                      strokeWidth={2} 
-                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" 
-                    />
-                  </svg>
-                  <p className="text-blue-800 dark:text-blue-200 text-sm">
-                    We apologize for any inconvenience. Please check back soon!
-                  </p>
-                </div>
-              </div>
+              )}
+              <div ref={messagesEndRef} />
             </div>
-
-            <div className="mt-8 text-sm text-gray-500 dark:text-gray-400">
-              <p>For urgent inquiries, please contact our support team.</p>
-            </div>
-          </div>
+          </animated.div>
         </main>
+
+        {showSignupForm && (
+          <SignupForm onClose={() => setShowSignupForm(false)} />
+        )}
+        {showLoginForm && (
+          <LoginComponent onClose={() => setShowLoginForm(false)} />
+        )}
+        {/* Remove ToastContainer from react-toastify */}
       </div>
     </>
   );
