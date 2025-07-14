@@ -196,10 +196,11 @@ export const ReportItem: React.FC<ReportItemProps> = ({
                     <TooltipTrigger asChild>
                       <div className="flex items-center">
                         <FiMail className="h-4 w-4 text-green-600 dark:text-green-400" />
+                        <span className="ml-2 text-xs text-yellow-600 dark:text-yellow-400">(may go to spam, check spam folder)</span>
                       </div>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>All check notifications are sent to your email</p>
+                      <p>All check notifications are sent to your email.</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -300,7 +301,7 @@ export const ReportItem: React.FC<ReportItemProps> = ({
                 disabled={!isTurnitinReportAvailable || isViewTurnitinLoading}
               >
                 <Eye className="h-3 w-3 mr-1" />
-                {isViewTurnitinLoading ? "Loading..." : "View Plagiarism Detection Reports"}
+                {isViewTurnitinLoading ? "Loading..." : "View Turnitin AI and Plag Reports"}
               </Button>
               <Button
                 variant="outline"
@@ -310,7 +311,7 @@ export const ReportItem: React.FC<ReportItemProps> = ({
                 disabled={!isTurnitinReportAvailable || isDownloadTurnitinLoading}
               >
                 <Download className="h-3 w-3 mr-1" />
-                {isDownloadTurnitinLoading ? "Downloading..." : "Download Plagiarism Detection Reports"}
+                {isDownloadTurnitinLoading ? "Downloading..." : "Download Turnitin AI and Plag Reports"}
               </Button>
             </div>
           </div>
