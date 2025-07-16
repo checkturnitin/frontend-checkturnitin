@@ -41,6 +41,7 @@ export default function Home() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [user, setUser] = useState<User | null>(null);
   const [theme, setTheme] = useState("dark");
+  const [isBlocked, setIsBlocked] = useState<boolean>(false);
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
@@ -60,6 +61,18 @@ export default function Home() {
     setTimeout(() => {
       setIsLoaded(true);
     }, 500);
+  }, []);
+
+  useEffect(() => {
+    // Detect country using a free geolocation API
+    fetch('https://ipapi.co/json/')
+      .then((res) => res.json())
+      .then((data) => {
+        if (data && data.country_code === 'PK') {
+          setIsBlocked(true);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   const sendMessage = async () => {
@@ -194,6 +207,14 @@ export default function Home() {
     );
   }
   
+  if (isBlocked) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
+        <h1 className="text-3xl font-bold mb-4">Site is Down</h1>
+        <p className="text-lg">This service is currently unavailable in your region.</p>
+      </div>
+    );
+  }
 
   return (
     <>
