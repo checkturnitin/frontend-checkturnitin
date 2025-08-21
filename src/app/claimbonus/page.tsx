@@ -6,6 +6,7 @@ import axios from "axios";
 import { serverURL } from "@/utils/utils";
 import Header from "../header";
 import ElegantFooter from "../last";
+import SignupForm from "../signup/SignupForm";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -33,10 +34,16 @@ export default function ClaimDiscordBonusPage() {
   const [success, setSuccess] = useState<ClaimResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isPrefilledFromAuth, setIsPrefilledFromAuth] = useState(false);
+  const [showSignupForm, setShowSignupForm] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-    if (!token) return;
+    if (!token) {
+      setIsLoggedIn(false);
+      return;
+    }
+    setIsLoggedIn(true);
 
     const fetchUser = async () => {
       try {
@@ -53,6 +60,35 @@ export default function ClaimDiscordBonusPage() {
     };
     fetchUser();
   }, []);
+
+  // Refresh login state when signup form is closed
+  useEffect(() => {
+    if (!showSignupForm) {
+      const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+      if (token) {
+        setIsLoggedIn(true);
+        // Fetch user data again
+        const fetchUser = async () => {
+          try {
+            const res = await axios.get<UserResponse>(`${serverURL}/users`, {
+              headers: { Authorization: `Bearer ${token}` },
+            });
+            if (res.data?.user?.email) {
+              setEmail(res.data.user.email);
+              setIsPrefilledFromAuth(true);
+            }
+          } catch (e) {
+            // Ignore if user fetch fails
+          }
+        };
+        fetchUser();
+      } else {
+        setIsLoggedIn(false);
+        setIsPrefilledFromAuth(false);
+        setEmail("");
+      }
+    }
+  }, [showSignupForm]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,7 +125,7 @@ export default function ClaimDiscordBonusPage() {
 
   return (
     <main className="relative flex flex-col w-full min-h-screen bg-white text-gray-900 overflow-hidden dark:bg-black dark:text-white">
-      <Header onShowSignupForm={() => {}} />
+      <Header onShowSignupForm={() => setShowSignupForm(true)} />
 
       <section className="flex-1 px-4 pt-28 pb-16 flex flex-col items-center">
         <div className="w-full max-w-xl">
@@ -133,7 +169,7 @@ export default function ClaimDiscordBonusPage() {
                       placeholder="you@example.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      disabled={isSubmitting || isPrefilledFromAuth}
+                      disabled={isSubmitting}
                       required
                       className="bg-white dark:bg-neutral-950"
                     />
@@ -214,6 +250,7 @@ export default function ClaimDiscordBonusPage() {
       </section>
 
       <ElegantFooter />
+      {showSignupForm && <SignupForm onClose={() => setShowSignupForm(false)} />}
     </main>
   );
 }
