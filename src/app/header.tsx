@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { X, Menu, Sun, Moon, Shield, Check, Award } from "lucide-react";
+import { X, Menu, Sun, Moon, Shield, Check, Award, Key } from "lucide-react";
 import { FaDiscord, FaTelegramPlane } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "sonner";
@@ -245,6 +245,9 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
               <Link href="/faq" className="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition duration-150 ease-in-out">
                 FAQ
               </Link>
+              <Link href="/apikey" className="text-base font-medium text-gray-500 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition duration-150 ease-in-out flex items-center">
+                API
+              </Link>
               <a
                 href="https://discord.gg/R2zK3A5ftj"
                 target="_blank"
@@ -323,6 +326,12 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                       </div>
                       <Link href="/dashboard" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Dashboard</Link>
                       <Link href="/profile" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Profile</Link>
+                      <Link href="/apikey" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <span className="flex items-center">
+                          <Key className="mr-2 h-4 w-4" />
+                          API Keys
+                        </span>
+                      </Link>
                       <Link href="/pricing" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
                         <span className="flex items-center">
                           <FiDollarSign className="mr-2" />
@@ -381,6 +390,10 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                   </Link>
                   <Link href="/faq" className="text-base font-medium text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300">
                     FAQ
+                  </Link>
+                  <Link href="/apikey" className="text-base font-medium text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 flex items-center">
+                    <Key className="h-4 w-4 mr-2" />
+                    API Keys
                   </Link>
                   <a
                     href="https://discord.gg/R2zK3A5ftj"
@@ -453,6 +466,16 @@ const Header: React.FC<HeaderProps> = ({ onShowSignupForm }) => {
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       <span>{user?.name || "Profile"}</span>
+                    </Link>
+                    <Link
+                      href="/apikey"
+                      className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <span className="flex items-center justify-center">
+                        <Key className="mr-2 h-4 w-4" />
+                        API Keys
+                      </span>
                     </Link>
                     <button
                       onClick={() => {
