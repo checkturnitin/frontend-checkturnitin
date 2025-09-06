@@ -443,15 +443,17 @@ export default function Home() {
     ...reports.pending,
     ...reports.processing,
     ...reports.completed,
-  ].filter((report) => {
-    if (!searchQuery) return true;
+  ]
+    .filter((report) => {
+      if (!searchQuery) return true;
 
-    const query = searchQuery.toLowerCase();
-    return (
-      report.fileId.originalFileName.toLowerCase().includes(query) ||
-      report.fileId.storedFileName.toLowerCase().includes(query)
-    );
-  });
+      const query = searchQuery.toLowerCase();
+      return (
+        report.fileId.originalFileName.toLowerCase().includes(query) ||
+        report.fileId.storedFileName.toLowerCase().includes(query)
+      );
+    })
+    .sort((a, b) => new Date(b.deliveryTime).getTime() - new Date(a.deliveryTime).getTime());
 
   const handleDeleteCheck = (checkId: string) => {
     setCheckToDelete(checkId);
@@ -951,28 +953,32 @@ export default function Home() {
                 )}
               </TabsContent>
               <TabsContent value="pending" className="space-y-4">
-                {reports.pending.map((report) => (
-                  <ReportItem
-                    key={report.checkId}
-                    report={report}
-                    onDownload={downloadFile}
-                    onViewTurnitinReports={handleViewTurnitinReports}
-                    onDownloadTurnitinReports={handleDownloadTurnitinReports}
-                    onDelete={handleDeleteCheck}
-                  />
-                ))}
+                {reports.pending
+                  .sort((a, b) => new Date(b.deliveryTime).getTime() - new Date(a.deliveryTime).getTime())
+                  .map((report) => (
+                    <ReportItem
+                      key={report.checkId}
+                      report={report}
+                      onDownload={downloadFile}
+                      onViewTurnitinReports={handleViewTurnitinReports}
+                      onDownloadTurnitinReports={handleDownloadTurnitinReports}
+                      onDelete={handleDeleteCheck}
+                    />
+                  ))}
               </TabsContent>
               <TabsContent value="completed" className="space-y-4">
-                {reports.completed.map((report) => (
-                  <ReportItem
-                    key={report.checkId}
-                    report={report}
-                    onDownload={downloadFile}
-                    onViewTurnitinReports={handleViewTurnitinReports}
-                    onDownloadTurnitinReports={handleDownloadTurnitinReports}
-                    onDelete={handleDeleteCheck}
-                  />
-                ))}
+                {reports.completed
+                  .sort((a, b) => new Date(b.deliveryTime).getTime() - new Date(a.deliveryTime).getTime())
+                  .map((report) => (
+                    <ReportItem
+                      key={report.checkId}
+                      report={report}
+                      onDownload={downloadFile}
+                      onViewTurnitinReports={handleViewTurnitinReports}
+                      onDownloadTurnitinReports={handleDownloadTurnitinReports}
+                      onDelete={handleDeleteCheck}
+                    />
+                  ))}
               </TabsContent>
             </Tabs>
           </div>
