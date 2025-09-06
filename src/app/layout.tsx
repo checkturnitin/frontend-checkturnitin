@@ -61,41 +61,47 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <meta name="description" content="Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
         <meta name="robots" content="index, follow" />
         <link rel="icon" href="/favicon.ico" />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "WebSite",
-            "name": "Aiplagreport - Advanced Plagiarism Detection Tool",
-            "url": "https://aiplagreport.com",
-            "description": "Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide.",
-            "potentialAction": {
-              "@type": "SearchAction",
-              "target": "https://aiplagreport.com/search?q={search_term_string}",
-              "query-input": "required name=search_term_string"
-            },
-            "publisher": {
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "Aiplagreport - Advanced Plagiarism Detection Tool",
+              "url": "https://aiplagreport.com",
+              "description": "Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide.",
+              "potentialAction": {
+                "@type": "SearchAction",
+                "target": "https://aiplagreport.com/search?q={search_term_string}",
+                "query-input": "required name=search_term_string"
+              },
+              "publisher": {
+                "@type": "Organization",
+                "name": "Aiplagreport",
+                "url": "https://aiplagreport.com"
+              }
+            }),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
               "@type": "Organization",
               "name": "Aiplagreport",
-              "url": "https://aiplagreport.com"
-            }
-          })}
-        </script>
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "Aiplagreport",
-            "url": "https://aiplagreport.com",
-            "logo": {
-              "@type": "ImageObject",
-              "url": "https://aiplagreport.com/assets/images/logo.png"
-            },
-            "sameAs": [
-              "https://twitter.com/aiplagreport",
-              "https://www.linkedin.com/company/aiplagreport"
-            ]
-          })}
-        </script>
+              "url": "https://aiplagreport.com",
+              "logo": {
+                "@type": "ImageObject",
+                "url": "https://aiplagreport.com/assets/images/logo.png"
+              },
+              "sameAs": [
+                "https://twitter.com/aiplagreport",
+                "https://www.linkedin.com/company/aiplagreport"
+              ]
+            }),
+          }}
+        />
         <meta name="msapplication-TileColor" content="#000000" />
         <meta name="theme-color" content="#000000" />
         

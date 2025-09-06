@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Link from "next/link";
 import { Copy, Eye, EyeOff, Trash2, Plus, Key, BarChart3, Calendar, AlertCircle } from "lucide-react";
 
 import { serverURL } from "@/utils/utils";
@@ -710,11 +711,13 @@ export default function APIKeyManagementPage() {
               <div className="text-center">
                 <h3 className="text-lg font-semibold mb-2">Need Help with Integration?</h3>
                 <p className="text-gray-600 dark:text-gray-400 mb-4">
-                  Check out our comprehensive API documentation for examples and integration guides.
+                  Check out our comprehensive API documentation with examples in multiple programming languages.
                 </p>
-                <Button variant="outline" className="gap-2">
-                  <Key className="h-4 w-4" />
-                  View API Documentation
+                <Button variant="outline" className="gap-2" asChild>
+                  <Link href="/apikey/docs">
+                    <Key className="h-4 w-4" />
+                    View API Documentation
+                  </Link>
                 </Button>
               </div>
             </CardContent>
