@@ -682,7 +682,7 @@ export default function Home() {
                         <p className="text-sm sm:text-base text-gray-900 dark:text-white font-medium">
                           Join our Discord channel and get{" "}
                           <span className="text-green-600 dark:text-green-400 font-bold">
-                            5 credits
+                            2 credits
                           </span>{" "}
                           as a bonus!
                         </p>
