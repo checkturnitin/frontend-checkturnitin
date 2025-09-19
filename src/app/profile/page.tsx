@@ -175,10 +175,16 @@ export default function ProfilePage() {
   };
 
   const claimTurnitinCredits = async () => {
+    // Check if user email exists before making the API call
+    if (!user?.email) {
+      console.log("User email not available yet, skipping Turnitin credits claim");
+      return;
+    }
+
     try {
       const response = await axios.post(
         `${serverURL}/users/claim-turnitin-credits`,
-        { email: user?.email },
+        { email: user.email },
         {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
@@ -235,10 +241,14 @@ export default function ProfilePage() {
   };
 
   useEffect(() => {
-    getUser();
-    checkCreditsExpiration();
-    fetchPurchases();
-    claimTurnitinCredits();
+    const initializeData = async () => {
+      await getUser();
+      checkCreditsExpiration();
+      fetchPurchases();
+      // claimTurnitinCredits will be called after user data is loaded
+    };
+
+    initializeData();
 
     // Set up interval to claim Turnitin credits every 5 minutes
     const intervalId = setInterval(() => {
@@ -248,6 +258,13 @@ export default function ProfilePage() {
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
   }, []);
+
+  // Call claimTurnitinCredits when user data is available
+  useEffect(() => {
+    if (user?.email) {
+      claimTurnitinCredits();
+    }
+  }, [user?.email]);
 
   const handleRedirect = () => {
     window.location.href = `/pricing`;
