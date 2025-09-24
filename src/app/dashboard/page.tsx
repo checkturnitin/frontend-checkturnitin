@@ -181,13 +181,13 @@ export default function Home() {
         const formData = new FormData();
         formData.append("file", selectedFile);
 
-        const [wordCountResponse, englishCheckResponse] = await Promise.all([
+        const [wordCountResponse, languageCheckResponse] = await Promise.all([
           axios.post(`${serverURL}/file/wordcount`, formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
           }),
-          axios.post(`${serverURL}/file/check-english`, formData, {
+          axios.post(`${serverURL}/file/check-language`, formData, {
             headers: {
               "Content-Type": "multipart/form-data",
             },
@@ -195,11 +195,11 @@ export default function Home() {
         ]);
 
         const wordCount = wordCountResponse.data.total_words;
-        const englishCheck = englishCheckResponse.data;
+        const languageCheck = languageCheckResponse.data;
 
         setWordCount(wordCount);
-        setIsEnglish(englishCheck.english_percentage >= 50);
-        setEnglishPercentage(englishCheck.english_percentage);
+        setIsEnglish(languageCheck.supported_language_percentage >= 60);``
+        setEnglishPercentage(languageCheck.supported_language_percentage);
 
         if (wordCount < 300 || wordCount > 30000) {
           toast.error(
@@ -208,9 +208,9 @@ export default function Home() {
           setFile(null);
         }
 
-        if (englishCheck.english_percentage < 50) {
+        if (languageCheck.supported_language_percentage < 60) {
           toast.error(
-            "The document must in English. Please upload a document with more English content."
+            "The document must be in English, Spanish, or Japanese. Please upload a document with more supported language content."
           );
           setFile(null);
         }
@@ -578,14 +578,14 @@ export default function Home() {
                                       <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-green-50 dark:bg-green-900/30">
                                         <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
                                         <span className="text-sm font-medium text-green-700 dark:text-green-300">
-                                          English
+                                          Supported (EN/ES/JP)
                                         </span>
                                       </div>
                                     ) : (
                                       <div className="flex items-center gap-1 px-2 py-1 rounded-full bg-red-50 dark:bg-red-900/30">
                                         <X className="h-4 w-4 text-red-600 dark:text-red-400" />
                                         <span className="text-sm font-medium text-red-700 dark:text-red-300">
-                                          Not English
+                                          Not Supported
                                         </span>
                                       </div>
                                     )}
@@ -793,6 +793,7 @@ export default function Home() {
                   <li>Minimum Length: At least 300 words</li>
                   <li>Page Limit: Less than 800 pages</li>
                   <li>Accepted File Types: .pdf, .docx, .doc</li>
+                  <li>Language: English, Spanish, and Japanese are supported</li>
                 </ul>
                 <h5 className="font-semibold mt-4 mb-2 text-white">
                   AI-Generated Content Detection:
@@ -804,7 +805,7 @@ export default function Home() {
                     long-form writing format
                   </li>
                   <li>
-                    Language: English and Spanish submissions are supported
+                    Language: English, Spanish, and Japanese are supported (minimum 60% content in supported languages)
                   </li>
                 </ul>
               </div>

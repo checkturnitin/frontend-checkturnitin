@@ -190,7 +190,7 @@ Body (form-data):
 "File type not allowed"
 "Insufficient credits"
 "No staff available, please try later."
-"File content must be primarily in English"`} 
+"File content must be primarily in supported languages (English, Spanish, Japanese)"`} 
                       status="400" 
                     />
                     <ResponseExample 
@@ -577,7 +577,7 @@ Content-Length: 987654
                       </li>
                       <li className="flex items-center gap-2">
                         <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                        Language: Primarily English (50%+)
+                        Language: English, Spanish, and Japanese (60%+ supported languages)
                       </li>
                     </ul>
                   </div>
@@ -586,7 +586,7 @@ Content-Length: 987654
                   <h4 className="font-semibold mb-2 text-yellow-200">File Upload Notes</h4>
                   <ul className="text-sm text-yellow-300 space-y-1">
                     <li>• <strong>Small files:</strong> Files &lt;500 words are automatically merged for better detection</li>
-                    <li>• <strong>Language requirement:</strong> Must be primarily English (50%+)</li>
+                    <li>• <strong>Language requirement:</strong> Must be primarily in supported languages (English, Spanish, Japanese) - 60%+</li>
                     <li>• <strong>File size limits:</strong> Check your plan limits for specific restrictions</li>
                     <li>• <strong>Page limit:</strong> Less than 800 pages</li>
                   </ul>

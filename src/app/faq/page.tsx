@@ -193,7 +193,7 @@ const faqCategories = [
                   </li>
                   <li className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-indigo-500" />
-                    <span>Language: English only</span>
+                    <span>Language: English, Spanish, and Japanese are supported</span>
                   </li>
                 </ul>
               </CardContent>

@@ -328,7 +328,7 @@ const FAQSection: React.FC = () => {
           <li>• File Size: Less than 100 MB</li>
           <li>• Page Count: Maximum 800 pages</li>
           <li>• Accepted File Types: .pdf and .docx only</li>
-          <li>• Language: English only</li>
+          <li>• Language: English, Spanish, and Japanese are supported</li>
         </ul>
       ),
     },
