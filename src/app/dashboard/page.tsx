@@ -637,6 +637,10 @@ export default function Home() {
                         <CheckCircle className="h-4 w-4 mr-2 text-green-600 dark:text-green-400" />
                         Page Limit: Less than 800 pages
                       </li>
+                      <li className="flex items-center">
+                        <CheckCircle className="h-4 w-4 mr-2 text-green-600 dark:text-green-400" />
+                        Language: English, Spanish, and Japanese are supported
+                      </li>
                     </ul>
                   </div>
                   <div className="space-y-2">
@@ -651,6 +655,10 @@ export default function Home() {
                       <li className="flex items-center">
                         <CheckCircle className="h-4 w-4 mr-2 text-green-600 dark:text-green-400" />
                         Microsoft Word (.doc, .docx)
+                      </li>
+                      <li className="flex items-center">
+                        <X className="h-4 w-4 mr-2 text-red-600 dark:text-red-400" />
+                        Presentations (.ppt, .pptx)
                       </li>
                     </ul>
                   </div>
