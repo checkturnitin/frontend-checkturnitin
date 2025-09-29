@@ -27,19 +27,6 @@ const PDFViewer = dynamic(
 );
 
 export default function Home() {
-  const [theme, setTheme] = useState("dark");
-  const MAINTENANCE_MODE = true; // temporary switch to show maintenance
-  const MAINTENANCE_MESSAGE = "Our servers are undergoing scheduled maintenance. Please check back in about 2 hours.";
-
-  useEffect(() => {
-    const storedTheme = localStorage.getItem("theme");
-    if (!storedTheme) {
-      localStorage.setItem("theme", "dark");
-      setTheme("dark");
-    } else {
-      setTheme(storedTheme);
-    }
-  }, []);
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [wordCountLoading, setWordCountLoading] = useState(false);
@@ -547,29 +534,6 @@ export default function Home() {
       setSearchQuery("");
     }
   };
-
-  // Temporary maintenance screen
-  if (MAINTENANCE_MODE) {
-    return (
-      <div className={`flex flex-col items-center justify-center min-h-screen ${theme === "dark" ? "bg-black text-white" : "bg-gray-50 text-black"}`}>
-        <Image
-          src="/assets/logos/checkturnitin.svg"
-          alt="Aiplagreport Logo"
-          width={80}
-          height={80}
-          className="mb-6 opacity-80"
-          priority
-        />
-        <h1 className="text-3xl font-bold mb-3">We&rsquo;ll be right back</h1>
-        <p className="text-lg text-center max-w-xl px-4">
-          {MAINTENANCE_MESSAGE}
-        </p>
-        <p className="mt-2 text-sm text-center text-gray-400">
-          Any lost credits during this period will be fully refunded.
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 text-black dark:bg-black dark:text-white">
