@@ -42,6 +42,8 @@ export default function Home() {
   const [user, setUser] = useState<User | null>(null);
   const [theme, setTheme] = useState("dark");
   const [isBlocked, setIsBlocked] = useState<boolean>(false);
+  const MAINTENANCE_MODE = true; // temporary switch
+  const MAINTENANCE_MESSAGE = "Our servers are undergoing scheduled maintenance. Please check back in about 2 hours.";
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
@@ -204,6 +206,29 @@ export default function Home() {
           </div>
         </div>
       </>
+    );
+  }
+
+  // Temporary maintenance screen
+  if (MAINTENANCE_MODE) {
+    return (
+      <div className={`flex flex-col items-center justify-center min-h-screen ${theme === "dark" ? "bg-black text-white" : "bg-[#f8f8f8] text-black"}`}>
+        <Image
+          src="/assets/logos/checkturnitin.svg"
+          alt="Aiplagreport Logo"
+          width={80}
+          height={80}
+          className="mb-6 opacity-80"
+          priority
+        />
+        <h1 className="text-3xl font-bold mb-3">We&rsquo;ll be right back</h1>
+        <p className="text-lg text-center max-w-xl px-4">
+          {MAINTENANCE_MESSAGE}
+        </p>
+        <p className="mt-2 text-sm text-center text-gray-400">
+          Any lost credits during this period will be fully refunded.
+        </p>
+      </div>
     );
   }
   
