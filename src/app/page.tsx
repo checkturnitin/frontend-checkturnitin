@@ -161,51 +161,42 @@ export default function Home() {
     }
   };
 
-  if (!isLoaded) {
-    return (
-      <>
-        <Head>
-          <title>AIplagreport - Advanced Plagiarism Detection and AI Report</title>
-          <meta name="description" content="Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
-          <meta name="keywords" content="Plagiarism Detection Tool, Content Analysis, AI Content Detection, Academic Integrity, Plagiarism Checker" />
-          <meta name="robots" content="index, follow" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-          <meta name="theme-color" content="#000000" />
-          
-          {/* Open Graph / Facebook */}
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content="https://aiplagreport.com" />
-          <meta property="og:title" content="Advanced Plagiarism Detection Tool - AI-Powered Content Analysis | Aiplagreport" />
-          <meta property="og:description" content="Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
-          <meta property="og:image" content="https://aiplagreport.com/assets/images/og-image.png" />
-          
-          {/* Twitter */}
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:url" content="https://aiplagreport.com" />
-          <meta name="twitter:title" content="Advanced Plagiarism Detection Tool - AI-Powered Content Analysis | Aiplagreport" />
-          <meta name="twitter:description" content="Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
-          <meta name="twitter:image" content="https://aiplagreport.com/assets/images/og-image.png" />
-          
-          {/* Structured Data */}
-          <script type="application/ld+json">
-            {JSON.stringify(structuredData)}
-          </script>
-        </Head>
-        <div className={`flex flex-col items-center justify-center min-h-screen ${theme === "dark" ? "bg-black" : "bg-[#f8f8f8]"}`}>
+  // Temporary maintenance mode
+  return (
+    <>
+      <Head>
+        <title>Server Maintenance - Aiplagreport</title>
+        <meta name="description" content="Aiplagreport is currently under maintenance. We'll be back soon!" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="theme-color" content="#000000" />
+      </Head>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
+        <div className="text-center space-y-6 max-w-md mx-auto px-4">
           <div className="transition-transform transform hover:scale-110 animate-bounce">
             <Image
               src="/assets/logos/checkturnitin.svg"
               alt="Aiplagreport Logo"
-              width={100}
-              height={100}
-              className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20"
+              width={120}
+              height={120}
+              className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 mx-auto"
               priority
             />
           </div>
+          <h1 className="text-3xl font-bold text-white">Server Maintenance</h1>
+          <p className="text-lg text-gray-300">
+            We're currently performing maintenance on our servers to improve your experience.
+          </p>
+          <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
+            <p className="text-sm text-gray-400 mb-2">Estimated downtime:</p>
+            <p className="text-xl font-semibold text-yellow-400">~2 hours</p>
+          </div>
+          <p className="text-sm text-gray-400">
+            Thank you for your patience. We'll be back online soon!
+          </p>
         </div>
-      </>
-    );
-  }
+      </div>
+    </>
+  );
   
   if (isBlocked) {
     return (
