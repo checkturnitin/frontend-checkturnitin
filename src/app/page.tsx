@@ -216,6 +216,43 @@ export default function Home() {
     );
   }
 
+  // Temporary maintenance mode
+  if (isLoaded) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 text-white">
+        <div className="text-center max-w-2xl mx-auto px-6">
+          <div className="mb-8">
+            <Image
+              src="/assets/logos/checkturnitin.svg"
+              alt="CheckTurnitin Logo"
+              width={120}
+              height={120}
+              className="mx-auto mb-6 animate-pulse"
+            />
+          </div>
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+            Server Maintenance
+          </h1>
+          <p className="text-xl md:text-2xl mb-4 text-gray-300">
+            We're currently performing scheduled maintenance
+          </p>
+          <p className="text-lg mb-8 text-gray-400">
+            Expected completion time: <span className="text-yellow-400 font-semibold">~2 hours</span>
+          </p>
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 border border-white/20">
+            <p className="text-sm text-gray-300">
+              We apologize for any inconvenience. Our team is working hard to improve your experience.
+              Please check back soon!
+            </p>
+          </div>
+          <div className="mt-8">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
     <Head>
