@@ -165,49 +165,41 @@ export default function Home() {
     return (
       <>
         <Head>
-          <title>AIplagreport - Advanced Plagiarism Detection and AI Report</title>
-          <meta name="description" content="Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
-          <meta name="keywords" content="Plagiarism Detection Tool, Content Analysis, AI Content Detection, Academic Integrity, Plagiarism Checker" />
-          <meta name="robots" content="index, follow" />
+          <title>AIplagreport - Server Maintenance</title>
+          <meta name="description" content="Server is currently under maintenance. We'll be back soon!" />
+          <meta name="robots" content="noindex, nofollow" />
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
           <meta name="theme-color" content="#000000" />
-          
-          {/* Open Graph / Facebook */}
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content="https://aiplagreport.com" />
-          <meta property="og:title" content="Advanced Plagiarism Detection Tool - AI-Powered Content Analysis | Aiplagreport" />
-          <meta property="og:description" content="Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
-          <meta property="og:image" content="https://aiplagreport.com/assets/images/og-image.png" />
-          
-          {/* Twitter */}
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:url" content="https://aiplagreport.com" />
-          <meta name="twitter:title" content="Advanced Plagiarism Detection Tool - AI-Powered Content Analysis | Aiplagreport" />
-          <meta name="twitter:description" content="Advanced plagiarism detection tool with AI-powered content analysis. Get instant similarity reports, detailed analysis, and 99.9% accuracy. Used by 10,000+ educators worldwide." />
-          <meta name="twitter:image" content="https://aiplagreport.com/assets/images/og-image.png" />
-          
-          {/* Structured Data */}
-          <script type="application/ld+json">
-            {JSON.stringify(structuredData)}
-          </script>
-          
-          {/* Google AdSense */}
-          <script 
-            async 
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5495042162016103"
-            crossOrigin="anonymous"
-          />
         </Head>
         <div className={`flex flex-col items-center justify-center min-h-screen ${theme === "dark" ? "bg-black" : "bg-[#f8f8f8]"}`}>
-          <div className="transition-transform transform hover:scale-110 animate-bounce">
-            <Image
-              src="/assets/logos/checkturnitin.svg"
-              alt="Aiplagreport Logo"
-              width={100}
-              height={100}
-              className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20"
-              priority
-            />
+          <div className="text-center space-y-6 max-w-md mx-auto px-4">
+            <div className="transition-transform transform hover:scale-110 animate-bounce">
+              <Image
+                src="/assets/logos/checkturnitin.svg"
+                alt="Aiplagreport Logo"
+                width={100}
+                height={100}
+                className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mx-auto"
+                priority
+              />
+            </div>
+            <div className="space-y-4">
+              <h1 className={`text-2xl sm:text-3xl font-bold ${theme === "dark" ? "text-white" : "text-black"}`}>
+                Server Maintenance
+              </h1>
+              <p className={`text-lg ${theme === "dark" ? "text-gray-300" : "text-gray-600"}`}>
+                We're currently performing maintenance on our servers.
+              </p>
+              <p className={`text-base ${theme === "dark" ? "text-gray-400" : "text-gray-500"}`}>
+                Expected downtime: ~2 hours
+              </p>
+              <p className={`text-sm ${theme === "dark" ? "text-gray-500" : "text-gray-400"}`}>
+                Thank you for your patience. We'll be back soon!
+              </p>
+            </div>
+            <div className="animate-pulse">
+              <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+            </div>
           </div>
         </div>
       </>
@@ -226,87 +218,50 @@ export default function Home() {
   return (
     <>
     <Head>
-      <title>AIplagreport - Advanced Plagiarism Detection and AI Report</title>
-      <meta name="description" content="Aiplagreport is the leading plagiarism detection tool offering 99.9% accurate content analysis. Trusted by 10,000+ educators and institutions worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
-      <meta name="keywords" content="Aiplagreport, Plagiarism Detection Tool, Content Analysis, AI Content Detection, Academic Integrity" />
-      <meta name="robots" content="index, follow" />
+      <title>AIplagreport - Server Maintenance</title>
+      <meta name="description" content="Server is currently under maintenance. We'll be back soon!" />
+      <meta name="robots" content="noindex, nofollow" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta name="theme-color" content="#000000" />
-      
-      {/* Open Graph / Facebook */}
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content="https://aiplagreport.com/" />
-      <meta property="og:title" content="Aiplagreport - #1 Advanced Plagiarism Detection Tool | AI-Powered Content Analysis" />
-      <meta property="og:description" content="The most accurate plagiarism detection tool for content analysis. Used by 10,000+ educators worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
-      <meta property="og:image" content="https://aiplagreport.com/assets/images/og-image.png" />
-      
-      {/* Twitter */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:url" content="https://aiplagreport.com/" />
-      <meta name="twitter:title" content="Aiplagreport - #1 Advanced Plagiarism Detection Tool | AI-Powered Content Analysis" />
-      <meta name="twitter:description" content="The most accurate plagiarism detection tool for content analysis. Used by 10,000+ educators worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
-      <meta name="twitter:image" content="https://aiplagreport.com/assets/images/og-image.png" />
-      
-      {/* Additional Meta Tags */}
-      <meta name="author" content="Aiplagreport" />
-      <meta name="application-name" content="Aiplagreport" />
-      <meta name="apple-mobile-web-app-capable" content="yes" />
-      <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-      <meta name="apple-mobile-web-app-title" content="Aiplagreport" />
-      <meta name="format-detection" content="telephone=no" />
-      <meta name="mobile-web-app-capable" content="yes" />
-      
-      {/* Structured Data */}
-      <script type="application/ld+json">
-        {JSON.stringify(structuredData)}
-      </script>
-      
-      {/* Google AdSense */}
-      <script 
-        async 
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5495042162016103"
-        crossOrigin="anonymous"
-      />
     </Head>
 
-
-      <Header onShowSignupForm={() => setShowSignupForm(true)} />
-
       <div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden bg-white text-black dark:bg-black dark:text-white">
-        <main className="flex-grow px-4 overflow-y-auto overflow-x-hidden relative z-30 bg-[#F8F8F8]  dark:bg-black dark:text-white">
+        <main className="flex-grow flex items-center justify-center px-4 overflow-y-auto overflow-x-hidden relative z-30 bg-[#F8F8F8] dark:bg-black dark:text-white">
           <animated.div
             style={fadeIn}
-            className="max-w-1xl mx-auto text-[#222222]"
+            className="max-w-2xl mx-auto text-center"
           >
-            {showLanding && (
-              <div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden overflow-x-hidden bg-[#F8F8F8] dark:bg-black dark:text-white">
-                {showLanding && <Hero isLoggedIn={!!user} />}
-                <WhyTrustMatters />
-                <NoRepositoryMode />
-                <PricingSection />
-                <AccordionDemo />
-                <CheckTurnitinCTA />
-                <ElegantFooter />
+            <div className="text-center space-y-8 max-w-lg mx-auto px-4">
+              <div className="transition-transform transform hover:scale-110 animate-bounce">
+                <Image
+                  src="/assets/logos/checkturnitin.svg"
+                  alt="Aiplagreport Logo"
+                  width={120}
+                  height={120}
+                  className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 mx-auto"
+                  priority
+                />
               </div>
-            )}
-            <div className="flex flex-col items-center space-y-4 max-w-6xl mx-auto">
-              {loading && (
-                <div className="flex items-center p-4 rounded-lg bg-[#EDEDED] max-w-[50%]">
-                  <p className="ml-4 text-[#443f3f] text-lg">Processing...</p>
-                </div>
-              )}
-              <div ref={messagesEndRef} />
+              <div className="space-y-6">
+                <h1 className="text-3xl sm:text-4xl font-bold text-black dark:text-white">
+                  Server Maintenance
+                </h1>
+                <p className="text-xl text-gray-700 dark:text-gray-300">
+                  We're currently performing maintenance on our servers.
+                </p>
+                <p className="text-lg text-gray-600 dark:text-gray-400">
+                  Expected downtime: ~2 hours
+                </p>
+                <p className="text-base text-gray-500 dark:text-gray-500">
+                  Thank you for your patience. We'll be back soon!
+                </p>
+              </div>
+              <div className="animate-pulse">
+                <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+              </div>
             </div>
           </animated.div>
         </main>
-
-        {showSignupForm && (
-          <SignupForm onClose={() => setShowSignupForm(false)} />
-        )}
-        {showLoginForm && (
-          <LoginComponent onClose={() => setShowLoginForm(false)} />
-        )}
-        {/* Remove ToastContainer from react-toastify */}
       </div>
     </>
   );
