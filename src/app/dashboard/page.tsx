@@ -88,6 +88,7 @@ export default function Home() {
   const [isSearchActive, setIsSearchActive] = useState<boolean>(false);
   const [isDeleteAllModalOpen, setIsDeleteAllModalOpen] = useState(false);
   const [isDeletingAll, setIsDeletingAll] = useState(false);
+  const [showQueuePopup, setShowQueuePopup] = useState(false);
 
   // Define fetchData function at component level so it can be reused
   const fetchData = async () => {
@@ -160,6 +161,21 @@ export default function Home() {
     const interval = setInterval(fetchData, 10000);
     return () => clearInterval(interval);
   }, []);
+
+  // Show queue popup for free users after a short delay
+  useEffect(() => {
+    if (planType === "basic" && isLoggedIn) {
+      const timer = setTimeout(() => {
+        setShowQueuePopup(true);
+        // Auto-close after 4 seconds
+        setTimeout(() => {
+          setShowQueuePopup(false);
+        }, 4000);
+      }, 1500); // Show after 1.5 seconds
+
+      return () => clearTimeout(timer);
+    }
+  }, [planType, isLoggedIn]);
 
   const handleFileUpload = async (newFiles: File[]) => {
     if (newFiles.length > 1) {
@@ -1027,6 +1043,72 @@ export default function Home() {
         </div>
       </main>
       <Toaster position="bottom-right" richColors />
+
+      {/* Queue Notice Popup */}
+      {showQueuePopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
+          <div className="relative bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-200 dark:border-gray-700 max-w-md w-full mx-4 transform transition-all duration-500 ease-out animate-in fade-in slide-in-from-bottom-4">
+            {/* Close button */}
+            <button
+              onClick={() => setShowQueuePopup(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            {/* Header with icon */}
+            <div className="p-6 pb-4">
+              <div className="flex items-center justify-center w-16 h-16 bg-gradient-to-br from-orange-400 to-red-500 rounded-full mx-auto mb-4 shadow-lg">
+                <Clock className="h-8 w-8 text-white" />
+              </div>
+              
+              <h3 className="text-xl font-bold text-center text-gray-900 dark:text-white mb-2">
+                High Traffic Alert
+              </h3>
+              
+              <p className="text-sm text-gray-600 dark:text-gray-400 text-center leading-relaxed">
+                Due to high traffic, free users are experiencing longer wait times. 
+                <span className="font-semibold text-orange-600 dark:text-orange-400">
+                  {" "}Upgrade for faster results!
+                </span>
+              </p>
+            </div>
+
+            {/* Progress bar */}
+            <div className="px-6 pb-4">
+              <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-orange-400 to-red-500 rounded-full animate-pulse" style={{width: '100%'}}></div>
+              </div>
+              <p className="text-xs text-gray-500 dark:text-gray-400 text-center mt-2">
+                Auto-closing in 4 seconds...
+              </p>
+            </div>
+
+            {/* Action buttons */}
+            <div className="px-6 pb-6 flex gap-3">
+              <button
+                onClick={() => setShowQueuePopup(false)}
+                className="flex-1 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-lg transition-colors"
+              >
+                Continue Free
+              </button>
+              <Link
+                href="https://aiplagreport.com/pricing"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setShowQueuePopup(false)}
+                className="flex-1 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 rounded-lg transition-all shadow-md hover:shadow-lg transform hover:scale-105"
+              >
+                Upgrade Now
+              </Link>
+            </div>
+
+            {/* Decorative elements */}
+            <div className="absolute -top-2 -left-2 w-4 h-4 bg-orange-400 rounded-full animate-ping opacity-75"></div>
+            <div className="absolute -bottom-2 -right-2 w-3 h-3 bg-red-400 rounded-full animate-pulse"></div>
+          </div>
+        </div>
+      )}
 
       {/* Delete All Confirmation Modal */}
       {isDeleteAllModalOpen && (
