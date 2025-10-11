@@ -720,6 +720,39 @@ export default function Home() {
             </CardContent>
           </Card>
 
+          {/* Queue Notice for Free Users */}
+          {planType === "basic" && (
+            <div className="mt-6 p-4 bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 rounded-lg border border-orange-200 dark:border-orange-800/50">
+              <div className="flex flex-col sm:flex-row items-center justify-between space-y-3 sm:space-y-0">
+                <div className="flex items-center space-x-3 text-center sm:text-left">
+                  <div className="flex items-center justify-center w-10 h-10 bg-orange-100 dark:bg-orange-900/50 rounded-full">
+                    <Clock className="h-5 w-5 text-orange-600 dark:text-orange-400" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
+                      High Traffic Queue
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">
+                      Due to high traffic, free users are experiencing longer wait times. 
+                      Upgrade for faster results and priority processing.
+                    </p>
+                  </div>
+                </div>
+                <Link
+                  href="https://aiplagreport.com/pricing"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-orange-600 hover:bg-orange-700 transition-colors duration-200 rounded-full px-4 py-2 text-sm font-medium text-white shadow-sm hover:shadow-md"
+                >
+                  <span>Upgrade Now</span>
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+          )}
+
           {/* Confirmation Popup */}
           <CustomModal
             isOpen={isConfirmationOpen}
