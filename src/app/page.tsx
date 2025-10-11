@@ -190,6 +190,13 @@ export default function Home() {
           <script type="application/ld+json">
             {JSON.stringify(structuredData)}
           </script>
+          
+          {/* Google AdSense */}
+          <script 
+            async 
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5495042162016103"
+            crossOrigin="anonymous"
+          />
         </Head>
         <div className={`flex flex-col items-center justify-center min-h-screen ${theme === "dark" ? "bg-black" : "bg-[#f8f8f8]"}`}>
           <div className="transition-transform transform hover:scale-110 animate-bounce">
@@ -253,6 +260,13 @@ export default function Home() {
       <script type="application/ld+json">
         {JSON.stringify(structuredData)}
       </script>
+      
+      {/* Google AdSense */}
+      <script 
+        async 
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5495042162016103"
+        crossOrigin="anonymous"
+      />
     </Head>
 
 
