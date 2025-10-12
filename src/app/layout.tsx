@@ -170,6 +170,13 @@ export default function RootLayout({ children }: RootLayoutProps) {
           }}
         />
 
+        {/* Google AdSense */}
+        <script 
+          async 
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5495042162016103"
+          crossOrigin="anonymous"
+        />
+
       </head>
       <body className={`${inter.className} antialiased`}>
         <script
