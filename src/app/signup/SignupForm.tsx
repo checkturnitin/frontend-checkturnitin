@@ -209,7 +209,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
                 <div className="text-xs text-gray-600 dark:text-gray-400 text-center px-6">
                   By continuing, you agree to our{" "}
                   <a
-                    href="/assets/Privacy%20Policy%20for%20CheckTurnitin%20-%20TermsFeed.pdf"
+                    href="/assets/privacypolicy.txt"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"
@@ -218,7 +218,7 @@ export default function SignupForm({ onClose }: SignupFormProps) {
                   </a>{" "}
                   and{" "}
                   <a
-                    href="/assets/terms-of-service.txt"
+                    href="/assets/terms-condition.txt"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-indigo-600 hover:text-indigo-800 dark:text-indigo-400 dark:hover:text-indigo-300"

@@ -2,31 +2,40 @@
 
 Effective Date: May 2, 2025
 
-This Privacy Policy explains how aiplagreport.com collects, uses, and protects your information.
+This Privacy Policy explains how aiplagreport.com handles your information. We are not affiliated with Turnitin - we are an independent service that provides Turnitin report generation.
 
 ## 1. Information We Collect
-- Personal details (name, email)
-- Uploaded documents for analysis
-- Usage data and cookies
+- Personal details (name, email) for account creation only
+- Uploaded documents for analysis (temporarily stored)
+- Basic usage data and cookies for site functionality
 
 ## 2. How We Use Your Information
-- To provide AI plagiarism reports
-- To improve our Services
-- To communicate with you (support, updates)
+- To generate Turnitin plagiarism reports
+- To provide customer support
+- To maintain account functionality
 
-## 3. Data Protection
-We use industry-standard security practices to protect your data. However, no system is 100% secure.
+## 3. Data Protection & User Control
+- You have full control over your data
+- All uploaded files are automatically deleted after report generation
+- You can manually delete any data at any time
+- Once deleted, data is permanently removed from our systems
 
 ## 4. Cookies
-We use cookies to track user preferences and improve user experience.
+We use essential cookies only for basic site functionality and user authentication.
 
-## 5. Sharing of Data
-We do not sell or rent your data. We may share it with service providers under strict confidentiality agreements.
+## 5. Data Ownership & Sharing
+- You retain full ownership of all your data
+- We do not sell, rent, or share your data with any third parties
+- We do not store or maintain copies of your documents after report generation
 
 ## 6. Your Rights
-You may request access to or deletion of your data by contacting us.
+- You can access all your data through your account dashboard
+- You can delete your account and all associated data at any time
+- Deletion is permanent and irreversible
 
 ## 7. Changes to Policy
 We may update this Privacy Policy from time to time. Changes will be posted on this page.
 
-For any questions, contact us at contact@aiplagreport.com.
+For any questions or data-related requests, contact us at contact@aiplagreport.com.
+
+Important Note: We are not affiliated with, endorsed by, or connected to Turnitin in any way. We are an independent service that helps generate Turnitin reports.
