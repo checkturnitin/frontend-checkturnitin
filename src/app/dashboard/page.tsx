@@ -279,7 +279,9 @@ export default function Home() {
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
         toast.error(
-          `Server Error: ${error.response.data || "Something went wrong"}`
+          error.response.data === "User is not active" 
+            ? "Account deactivated by admin. Please contact admin."
+            : `Server Error: ${error.response.data || "Something went wrong"}`
         );
       } else {
         toast.error("Something went wrong!");
