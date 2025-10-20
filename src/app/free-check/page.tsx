@@ -91,9 +91,9 @@ export default function FreeCheckPage() {
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Free AI & Plagiarism Check - Aiplagreport",
+    "name": "Free Turnitin AI & Plagiarism Check - Aiplagreport",
     "url": "https://aiplagreport.com/free-check",
-    "description": "Get free AI and plagiarism detection reports. 2 free credits on signup, 1 credit per referral, 1 credit for joining Discord. Advanced plagiarism detection trusted by universities worldwide.",
+    "description": "Get free Turnitin AI and plagiarism detection reports. 2 free credits on signup, 1 credit per referral, 1 credit for joining Discord. Advanced plagiarism detection trusted by universities worldwide.",
     "publisher": {
       "@type": "Organization",
       "name": "Aiplagreport",
@@ -105,8 +105,8 @@ export default function FreeCheckPage() {
     return (
       <>
         <Head>
-          <title>Free AI & Plagiarism Check - Aiplagreport</title>
-          <meta name="description" content="Get free AI and plagiarism detection reports. 2 free credits on signup, 1 credit per referral, 1 credit for joining Discord." />
+        <title>Free Turnitin AI & Plagiarism Check - Aiplagreport</title>
+        <meta name="description" content="Get free Turnitin AI and plagiarism detection reports. 2 free credits on signup, 1 credit per referral, 1 credit for joining Discord." />
         </Head>
         <div className={`flex flex-col items-center justify-center min-h-screen ${theme === "dark" ? "bg-black" : "bg-[#f8f8f8]"}`}>
           <div className="transition-transform transform hover:scale-110 animate-bounce">
@@ -136,9 +136,9 @@ export default function FreeCheckPage() {
   return (
     <>
       <Head>
-        <title>Free AI & Plagiarism Check - Aiplagreport</title>
-        <meta name="description" content="Get free AI and plagiarism detection reports. 2 free credits on signup, 1 credit per referral, 1 credit for joining Discord. Advanced plagiarism detection trusted by universities worldwide." />
-        <meta name="keywords" content="Free Plagiarism Check, Free AI Detection, Plagiarism Detection Tool, Content Analysis, Academic Integrity" />
+        <title>Free Turnitin AI & Plagiarism Check - Aiplagreport</title>
+        <meta name="description" content="Get free Turnitin AI and plagiarism detection reports. 2 free credits on signup, 1 credit per referral, 1 credit for joining Discord. Advanced plagiarism detection trusted by universities worldwide." />
+        <meta name="keywords" content="Free Turnitin Check, Free AI Detection, Plagiarism Detection Tool, Content Analysis, Academic Integrity" />
         <meta name="robots" content="index, follow" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="theme-color" content="#000000" />
@@ -146,15 +146,15 @@ export default function FreeCheckPage() {
         {/* Open Graph / Facebook */}
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://aiplagreport.com/free-check" />
-        <meta property="og:title" content="Free AI & Plagiarism Check - Aiplagreport" />
-        <meta property="og:description" content="Get free AI and plagiarism detection reports. 2 free credits on signup, 1 credit per referral, 1 credit for joining Discord." />
+        <meta property="og:title" content="Free Turnitin AI & Plagiarism Check - Aiplagreport" />
+        <meta property="og:description" content="Get free Turnitin AI and plagiarism detection reports. 2 free credits on signup, 1 credit per referral, 1 credit for joining Discord." />
         <meta property="og:image" content="https://aiplagreport.com/assets/images/og-image.png" />
         
         {/* Twitter */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:url" content="https://aiplagreport.com/free-check" />
-        <meta name="twitter:title" content="Free AI & Plagiarism Check - Aiplagreport" />
-        <meta name="twitter:description" content="Get free AI and plagiarism detection reports. 2 free credits on signup, 1 credit per referral, 1 credit for joining Discord." />
+        <meta name="twitter:title" content="Free Turnitin AI & Plagiarism Check - Aiplagreport" />
+        <meta name="twitter:description" content="Get free Turnitin AI and plagiarism detection reports. 2 free credits on signup, 1 credit per referral, 1 credit for joining Discord." />
         <meta name="twitter:image" content="https://aiplagreport.com/assets/images/og-image.png" />
         
         {/* Structured Data */}
@@ -169,12 +169,12 @@ export default function FreeCheckPage() {
         <main className="flex-grow px-4 overflow-y-auto overflow-x-hidden relative z-30 bg-[#F8F8F8] dark:bg-black dark:text-white">
           <animated.div
             style={fadeIn}
-            className="max-w-6xl mx-auto pt-20 pb-8"
+            className="max-w-6xl mx-auto pt-32 pb-8"
           >
             {/* Hero Section */}
             <div className="text-center mb-12">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 bg-gradient-to-b from-gray-700 to-black bg-clip-text text-transparent dark:from-white dark:to-gray-200">
-                Free AI & Plagiarism Check
+                Free Turnitin AI & Plagiarism Check
               </h1>
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
                 This is the free credit we provide. Go to dashboard to check and upload your PDF.
