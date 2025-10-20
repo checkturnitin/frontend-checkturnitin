@@ -16,6 +16,7 @@ import {
   MessageCircle, 
   CreditCard,
   Shield,
+  Clock,
   Award,
   Zap
 } from "lucide-react";
