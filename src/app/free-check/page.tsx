@@ -9,21 +9,14 @@ import SignupForm from "../signup/SignupForm";
 import LoginComponent from "../login/LoginComponent";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Badge } from "@/components/ui/badge";
 import { 
-  Upload, 
   FileText, 
-  CheckCircle, 
   Gift, 
   Users, 
   MessageCircle, 
   CreditCard,
-  Info,
   Shield,
-  Clock,
   Award,
-  HelpCircle,
   Zap
 } from "lucide-react";
 import Image from "next/image";
@@ -44,8 +37,6 @@ export default function FreeCheckPage() {
   const [user, setUser] = useState<User | null>(null);
   const [theme, setTheme] = useState("dark");
   const [isBlocked, setIsBlocked] = useState<boolean>(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
@@ -89,52 +80,6 @@ export default function FreeCheckPage() {
       .catch(() => {});
   }, []);
 
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      // Check file type
-      const allowedTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-      if (!allowedTypes.includes(file.type)) {
-        toast.error("Please upload a PDF or DOCX file only");
-        return;
-      }
-      
-      // Check file size (100MB limit)
-      if (file.size > 100 * 1024 * 1024) {
-        toast.error("File size must be less than 100MB");
-        return;
-      }
-      
-      setSelectedFile(file);
-    }
-  };
-
-  const handleUpload = async () => {
-    if (!selectedFile) {
-      toast.error("Please select a file first");
-      return;
-    }
-
-    if (!isLoggedIn) {
-      setShowSignupForm(true);
-      return;
-    }
-
-    if (!user || user.credits <= 0) {
-      toast.error("You don't have enough credits. Get more credits below!");
-      return;
-    }
-
-    setIsUploading(true);
-    
-    // Simulate upload process
-    setTimeout(() => {
-      setIsUploading(false);
-      toast.success("File uploaded successfully! Processing your report...");
-      // Redirect to dashboard or show results
-      window.location.href = "/dashboard";
-    }, 2000);
-  };
 
   const fadeIn = useSpring({
     opacity: isLoaded ? 1 : 0,
@@ -223,7 +168,7 @@ export default function FreeCheckPage() {
         <main className="flex-grow px-4 overflow-y-auto overflow-x-hidden relative z-30 bg-[#F8F8F8] dark:bg-black dark:text-white">
           <animated.div
             style={fadeIn}
-            className="max-w-6xl mx-auto py-8"
+            className="max-w-6xl mx-auto pt-20 pb-8"
           >
             {/* Hero Section */}
             <div className="text-center mb-12">
@@ -231,8 +176,7 @@ export default function FreeCheckPage() {
                 Free AI & Plagiarism Check
               </h1>
               <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-                Get instant, accurate AI and plagiarism detection reports with our free credits. 
-                Trusted by universities worldwide.
+                This is the free credit we provide. Go to dashboard to check and upload your PDF.
               </p>
               
               {/* Credit Display */}
@@ -245,84 +189,6 @@ export default function FreeCheckPage() {
                 </div>
               )}
             </div>
-
-            {/* File Upload Section */}
-            <Card className="mb-12 border-2 border-indigo-500/20 bg-white/90 dark:bg-black/80 backdrop-blur">
-              <CardHeader>
-                <CardTitle className="text-2xl font-bold text-center flex items-center justify-center gap-2">
-                  <Upload className="w-6 h-6 text-indigo-600" />
-                  Upload Your Document
-                </CardTitle>
-                <CardDescription className="text-center text-lg">
-                  Upload a PDF or DOCX file to get your free AI and plagiarism report
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {/* File Upload Area */}
-                <div className="border-2 border-dashed border-indigo-300 dark:border-indigo-600 rounded-lg p-8 text-center hover:border-indigo-400 dark:hover:border-indigo-500 transition-colors">
-                  <input
-                    type="file"
-                    id="file-upload"
-                    accept=".pdf,.docx"
-                    onChange={handleFileSelect}
-                    className="hidden"
-                  />
-                  <label
-                    htmlFor="file-upload"
-                    className="cursor-pointer flex flex-col items-center gap-4"
-                  >
-                    <div className="p-4 bg-indigo-100 dark:bg-indigo-900/30 rounded-full">
-                      <Upload className="w-8 h-8 text-indigo-600" />
-                    </div>
-                    <div>
-                      <p className="text-lg font-semibold text-gray-800 dark:text-white">
-                        {selectedFile ? selectedFile.name : "Click to upload or drag and drop"}
-                      </p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                        PDF or DOCX files only (Max 100MB)
-                      </p>
-                    </div>
-                  </label>
-                </div>
-
-                {/* Upload Button */}
-                <div className="flex justify-center">
-                  <Button
-                    onClick={handleUpload}
-                    disabled={!selectedFile || isUploading}
-                    size="lg"
-                    className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3"
-                  >
-                    {isUploading ? (
-                      <>
-                        <Clock className="w-5 h-5 mr-2 animate-spin" />
-                        Processing...
-                      </>
-                    ) : (
-                      <>
-                        <FileText className="w-5 h-5 mr-2" />
-                        Get Free Report
-                      </>
-                    )}
-                  </Button>
-                </div>
-
-                {/* Requirements Alert */}
-                <Alert className="bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800">
-                  <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                  <AlertTitle className="text-blue-800 dark:text-blue-200">File Requirements</AlertTitle>
-                  <AlertDescription className="text-blue-700 dark:text-blue-300">
-                    <ul className="list-disc list-inside space-y-1 mt-2">
-                      <li>Minimum 300 words in paragraphs</li>
-                      <li>Maximum 100MB file size</li>
-                      <li>Maximum 800 pages</li>
-                      <li>Supported formats: PDF and DOCX only</li>
-                      <li>Languages: English, Spanish, and Japanese</li>
-                    </ul>
-                  </AlertDescription>
-                </Alert>
-              </CardContent>
-            </Card>
 
             {/* Free Credits Information */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
@@ -410,9 +276,9 @@ export default function FreeCheckPage() {
 
             {/* CTA Section */}
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold mb-4">Ready to Get Started?</h2>
+              <h2 className="text-3xl font-bold mb-4">Ready to Upload Your PDF?</h2>
               <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-                Sign up now to get your free credits and start checking your documents
+                Go to dashboard to upload your PDF and get your free AI and plagiarism report
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 {!isLoggedIn ? (
@@ -441,7 +307,7 @@ export default function FreeCheckPage() {
                       className="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3"
                     >
                       <FileText className="w-5 h-5 mr-2" />
-                      Go to Dashboard
+                      Go to Dashboard & Upload PDF
                     </Button>
                   </Link>
                 )}
