@@ -223,69 +223,91 @@ export default function Home() {
     );
   }
 
-  // Temporary maintenance mode
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
-      <div className="text-center max-w-2xl mx-auto px-6">
-        <div className="mb-8">
-          {/* Logo */}
-          <div className="mb-8">
-            <Image
-              src="/assets/logos/checkturnitin.svg"
-              alt="CheckTurnitin Logo"
-              width={120}
-              height={120}
-              className="w-24 h-24 sm:w-32 sm:h-32 mx-auto mb-6"
-              priority
-            />
-          </div>
-          
-          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-600 mx-auto mb-6"></div>
-          <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-gray-300 to-gray-500 bg-clip-text text-transparent">
-            Site Under Maintenance
-          </h1>
-          <p className="text-xl md:text-2xl text-gray-400 mb-6">
-            Maintenance is because of Turnitin's own update
-          </p>
-        </div>
-        
-        <div className="bg-gray-900/80 backdrop-blur-lg rounded-2xl p-8 border border-gray-800">
-          <div className="flex items-center justify-center mb-6">
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 bg-gray-600 rounded-full animate-pulse"></div>
-              <span className="text-lg font-semibold text-gray-300">Expected Return</span>
+    <>
+    <Head>
+      <title>AIplagreport - Advanced Plagiarism Detection and AI Report</title>
+      <meta name="description" content="Aiplagreport is the leading plagiarism detection tool offering 99.9% accurate content analysis. Trusted by 10,000+ educators and institutions worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
+      <meta name="keywords" content="Aiplagreport, Plagiarism Detection Tool, Content Analysis, AI Content Detection, Academic Integrity" />
+      <meta name="robots" content="index, follow" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta name="theme-color" content="#000000" />
+      
+      {/* Open Graph / Facebook */}
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://aiplagreport.com/" />
+      <meta property="og:title" content="Aiplagreport - #1 Advanced Plagiarism Detection Tool | AI-Powered Content Analysis" />
+      <meta property="og:description" content="The most accurate plagiarism detection tool for content analysis. Used by 10,000+ educators worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
+      <meta property="og:image" content="https://aiplagreport.com/assets/images/og-image.png" />
+      
+      {/* Twitter */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:url" content="https://aiplagreport.com/" />
+      <meta name="twitter:title" content="Aiplagreport - #1 Advanced Plagiarism Detection Tool | AI-Powered Content Analysis" />
+      <meta name="twitter:description" content="The most accurate plagiarism detection tool for content analysis. Used by 10,000+ educators worldwide. Get instant plagiarism reports, AI content detection, and comprehensive similarity analysis." />
+      <meta name="twitter:image" content="https://aiplagreport.com/assets/images/og-image.png" />
+      
+      {/* Additional Meta Tags */}
+      <meta name="author" content="Aiplagreport" />
+      <meta name="application-name" content="Aiplagreport" />
+      <meta name="apple-mobile-web-app-capable" content="yes" />
+      <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+      <meta name="apple-mobile-web-app-title" content="Aiplagreport" />
+      <meta name="format-detection" content="telephone=no" />
+      <meta name="mobile-web-app-capable" content="yes" />
+      
+      {/* Structured Data */}
+      <script type="application/ld+json">
+        {JSON.stringify(structuredData)}
+      </script>
+      
+      {/* Google AdSense */}
+      <script 
+        async 
+        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5495042162016103"
+        crossOrigin="anonymous"
+      />
+    </Head>
+
+
+      <Header onShowSignupForm={() => setShowSignupForm(true)} />
+
+      <div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden bg-white text-black dark:bg-black dark:text-white">
+        <main className="flex-grow px-4 overflow-y-auto overflow-x-hidden relative z-30 bg-[#F8F8F8]  dark:bg-black dark:text-white">
+          <animated.div
+            style={fadeIn}
+            className="max-w-1xl mx-auto text-[#222222]"
+          >
+            {showLanding && (
+              <div className="flex flex-col min-h-screen w-full font-sans relative overflow-hidden overflow-x-hidden bg-[#F8F8F8] dark:bg-black dark:text-white">
+                {showLanding && <Hero isLoggedIn={!!user} />}
+                <WhyTrustMatters />
+                <NoRepositoryMode />
+                <PricingSection />
+                <AccordionDemo />
+                <CheckTurnitinCTA />
+                <ElegantFooter />
+              </div>
+            )}
+            <div className="flex flex-col items-center space-y-4 max-w-6xl mx-auto">
+              {loading && (
+                <div className="flex items-center p-4 rounded-lg bg-[#EDEDED] max-w-[50%]">
+                  <p className="ml-4 text-[#443f3f] text-lg">Processing...</p>
+                </div>
+              )}
+              <div ref={messagesEndRef} />
             </div>
-          </div>
-          
-          <div className="text-3xl font-bold text-gray-300 mb-4">
-            2 Hours
-          </div>
-          
-          <p className="text-gray-400 mb-6">
-            We apologize for any inconvenience. Turnitin is performing essential updates to their system, which affects our service temporarily.
-          </p>
-          
-          <div className="space-y-4">
-            <div className="flex items-center justify-center space-x-2 text-sm text-gray-500">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span>Check back in 2 hours for full service restoration</span>
-            </div>
-            
-            <div className="flex items-center justify-center space-x-2 text-sm text-gray-500">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              <span>All your data and reports are safe</span>
-            </div>
-          </div>
-        </div>
-        
-        <div className="mt-8 text-sm text-gray-500">
-          <p>Thank you for your patience and continued support!</p>
-        </div>
+          </animated.div>
+        </main>
+
+        {showSignupForm && (
+          <SignupForm onClose={() => setShowSignupForm(false)} />
+        )}
+        {showLoginForm && (
+          <LoginComponent onClose={() => setShowLoginForm(false)} />
+        )}
+        {/* Remove ToastContainer from react-toastify */}
       </div>
-    </div>
+    </>
   );
 }
