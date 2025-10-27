@@ -9,7 +9,7 @@ import { toast, Toaster } from "sonner";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Clock, CheckCircle, Eye, Search, X, Trash2 } from "lucide-react";
+import { FileText, Clock, CheckCircle, Eye, Search, X, Trash2, Wrench } from "lucide-react";
 import Image from "next/image";
 import { ReportItem } from "./report-item";
 import { CustomModal } from "./custom-modal";
@@ -37,6 +37,12 @@ export default function Home() {
   const [showStepper, setShowStepper] = useState(false);
   const [isEnglish, setIsEnglish] = useState<boolean | null>(null);
   const [englishPercentage, setEnglishPercentage] = useState<number | null>(null);
+  
+  // Maintenance mode state
+  const [timeLeft, setTimeLeft] = useState<string>("");
+  const [currentUTC, setCurrentUTC] = useState<string>("");
+  const [currentLocal, setCurrentLocal] = useState<string>("");
+  const [hoursLeft, setHoursLeft] = useState<number>(0);
 
   interface Report {
     checkId: string;
@@ -159,6 +165,51 @@ export default function Home() {
   useEffect(() => {
     fetchData();
     const interval = setInterval(fetchData, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Maintenance mode countdown
+  useEffect(() => {
+    const updateCountdown = () => {
+      // Set target time: 11:30 AM Nepal Time (NPT) in UTC
+      // Nepal Time is UTC+5:45
+      // So 11:30 AM NPT = 5:45 UTC
+      const now = new Date();
+      const target = new Date();
+      
+      // Set target to 5:45 UTC (which is 11:30 AM NPT)
+      target.setUTCHours(5, 45, 0, 0);
+      
+      // If current time is after 5:45 UTC, we need tomorrow's 5:45
+      if (now.getTime() >= target.getTime()) {
+        target.setUTCDate(target.getUTCDate() + 1);
+      }
+      
+      const diff = target.getTime() - now.getTime();
+      
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      
+      setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
+      setHoursLeft(hours);
+      
+      // Update current UTC time
+      const utcTime = now.toISOString().split('T')[1].split('.')[0];
+      setCurrentUTC(utcTime);
+      
+      // Update current local time
+      const localTime = now.toLocaleTimeString('en-US', { 
+        hour12: false,
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+      setCurrentLocal(localTime);
+    };
+    
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -556,7 +607,42 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 text-black dark:bg-black dark:text-white">
       <Header />
-      <main className="flex-grow flex flex-col items-center justify-start px-4 py-8 mt-20">
+      
+      {/* Maintenance Banner */}
+      <div className="fixed top-16 left-0 right-0 z-40 bg-gradient-to-r from-orange-600 via-red-600 to-orange-600 text-white shadow-lg border-b-2 border-orange-400">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <Wrench className="h-6 w-6 animate-spin" />
+              <div>
+                <h3 className="text-lg font-bold">Site Under Maintenance</h3>
+                <p className="text-sm text-orange-100">Will be back up at 11:30 AM NPT</p>
+              </div>
+            </div>
+            <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
+              <div className="flex items-center gap-2">
+                <Clock className="h-5 w-5" />
+                <div>
+                  <p className="text-xs text-orange-100">Current UTC Time</p>
+                  <p className="text-sm font-mono font-bold">{currentUTC}</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <Clock className="h-5 w-5" />
+                <div>
+                  <p className="text-xs text-orange-100">Time Left</p>
+                  <p className="text-sm font-mono font-bold">{timeLeft}</p>
+                </div>
+              </div>
+              <div className="px-3 py-1 bg-white/20 rounded-full">
+                <p className="text-lg font-bold">{hoursLeft} hours remaining</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <main className="flex-grow flex flex-col items-center justify-start px-4 py-8 mt-32">
         <div className="w-full max-w-3xl mx-auto">
           <Card className="shadow-md hover:shadow-lg transition-all duration-300 bg-white dark:bg-black border border-gray-200 dark:border-gray-800">
             <CardContent className="p-8">
@@ -770,6 +856,23 @@ export default function Home() {
               </div>
             </div>
           )}
+
+          {/* Turnitin/iThenticate Information Notice */}
+          <div className="mt-6 p-4 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-lg border border-blue-200 dark:border-blue-800/50">
+            <div className="flex items-center space-x-3">
+              <div className="flex items-center justify-center w-10 h-10 bg-blue-100 dark:bg-blue-900/50 rounded-full">
+                <HelpCircle className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              </div>
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">
+                  Important Information
+                </h3>
+                <p className="text-xs text-gray-600 dark:text-gray-400">
+                  <span className="font-medium">Turnitin and iThenticate are the same service.</span> If you receive iThenticate reports, don't worry - it's the same as Turnitin. Both provide identical plagiarism detection capabilities.
+                </p>
+              </div>
+            </div>
+          </div>
 
           {/* Confirmation Popup */}
           <CustomModal
