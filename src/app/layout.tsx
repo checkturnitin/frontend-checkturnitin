@@ -4,7 +4,6 @@ import { Inter } from 'next/font/google';
 import { Metadata } from 'next';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { config } from '../../next-seo.config';
-import { MaintenanceBanner } from '@/components/MaintenanceBanner';
 
 // Initialize Inter font
 const inter = Inter({
@@ -179,7 +178,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
         />
 
       </head>
-      <body className={`${inter.className} antialiased pt-20`}>
+      <body className={`${inter.className} antialiased`}>
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -191,7 +190,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
             `,
           }}
         />
-        <MaintenanceBanner />
         {children}
         <GoogleAnalytics gaId="G-KWDVBFHV5W" />
       </body>

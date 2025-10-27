@@ -37,12 +37,6 @@ export default function Home() {
   const [showStepper, setShowStepper] = useState(false);
   const [isEnglish, setIsEnglish] = useState<boolean | null>(null);
   const [englishPercentage, setEnglishPercentage] = useState<number | null>(null);
-  
-  // Maintenance mode state
-  const [timeLeft, setTimeLeft] = useState<string>("");
-  const [currentUTC, setCurrentUTC] = useState<string>("");
-  const [currentLocal, setCurrentLocal] = useState<string>("");
-  const [hoursLeft, setHoursLeft] = useState<number>(0);
 
   interface Report {
     checkId: string;
@@ -165,51 +159,6 @@ export default function Home() {
   useEffect(() => {
     fetchData();
     const interval = setInterval(fetchData, 10000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // Maintenance mode countdown
-  useEffect(() => {
-    const updateCountdown = () => {
-      // Set target time: 11:30 AM Nepal Time (NPT) in UTC
-      // Nepal Time is UTC+5:45
-      // So 11:30 AM NPT = 5:45 UTC
-      const now = new Date();
-      const target = new Date();
-      
-      // Set target to 11:15 UTC
-      target.setUTCHours(11, 15, 0, 0);
-      
-      // If current time is after 11:15 UTC, we need tomorrow's 11:15
-      if (now.getTime() >= target.getTime()) {
-        target.setUTCDate(target.getUTCDate() + 1);
-      }
-      
-      const diff = target.getTime() - now.getTime();
-      
-      const hours = Math.floor(diff / (1000 * 60 * 60));
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-      
-      setTimeLeft(`${hours}h ${minutes}m ${seconds}s`);
-      setHoursLeft(hours);
-      
-      // Update current UTC time
-      const utcTime = now.toISOString().split('T')[1].split('.')[0];
-      setCurrentUTC(utcTime);
-      
-      // Update current local time
-      const localTime = now.toLocaleTimeString('en-US', { 
-        hour12: false,
-        hour: '2-digit',
-        minute: '2-digit',
-        second: '2-digit'
-      });
-      setCurrentLocal(localTime);
-    };
-    
-    updateCountdown();
-    const interval = setInterval(updateCountdown, 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -607,49 +556,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 text-black dark:bg-black dark:text-white">
       <Header />
-      
-      {/* Maintenance Banner */}
-      <div className="fixed top-16 left-0 right-0 z-40 bg-gradient-to-r from-orange-600 via-red-600 to-orange-600 text-white shadow-lg border-b-2 border-orange-400">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <Wrench className="h-6 w-6 animate-spin" />
-              <div>
-                <h3 className="text-lg font-bold">Site Under Maintenance</h3>
-                <p className="text-sm text-orange-100">Will be back up at 11:15 AM UTC</p>
-              </div>
-            </div>
-            <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
-              <div className="flex items-center gap-2">
-                <Clock className="h-5 w-5" />
-                <div>
-                  <p className="text-xs text-orange-100">Your Local Time</p>
-                  <p className="text-sm font-mono font-bold">{currentLocal}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock className="h-5 w-5" />
-                <div>
-                  <p className="text-xs text-orange-100">Current UTC Time</p>
-                  <p className="text-sm font-mono font-bold">{currentUTC}</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2">
-                <Clock className="h-5 w-5" />
-                <div>
-                  <p className="text-xs text-orange-100">Time Left</p>
-                  <p className="text-sm font-mono font-bold">{timeLeft}</p>
-                </div>
-              </div>
-              <div className="px-3 py-1 bg-white/20 rounded-full">
-                <p className="text-lg font-bold">{hoursLeft} hours remaining</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <main className="flex-grow flex flex-col items-center justify-start px-4 py-8 mt-32">
+      <main className="flex-grow flex flex-col items-center justify-start px-4 py-8 mt-20">
         <div className="w-full max-w-3xl mx-auto">
           <Card className="shadow-md hover:shadow-lg transition-all duration-300 bg-white dark:bg-black border border-gray-200 dark:border-gray-800">
             <CardContent className="p-8">
