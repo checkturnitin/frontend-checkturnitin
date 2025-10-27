@@ -14,7 +14,7 @@ export function MaintenanceBanner() {
             </svg>
             <div>
               <h3 className="text-sm md:text-base font-bold">Site Under Maintenance</h3>
-              <p className="text-xs text-orange-100">Will be back up at 6:30 AM UTC</p>
+              <p className="text-xs text-orange-100">Will be back up at 11:15 AM UTC</p>
             </div>
           </div>
           <MaintenanceCountdown />
@@ -35,10 +35,10 @@ function MaintenanceCountdown() {
       const now = new Date();
       const target = new Date();
       
-      // Set target to 6:30 UTC
-      target.setUTCHours(6, 30, 0, 0);
+      // Set target to 11:15 UTC
+      target.setUTCHours(11, 15, 0, 0);
       
-      // If current time is after 6:30 UTC, we need tomorrow's 6:30
+      // If current time is after 11:15 UTC, we need tomorrow's 11:15
       if (now.getTime() >= target.getTime()) {
         target.setUTCDate(target.getUTCDate() + 1);
       }
