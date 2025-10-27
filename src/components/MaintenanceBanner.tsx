@@ -14,7 +14,7 @@ export function MaintenanceBanner() {
             </svg>
             <div>
               <h3 className="text-sm md:text-base font-bold">Site Under Maintenance</h3>
-              <p className="text-xs text-orange-100">Will be back up at 11:30 AM NPT</p>
+              <p className="text-xs text-orange-100">Will be back up at 11:30 AM NPT (5:45 AM UTC)</p>
             </div>
           </div>
           <MaintenanceCountdown />

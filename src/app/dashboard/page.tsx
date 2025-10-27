@@ -616,10 +616,17 @@ export default function Home() {
               <Wrench className="h-6 w-6 animate-spin" />
               <div>
                 <h3 className="text-lg font-bold">Site Under Maintenance</h3>
-                <p className="text-sm text-orange-100">Will be back up at 11:30 AM NPT</p>
+                <p className="text-sm text-orange-100">Will be back up at 11:30 AM NPT (5:45 AM UTC)</p>
               </div>
             </div>
             <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
+              <div className="flex items-center gap-2">
+                <Clock className="h-5 w-5" />
+                <div>
+                  <p className="text-xs text-orange-100">Your Local Time</p>
+                  <p className="text-sm font-mono font-bold">{currentLocal}</p>
+                </div>
+              </div>
               <div className="flex items-center gap-2">
                 <Clock className="h-5 w-5" />
                 <div>
