@@ -177,10 +177,10 @@ export default function Home() {
       const now = new Date();
       const target = new Date();
       
-      // Set target to 5:45 UTC (which is 11:30 AM NPT)
-      target.setUTCHours(5, 45, 0, 0);
+      // Set target to 6:30 UTC
+      target.setUTCHours(6, 30, 0, 0);
       
-      // If current time is after 5:45 UTC, we need tomorrow's 5:45
+      // If current time is after 6:30 UTC, we need tomorrow's 6:30
       if (now.getTime() >= target.getTime()) {
         target.setUTCDate(target.getUTCDate() + 1);
       }
@@ -616,7 +616,7 @@ export default function Home() {
               <Wrench className="h-6 w-6 animate-spin" />
               <div>
                 <h3 className="text-lg font-bold">Site Under Maintenance</h3>
-                <p className="text-sm text-orange-100">Will be back up at 11:30 AM NPT (5:45 AM UTC)</p>
+                <p className="text-sm text-orange-100">Will be back up at 6:30 AM UTC</p>
               </div>
             </div>
             <div className="flex flex-col md:flex-row items-center gap-4 text-center md:text-left">
