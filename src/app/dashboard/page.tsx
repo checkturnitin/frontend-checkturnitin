@@ -37,6 +37,8 @@ export default function Home() {
   const [showStepper, setShowStepper] = useState(false);
   const [isEnglish, setIsEnglish] = useState<boolean | null>(null);
   const [englishPercentage, setEnglishPercentage] = useState<number | null>(null);
+  const [isMaintenance, setIsMaintenance] = useState<boolean>(true);
+  const [timeRemaining, setTimeRemaining] = useState({ hours: 0, minutes: 0, seconds: 0 });
 
   interface Report {
     checkId: string;
@@ -176,6 +178,37 @@ export default function Home() {
       return () => clearTimeout(timer);
     }
   }, [planType, isLoggedIn]);
+
+  // Maintenance countdown timer
+  useEffect(() => {
+    const updateTimer = () => {
+      const now = new Date();
+      // Target: 11:30 AM NPT = 5:45 AM UTC (NPT is UTC+5:45)
+      const target = new Date();
+      target.setUTCHours(5, 45, 0, 0);
+      
+      if (now >= target) {
+        target.setUTCDate(target.getUTCDate() + 1);
+      }
+
+      const diff = target.getTime() - now.getTime();
+      
+      if (diff <= 0) {
+        setIsMaintenance(false);
+        return;
+      }
+
+      const hours = Math.floor(diff / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+      setTimeRemaining({ hours, minutes, seconds });
+    };
+
+    updateTimer();
+    const interval = setInterval(updateTimer, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleFileUpload = async (newFiles: File[]) => {
     if (newFiles.length > 1) {
@@ -552,6 +585,54 @@ export default function Home() {
       setSearchQuery("");
     }
   };
+
+  if (isMaintenance) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-900 text-white">
+        <div className="text-center p-8 max-w-2xl">
+          <div className="mb-8 animate-pulse">
+            <Image
+              src="/assets/logos/checkturnitin.svg"
+              alt="Logo"
+              width={120}
+              height={120}
+              className="mx-auto"
+            />
+          </div>
+          <h1 className="text-5xl font-bold mb-4">Under Maintenance</h1>
+          <p className="text-2xl mb-8 text-gray-200">
+            We'll be back soon!
+          </p>
+          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20">
+            <p className="text-lg mb-6 text-gray-200">
+              Estimated time remaining:
+            </p>
+            <div className="flex justify-center gap-4 mb-6">
+              <div className="bg-white/20 rounded-xl p-6 min-w-[100px]">
+                <div className="text-4xl font-bold">{String(timeRemaining.hours).padStart(2, '0')}</div>
+                <div className="text-sm text-gray-300 mt-2">Hours</div>
+              </div>
+              <div className="bg-white/20 rounded-xl p-6 min-w-[100px]">
+                <div className="text-4xl font-bold">{String(timeRemaining.minutes).padStart(2, '0')}</div>
+                <div className="text-sm text-gray-300 mt-2">Minutes</div>
+              </div>
+              <div className="bg-white/20 rounded-xl p-6 min-w-[100px]">
+                <div className="text-4xl font-bold">{String(timeRemaining.seconds).padStart(2, '0')}</div>
+                <div className="text-sm text-gray-300 mt-2">Seconds</div>
+              </div>
+            </div>
+            <div className="text-sm text-gray-300 space-y-2">
+              <p>Target time: <span className="font-semibold">11:30 AM NPT</span></p>
+              <p>UTC time: <span className="font-semibold">5:45 AM UTC</span></p>
+            </div>
+          </div>
+          <p className="mt-8 text-gray-300">
+            We're improving our services for you. Thank you for your patience!
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 text-black dark:bg-black dark:text-white">
