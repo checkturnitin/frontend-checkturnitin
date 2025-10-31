@@ -4,9 +4,11 @@ import { useState, useEffect } from "react"
 import Header from "./header"
 import Hero from "./hero"
 import ElegantFooter from "./last"
+import SignupForm from "./signup/SignupForm"
 
 export default function Home() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [showSignupForm, setShowSignupForm] = useState(false)
 
   useEffect(() => {
     const token = localStorage.getItem("token")
@@ -14,8 +16,7 @@ export default function Home() {
   }, [])
 
   const handleShowSignupForm = () => {
-    // This can be used to show a signup modal
-    console.log("Show signup form")
+    setShowSignupForm(true)
   }
 
   return (
@@ -25,7 +26,7 @@ export default function Home() {
         <Hero isLoggedIn={isLoggedIn} />
       </main>
       <ElegantFooter />
+      {showSignupForm && <SignupForm onClose={() => setShowSignupForm(false)} />}
     </div>
   )
 }
-
