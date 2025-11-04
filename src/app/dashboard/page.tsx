@@ -29,6 +29,7 @@ const PDFViewer = dynamic(
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
+  const [originalFileSize, setOriginalFileSize] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [wordCountLoading, setWordCountLoading] = useState(false);
   const [compressing, setCompressing] = useState(false);
@@ -192,9 +193,11 @@ export default function Home() {
     }
 
     if (selectedFile) {
+      // Store original file size
+      setOriginalFileSize(selectedFile.size);
       let fileToProcess = selectedFile;
 
-      // Compress PDF files before processing
+      // Compress PDF files after upload/before processing
       if (selectedFile.type === "application/pdf" || selectedFile.name.toLowerCase().endsWith(".pdf")) {
         setCompressing(true);
         try {
@@ -211,16 +214,23 @@ export default function Home() {
               `PDF compressed: ${originalSize} MB → ${compressedSize} MB (${reduction}% reduction)`
             );
             fileToProcess = compressedFile;
+            // Keep original size stored for display
+            setOriginalFileSize(selectedFile.size);
           } else {
             toast.info("PDF could not be compressed further, using original file.");
+            setOriginalFileSize(null); // No compression, so no need to show original size
           }
         } catch (error) {
           console.error("PDF compression error:", error);
           toast.warning("Failed to compress PDF, using original file.");
           fileToProcess = selectedFile;
+          setOriginalFileSize(null); // Compression failed, no need to show original size
         } finally {
           setCompressing(false);
         }
+      } else {
+        // Not a PDF, no compression needed
+        setOriginalFileSize(null);
       }
 
       setFile(fileToProcess);
@@ -276,6 +286,7 @@ export default function Home() {
   const removeFile = () => {
     setFile(null);
     setWordCount(null);
+    setOriginalFileSize(null);
   };
 
   const handleSubmit = async () => {
@@ -609,6 +620,26 @@ export default function Home() {
                           <h3 className="font-medium text-gray-900 dark:text-white">
                             {file.name}
                           </h3>
+                          {/* File size display */}
+                          <div className="mt-1 mb-2">
+                            {originalFileSize && originalFileSize > file.size ? (
+                              <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                                <span className="line-through">
+                                  {(originalFileSize / (1024 * 1024)).toFixed(2)} MB
+                                </span>
+                                <span className="text-green-600 dark:text-green-400 font-medium">
+                                  → {(file.size / (1024 * 1024)).toFixed(2)} MB
+                                </span>
+                                <span className="text-green-600 dark:text-green-400">
+                                  ({((1 - file.size / originalFileSize) * 100).toFixed(1)}% smaller)
+                                </span>
+                              </div>
+                            ) : (
+                              <p className="text-xs text-gray-500 dark:text-gray-400">
+                                {(file.size / (1024 * 1024)).toFixed(2)} MB
+                              </p>
+                            )}
+                          </div>
                           {compressing ? (
                             <p className="text-sm text-gray-500 dark:text-gray-400">
                               Compressing PDF...
