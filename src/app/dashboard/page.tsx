@@ -20,6 +20,7 @@ import { Badge } from "@/components/ui/badge";
 import { FiTrash2 } from "react-icons/fi";
 import Stepper, { Step } from '@/components/Stepper/Stepper';
 import { CheckCircle2, Globe, HelpCircle } from "lucide-react";
+import { compressPDF } from "@/utils/pdfCompression";
 
 const PDFViewer = dynamic(
   () => import("./pdf-viewer").then((mod) => mod.default),
@@ -30,6 +31,7 @@ export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [wordCountLoading, setWordCountLoading] = useState(false);
+  const [compressing, setCompressing] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [planType, setPlanType] = useState<string>("basic");
@@ -190,12 +192,43 @@ export default function Home() {
     }
 
     if (selectedFile) {
-      setFile(selectedFile);
+      let fileToProcess = selectedFile;
+
+      // Compress PDF files before processing
+      if (selectedFile.type === "application/pdf" || selectedFile.name.toLowerCase().endsWith(".pdf")) {
+        setCompressing(true);
+        try {
+          toast.info("Compressing PDF file...");
+          const compressedFile = await compressPDF(selectedFile);
+          
+          // Show compression result
+          const originalSize = (selectedFile.size / (1024 * 1024)).toFixed(2);
+          const compressedSize = (compressedFile.size / (1024 * 1024)).toFixed(2);
+          const reduction = ((1 - compressedFile.size / selectedFile.size) * 100).toFixed(1);
+          
+          if (compressedFile.size < selectedFile.size) {
+            toast.success(
+              `PDF compressed: ${originalSize} MB → ${compressedSize} MB (${reduction}% reduction)`
+            );
+            fileToProcess = compressedFile;
+          } else {
+            toast.info("PDF could not be compressed further, using original file.");
+          }
+        } catch (error) {
+          console.error("PDF compression error:", error);
+          toast.warning("Failed to compress PDF, using original file.");
+          fileToProcess = selectedFile;
+        } finally {
+          setCompressing(false);
+        }
+      }
+
+      setFile(fileToProcess);
       setWordCountLoading(true);
 
       try {
         const formData = new FormData();
-        formData.append("file", selectedFile);
+        formData.append("file", fileToProcess);
 
         const [wordCountResponse, languageCheckResponse] = await Promise.all([
           axios.post(`${serverURL}/file/wordcount`, formData, {
@@ -576,7 +609,11 @@ export default function Home() {
                           <h3 className="font-medium text-gray-900 dark:text-white">
                             {file.name}
                           </h3>
-                          {wordCountLoading ? (
+                          {compressing ? (
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                              Compressing PDF...
+                            </p>
+                          ) : wordCountLoading ? (
                             <p className="text-sm text-gray-500 dark:text-gray-400">
                               Analyzing document...
                             </p>
@@ -687,6 +724,7 @@ export default function Home() {
                   disabled={
                     loading ||
                     !file ||
+                    compressing ||
                     wordCountLoading ||
                     (wordCount !== null && wordCount < 300)
                   }
