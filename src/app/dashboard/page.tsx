@@ -20,7 +20,6 @@ import { Badge } from "@/components/ui/badge";
 import { FiTrash2 } from "react-icons/fi";
 import Stepper, { Step } from '@/components/Stepper/Stepper';
 import { CheckCircle2, Globe, HelpCircle } from "lucide-react";
-import { compressPDF } from "@/utils/pdfCompression";
 
 const PDFViewer = dynamic(
   () => import("./pdf-viewer").then((mod) => mod.default),
@@ -29,10 +28,8 @@ const PDFViewer = dynamic(
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
-  const [originalFileSize, setOriginalFileSize] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [wordCountLoading, setWordCountLoading] = useState(false);
-  const [compressing, setCompressing] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [planType, setPlanType] = useState<string>("basic");
@@ -193,52 +190,12 @@ export default function Home() {
     }
 
     if (selectedFile) {
-      // Store original file size
-      setOriginalFileSize(selectedFile.size);
-      let fileToProcess = selectedFile;
-
-      // Compress PDF files after upload/before processing
-      if (selectedFile.type === "application/pdf" || selectedFile.name.toLowerCase().endsWith(".pdf")) {
-        setCompressing(true);
-        try {
-          toast.info("Compressing PDF file...");
-          const compressedFile = await compressPDF(selectedFile);
-          
-          // Show compression result
-          const originalSize = (selectedFile.size / (1024 * 1024)).toFixed(2);
-          const compressedSize = (compressedFile.size / (1024 * 1024)).toFixed(2);
-          const reduction = ((1 - compressedFile.size / selectedFile.size) * 100).toFixed(1);
-          
-          if (compressedFile.size < selectedFile.size) {
-            toast.success(
-              `PDF compressed: ${originalSize} MB → ${compressedSize} MB (${reduction}% reduction)`
-            );
-            fileToProcess = compressedFile;
-            // Keep original size stored for display
-            setOriginalFileSize(selectedFile.size);
-          } else {
-            toast.info("PDF could not be compressed further, using original file.");
-            setOriginalFileSize(null); // No compression, so no need to show original size
-          }
-        } catch (error) {
-          console.error("PDF compression error:", error);
-          toast.warning("Failed to compress PDF, using original file.");
-          fileToProcess = selectedFile;
-          setOriginalFileSize(null); // Compression failed, no need to show original size
-        } finally {
-          setCompressing(false);
-        }
-      } else {
-        // Not a PDF, no compression needed
-        setOriginalFileSize(null);
-      }
-
-      setFile(fileToProcess);
+      setFile(selectedFile);
       setWordCountLoading(true);
 
       try {
         const formData = new FormData();
-        formData.append("file", fileToProcess);
+        formData.append("file", selectedFile);
 
         const [wordCountResponse, languageCheckResponse] = await Promise.all([
           axios.post(`${serverURL}/file/wordcount`, formData, {
@@ -286,7 +243,6 @@ export default function Home() {
   const removeFile = () => {
     setFile(null);
     setWordCount(null);
-    setOriginalFileSize(null);
   };
 
   const handleSubmit = async () => {
@@ -620,31 +576,7 @@ export default function Home() {
                           <h3 className="font-medium text-gray-900 dark:text-white">
                             {file.name}
                           </h3>
-                          {/* File size display */}
-                          <div className="mt-1 mb-2">
-                            {originalFileSize && originalFileSize > file.size ? (
-                              <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
-                                <span className="line-through">
-                                  {(originalFileSize / (1024 * 1024)).toFixed(2)} MB
-                                </span>
-                                <span className="text-green-600 dark:text-green-400 font-medium">
-                                  → {(file.size / (1024 * 1024)).toFixed(2)} MB
-                                </span>
-                                <span className="text-green-600 dark:text-green-400">
-                                  ({((1 - file.size / originalFileSize) * 100).toFixed(1)}% smaller)
-                                </span>
-                              </div>
-                            ) : (
-                              <p className="text-xs text-gray-500 dark:text-gray-400">
-                                {(file.size / (1024 * 1024)).toFixed(2)} MB
-                              </p>
-                            )}
-                          </div>
-                          {compressing ? (
-                            <p className="text-sm text-gray-500 dark:text-gray-400">
-                              Compressing PDF...
-                            </p>
-                          ) : wordCountLoading ? (
+                          {wordCountLoading ? (
                             <p className="text-sm text-gray-500 dark:text-gray-400">
                               Analyzing document...
                             </p>
@@ -755,7 +687,6 @@ export default function Home() {
                   disabled={
                     loading ||
                     !file ||
-                    compressing ||
                     wordCountLoading ||
                     (wordCount !== null && wordCount < 300)
                   }
