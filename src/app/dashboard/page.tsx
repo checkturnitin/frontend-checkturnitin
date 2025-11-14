@@ -9,7 +9,7 @@ import { toast, Toaster } from "sonner";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Clock, CheckCircle, Eye, Search, X, Trash2, Wrench, AlertTriangle } from "lucide-react";
+import { FileText, Clock, CheckCircle, Eye, Search, X, Trash2, Wrench } from "lucide-react";
 import Image from "next/image";
 import { ReportItem } from "./report-item";
 import { CustomModal } from "./custom-modal";
@@ -770,34 +770,6 @@ export default function Home() {
               </div>
             </div>
           )}
-
-          {/* Turnitin Service Incident Notice */}
-          <div className="mt-6 p-4 bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 rounded-lg border border-orange-200 dark:border-orange-800/50">
-            <div className="flex items-start space-x-3">
-              <div className="flex items-center justify-center w-10 h-10 bg-orange-100 dark:bg-orange-900/50 rounded-full flex-shrink-0">
-                <AlertTriangle className="h-5 w-5 text-orange-600 dark:text-orange-400" />
-              </div>
-              <div className="flex-1">
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">
-                  Turnitin Service Incident - 13th November 2025
-                </h3>
-                <p className="text-xs text-gray-700 dark:text-gray-300 mb-2">
-                  <span className="font-medium">Investigating - We've run into some issues.</span>
-                </p>
-                <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">
-                  iThenticate V2, Crossref Similarity Check, Similarity, SimCheck, Originality are currently experiencing an unexpected service incident. During this time, you may find that uploads are slow and reports are stuck processing, integration users may also be affected.
-                </p>
-                <a
-                  href="https://turnitin.statuspage.io/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs text-orange-600 dark:text-orange-400 hover:underline font-medium"
-                >
-                  Track Status Updates →
-                </a>
-              </div>
-            </div>
-          </div>
 
           {/* Turnitin/iThenticate Information Notice */}
           <div className="mt-6 p-4 bg-gradient-to-r from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 rounded-lg border border-blue-200 dark:border-blue-800/50">
