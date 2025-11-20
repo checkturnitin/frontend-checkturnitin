@@ -16,7 +16,7 @@ interface Detector {
 const AIDetectorComparison: React.FC = () => {
   const detectors: Detector[] = [
     {
-      name: "Advanced Plagiarism Detection",
+      name: "Advanced AI & Plagiarism Detection",
       isAuthentic: true,
       description: "Official and trusted plagiarism detection system used by universities worldwide.",
       features: [

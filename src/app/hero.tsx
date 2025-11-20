@@ -199,7 +199,7 @@ const DraftCheckInfo: React.FC = () => (
       <Info className="h-4 w-4 text-blue-600 dark:text-blue-400" />
       <AlertTitle className="text-blue-800 dark:text-blue-200">Draft Check Mode</AlertTitle>
       <AlertDescription className="text-blue-700 dark:text-blue-300">
-        We use advanced plagiarism detection in draft check mode, which means your documents are not stored in any database. This is perfect for checking your work before final submission.
+        We use advanced ai & plagiarism detection in draft check mode, which means your documents are not stored in any database. This is perfect for checking your work before final submission.
       </AlertDescription>
     </Alert>
     <div className="mt-6">
@@ -407,7 +407,7 @@ const AIDetectorComparison: React.FC = () => {
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-center flex items-center justify-center gap-2">
             <span className="bg-gradient-to-r from-amber-400 via-rose-500 to-violet-500 dark:from-amber-400 dark:via-rose-500 dark:to-violet-500 bg-clip-text text-transparent font-extrabold tracking-tight hover:scale-105 transition-transform duration-300 ease-in-out">
-              Advanced Plagiarism Detection vs All Other Detectors
+              Advanced AI & Plagiarism Detection vs All Other Detectors
             </span>
           </CardTitle>
         </CardHeader>
