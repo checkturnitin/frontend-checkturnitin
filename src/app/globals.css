@@ -19,6 +19,7 @@
   }
   .theme {
     --animate-shine: shine var(--duration) infinite linear;
+    --animate-pulse: pulse var(--duration) ease-out infinite;
   }
 }
 
@@ -200,6 +201,21 @@ html.dark {
   animation: gradient 8s infinite;
 }
 
+@keyframes magicui-pulse-glow {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.75;
+  }
+  60% {
+    transform: scale(1.35);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
 body {
   overflow-y: scroll;
 }
@@ -236,6 +252,14 @@ body {
     }
   to {
     background-position: 0% 0%;
+    }
+  }
+  @keyframes pulse {
+  0%, 100% {
+    boxShadow: 0 0 0 0 var(--pulse-color);
+    }
+  50% {
+    boxShadow: 0 0 0 8px var(--pulse-color);
     }
   }
 }

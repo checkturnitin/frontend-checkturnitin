@@ -4,6 +4,7 @@ import type React from "react"
 import { useState, useEffect, useRef, useCallback } from "react"
 import { ChevronRight, Users, FileText, Check, X, Shield, Award, Clock, Zap, BookOpen, Globe, Info, HelpCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { PulsatingButton } from "@/registry/magicui/pulsating-button"
 import PDFViewer from "./PDFViewer"
 import { motion, useMotionValue, useTransform, animate, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
@@ -65,6 +66,18 @@ const Slogan: React.FC = () => {
         One stop solution for all your AI and plagiarism detection needs.
       </TextAnimate>
     </div>
+  )
+}
+
+export function PulsatingButtonDemo({ onClick }: { onClick?: () => void }) {
+  return (
+    <PulsatingButton
+      onClick={onClick}
+      pulseColor="#4f46e5"
+      className="bg-indigo-600 hover:bg-indigo-700 text-white text-lg font-semibold px-8 py-4 shadow-lg shadow-indigo-500/30"
+    >
+      Get Your Report Now
+    </PulsatingButton>
   )
 }
 
@@ -387,7 +400,7 @@ const AIDetectorComparison: React.FC = () => {
     <div className="w-full max-w-4xl mx-auto mt-16">
       <div className="mb-12">
         <h1 className="text-4xl md:text-4xl lg:text-6xl font-semibold max-w-7xl mx-auto text-center relative z-20 py-6 bg-clip-text text-transparent bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-700 dark:from-neutral-800 dark:via-white dark:to-white">
-          You don't need fake detectors <br /> you only need <Cover>Advanced Plagiarism Detection</Cover>
+          You don't need fake detectors <br /> you only need <Cover>Advanced AI & Plagiarism Detection</Cover>
         </h1>
       </div>
       <Card className="border-2 border-indigo-500/20 bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black">
@@ -564,14 +577,12 @@ const Hero: React.FC<HeroProps> = ({ isLoggedIn }) => {
         <AnimatedCounter value={1000000} label="Files Processed" icon={<FileText size={24} />} />
       </motion.div>
       <motion.div
-        className="flex flex-col sm:flex-row gap-4 justify-center mb-12 px-2 sm:px-4"
+        className="flex flex-col sm:flex-row items-center gap-4 justify-center mb-12 px-2 sm:px-4"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.8 }}
       >
-        <Button size="lg" className="bg-indigo-600 hover:bg-indigo-700 text-white" onClick={handleButtonClick}>
-          Get Your Report Now
-        </Button>
+        <PulsatingButtonDemo onClick={handleButtonClick} />
         <Button
           size="lg"
           variant="outline"
