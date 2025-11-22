@@ -9,7 +9,7 @@ import { toast, Toaster } from "sonner";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Clock, CheckCircle, Eye, Search, X, Trash2, Wrench } from "lucide-react";
+import { FileText, Clock, CheckCircle, Eye, Search, X, Trash2, Wrench, AlertTriangle } from "lucide-react";
 import Image from "next/image";
 import { ReportItem } from "./report-item";
 import { CustomModal } from "./custom-modal";
@@ -89,6 +89,7 @@ export default function Home() {
   const [isDeleteAllModalOpen, setIsDeleteAllModalOpen] = useState(false);
   const [isDeletingAll, setIsDeletingAll] = useState(false);
   const [showQueuePopup, setShowQueuePopup] = useState(false);
+  const [isMaintenanceMode, setIsMaintenanceMode] = useState(true);
 
   // Define fetchData function at component level so it can be reused
   const fetchData = async () => {
@@ -159,6 +160,43 @@ export default function Home() {
   useEffect(() => {
     fetchData();
     const interval = setInterval(fetchData, 10000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Calculate maintenance time left
+  const getMaintenanceTimeLeft = () => {
+    const now = new Date();
+    const nowUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds()));
+    
+    // Target: 5 UTC today or tomorrow
+    let targetUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 5, 0, 0));
+    
+    // If 5 UTC has already passed today, set to tomorrow 5 UTC
+    if (nowUTC >= targetUTC) {
+      targetUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1, 5, 0, 0));
+    }
+    
+    const timeDiff = targetUTC.getTime() - nowUTC.getTime();
+    const hoursLeft = Math.floor(timeDiff / (1000 * 60 * 60));
+    const minutesLeft = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+    
+    return { hoursLeft, minutesLeft };
+  };
+
+  // Initialize and update maintenance countdown
+  const [maintenanceTime, setMaintenanceTime] = useState(getMaintenanceTimeLeft());
+
+  useEffect(() => {
+    // Set maintenance mode to true (always show maintenance banner)
+    setIsMaintenanceMode(true);
+    
+    const updateMaintenanceTime = () => {
+      setMaintenanceTime(getMaintenanceTimeLeft());
+    };
+
+    updateMaintenanceTime();
+    const interval = setInterval(updateMaintenanceTime, 60000); // Update every minute
+    
     return () => clearInterval(interval);
   }, []);
 
@@ -558,6 +596,32 @@ export default function Home() {
       <Header />
       <main className="flex-grow flex flex-col items-center justify-start px-4 py-8 mt-20">
         <div className="w-full max-w-3xl mx-auto">
+          {/* Maintenance Banner */}
+          {isMaintenanceMode && (
+            <div className="mb-6 p-4 bg-gradient-to-r from-orange-500 to-red-500 dark:from-orange-600 dark:to-red-600 rounded-lg border border-orange-600 dark:border-orange-700 shadow-lg animate-pulse">
+              <div className="flex items-center justify-between gap-4">
+                <div className="flex items-center gap-3 flex-1">
+                  <div className="flex items-center justify-center w-10 h-10 bg-white/20 rounded-full">
+                    <AlertTriangle className="h-6 w-6 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-bold text-white mb-1">
+                      Site Under Maintenance
+                    </h3>
+                    <p className="text-sm text-white/90">
+                      The site is under maintenance and will be finished at <span className="font-semibold">5:00 UTC</span>. 
+                      <span className="font-bold ml-1">
+                        {maintenanceTime.hoursLeft > 0 
+                          ? `${maintenanceTime.hoursLeft} hour${maintenanceTime.hoursLeft !== 1 ? 's' : ''} ${maintenanceTime.minutesLeft} minute${maintenanceTime.minutesLeft !== 1 ? 's' : ''} left`
+                          : `${maintenanceTime.minutesLeft} minute${maintenanceTime.minutesLeft !== 1 ? 's' : ''} left`
+                        }
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
           <Card className="shadow-md hover:shadow-lg transition-all duration-300 bg-white dark:bg-black border border-gray-200 dark:border-gray-800">
             <CardContent className="p-8">
               <div className="space-y-6">
@@ -685,6 +749,7 @@ export default function Home() {
                 <Button
                   onClick={() => openConfirmation("turnitin")}
                   disabled={
+                    isMaintenanceMode ||
                     loading ||
                     !file ||
                     wordCountLoading ||
@@ -694,7 +759,9 @@ export default function Home() {
                 >
      
                   <span className="text-sm sm:text-base md:text-lg">
-                    {loading
+                    {isMaintenanceMode 
+                      ? "Maintenance Mode - Submissions Disabled"
+                      : loading
                       ? "Submitting..."
                       : "Submit for AI & Plagiarism Report"}
                   </span>
@@ -851,10 +918,12 @@ export default function Home() {
 
               <Button
                 onClick={handleSubmit}
-                disabled={loading}
-                className="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 transition-all"
+                disabled={isMaintenanceMode || loading}
+                className="w-full bg-indigo-600 text-white px-4 py-2 rounded-lg shadow-md hover:bg-indigo-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Confirm and Receive Plagiarism Detection Reports
+                {isMaintenanceMode 
+                  ? "Maintenance Mode - Submission Disabled"
+                  : "Confirm and Receive Plagiarism Detection Reports"}
               </Button>
 
               <h4 className="text-lg font-semibold text-white">
